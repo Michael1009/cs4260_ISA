@@ -1,0 +1,17 @@
+version: "3"
+services:
+
+  models:
+    image: tp33/django
+    external_links:
+      - mysql:db
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    networks:
+      - backend
+    command: bash -c "mod_wsgi-express start-server --working-directory ./isa --reload-on-changes ./isa/isa/wsgi.py"
+
+networks:
+  backend:
