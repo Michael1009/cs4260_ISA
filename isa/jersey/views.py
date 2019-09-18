@@ -8,9 +8,6 @@ def index(request):
     return HttpResponse("Hello, world. You're at the jersey index.")
 
 def create_jersey(request):
-    f= open("wsgi_debug.txt","w+")
-    f.write(json.dumps(dict(request.POST)))
-    f.close()
     new_jersey = Jersey(
         team = request.POST['team'],
         number = request.POST['number'],
