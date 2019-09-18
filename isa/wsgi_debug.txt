@@ -1,0 +1,1 @@
+{"primary_color": ["Red"], "number": ["5"], "shirt_size": ["L"], "secondary_color": ["White"], "team": ["Liverpool"], "player": ["Wijnaldum"]}
