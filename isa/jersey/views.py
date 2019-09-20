@@ -22,3 +22,5 @@ def create_jersey(request):
         secondary_color=request.POST['secondary_color']
     )
     new_jersey.save()
+
+    return HttpResponse(status=201)
