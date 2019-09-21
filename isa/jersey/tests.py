@@ -11,18 +11,6 @@ class JerseyTest(TestCase):
         self.client = Client()
         logged_in = self.client.login(username='www', password='$3cureUS')
 
-    def test_createUser(self):
-        response = self.client.post(
-            '/jersey/api/v1/User/create',
-            {
-                'email': 'l.da@gmail.com',
-                'first_name': 'Leonardo',
-                'last_name': 'DaVinci',
-                'shirt_size': 'XXL',
-            })
-
-        self.assertEqual(response.status_code, 201)
-
     def test_createJersey(self):
         response = self.client.post(
             '/jersey/api/v1/Jersey/create',
@@ -50,6 +38,30 @@ class JerseyTest(TestCase):
             })
         self.assertEqual(response.status_code, 200)
 
+    @classmethod
+    def tearDownClass(cls):
+        super().tearDownClass()
+
+
+class UserTest(TestCase):
+    @classmethod
+    def setUpClass(self):
+        super().setUpClass()
+        # creating instance of a client.
+        self.client = Client()
+        logged_in = self.client.login(username='www', password='$3cureUS')
+
+    def test_createUser(self):
+        response = self.client.post(
+            '/jersey/api/v1/User/create',
+            {
+                'email': 'l.da@gmail.com',
+                'first_name': 'Leonardo',
+                'last_name': 'DaVinci',
+                'shirt_size': 'XXL',
+            })
+        self.assertEqual(response.status_code, 201)
+
     def test_updateUser(self):
         response = self.client.post(
             '/jersey/api/v1/User/1/update',
@@ -64,4 +76,3 @@ class JerseyTest(TestCase):
     @classmethod
     def tearDownClass(cls):
         super().tearDownClass()
-# Create your tests here.
