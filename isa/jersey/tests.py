@@ -39,17 +39,6 @@ class JerseyTest(TestCase):
 
     def test_updateJersey(self):
         response = self.client.post(
-            '/jersey/api/v1/Jersey/create',
-            {
-                'team': 'ExampleTeam',
-                'number': '1',
-                'player': 'Leonardo DaVinci',
-                'shirt_size': 'XXL',
-                'primary_color': 'White',
-                'secondary_color': 'Black',
-            })
-
-        response = self.client.post(
             '/jersey/api/v1/Jersey/1/update',
             {
                 'team': 'NewTeam',
@@ -62,15 +51,6 @@ class JerseyTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_updateUser(self):
-        response = self.client.post(
-            '/jersey/api/v1/User/create',
-            {
-                'email': 'test@gmail.com',
-                'first_name': 'Micheal',
-                'last_name': 'Change',
-                'shirt_size': 'XXL',
-            })
-
         response = self.client.post(
             '/jersey/api/v1/User/1/update',
             {
