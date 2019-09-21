@@ -6,5 +6,10 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('api/v1/Jersey/create', views.create_jersey, name='create_jersey'),
+<<<<<<< Updated upstream
     path('api/v1/User/create', views.create_user, name='create_user')
+=======
+    path('api/v1/User/create', views.create_user, name='create_user'),
+    path('api/v1/User/<int:id>/delete', views.delete_user, name='delete_user')
+>>>>>>> Stashed changes
 ]

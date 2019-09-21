@@ -52,3 +52,19 @@ def create_jersey(request):
             return HttpResponse(result)
 
     return HttpResponse(status=201)
+
+def delete(request, model, id):
+    try:
+        obj = model.objects.get(pk=id)
+        obj.delete()
+        result = json.dumps({'ok': True})
+        return HttpResponse(result, content_type='application/json')
+    except model.DoesNotExist:
+        result = json.dumps(
+        {'error': '{} with id={} not found'.format(model, id), 'ok': False})
+        return HttpResponse(result, content_type='applications/json')
+
+@csrf_exempt
+def delete_user(request, id):
+    if request.method == "DELETE":
+        return delete(request, User, id)
