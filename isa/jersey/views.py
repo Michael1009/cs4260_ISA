@@ -26,6 +26,11 @@ def create_user(request):
             result = json.dumps(
                 {'error': 'Missing field or malformed data in CREATE request. Here is the data we received: {}'.format(form), 'ok': False})
             return HttpResponse(result)
+    else:
+        result = json.dumps(
+            {'error': 'Incorrect REST method used. This endpoint expects a POST request', 'ok': False}
+        )
+        return HttpResponse(result)
 
 
 @csrf_exempt
@@ -47,6 +52,11 @@ def create_jersey(request):
             result = json.dumps(
                 {'error': 'Missing field or malformed data in CREATE request. Here is the data we received: {}'.format(form), 'ok': False})
             return HttpResponse(result)
+    else:
+        result = json.dumps(
+            {'error': 'Incorrect REST method used. This endpoint expects a POST request', 'ok': False}
+        )
+        return HttpResponse(result)
 
 
 def update(request, model, id):
