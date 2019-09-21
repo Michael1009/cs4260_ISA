@@ -16,7 +16,7 @@ class User(models.Model):
     shirt_size = models.CharField(max_length=3, choices=SHIRT_SIZES)
 
     def __str__(self):
-        return "{}, Number {} for {}".format(self.email, self.first_name, self.last_name)
+        return "{}, {} {}".format(self.email, self.first_name, self.last_name)
 
 
 class Jersey(models.Model):
