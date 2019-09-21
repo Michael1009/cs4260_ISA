@@ -37,6 +37,50 @@ class JerseyTest(TestCase):
 
         self.assertEqual(response.status_code, 201)
 
+    def test_updateJersey(self):
+        response = self.client.post(
+            '/jersey/api/v1/Jersey/create',
+            {
+                'team': 'ExampleTeam',
+                'number': '1',
+                'player': 'Leonardo DaVinci',
+                'shirt_size': 'XXL',
+                'primary_color': 'White',
+                'secondary_color': 'Black',
+            })
+
+        response = self.client.post(
+            '/jersey/api/v1/Jersey/1/update',
+            {
+                'team': 'NewTeam',
+                'number': '2',
+                'player': 'Michael Chang',
+                'shirt_size': 'M',
+                'primary_color': 'White',
+                'secondary_color': 'Black',
+            })
+        self.assertEqual(response.status_code, 200)
+
+    def test_updateUser(self):
+        response = self.client.post(
+            '/jersey/api/v1/User/create',
+            {
+                'email': 'test@gmail.com',
+                'first_name': 'Micheal',
+                'last_name': 'Change',
+                'shirt_size': 'XXL',
+            })
+
+        response = self.client.post(
+            '/jersey/api/v1/User/1/update',
+            {
+                'email': 'myc6cp@gmail.com',
+                'first_name': 'Michael',
+                'last_name': 'Chang',
+                'shirt_size': 'M',
+            })
+        self.assertEqual(response.status_code, 200)
+
     @classmethod
     def tearDownClass(cls):
         super().tearDownClass()
