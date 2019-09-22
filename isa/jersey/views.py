@@ -9,10 +9,12 @@ from django.views.decorators.csrf import csrf_exempt
 def index(request):
     return HttpResponse("Hello, world. You're at the jersey index.")
 
+
 def incorrect_REST_method(method):
     return json.dumps(
-            {'error': 'Incorrect REST method used. This endpoint expects a {} request'.format(method), 'ok': False}
-        )
+        {'error': 'Incorrect REST method used. This endpoint expects a {} request'.format(
+            method), 'ok': False}
+    )
 
 
 @csrf_exempt
@@ -102,7 +104,7 @@ def update_jersey(request, id):
 def update_user(request, id):
     if request.method == "POST":
         return update(request, User, id)
-    else: 
+    else:
         return incorrect_REST_method("POST")
 
 
@@ -124,31 +126,30 @@ def delete_user(request, id):
         return delete_data(User, id)
     return incorrect_REST_method("DELETE")
 
+
 @csrf_exempt
 def delete_jersey(request, id):
     if request.method == "DELETE":
         return delete_data(Jersey, id)
     return incorrect_REST_method("DELETE")
 
+
 def get_data(model, args):
     try:
         id = args['id']
-        try: 
-            obj = model.objects.get(pk=id)
-            response = serializers.serialize("json", [obj])
-        except model.DoesNotExist:
-            result = json.dumps(
-                {'error': '{} with id={} not found'.format(model, id), 'ok': False})
-            return HttpResponse(result, content_type='applications/json')
-    except KeyError:
+        obj = model.objects.get(pk=id)
+        response = serializers.serialize("json", [obj])
+    except KeyError as e:
         response = serializers.serialize("json", model.objects.all())
     return HttpResponse(response, content_type='applications/json')
+
 
 @csrf_exempt
 def get_user(request, **kwargs):
     if request.method == "GET":
         return get_data(User, kwargs)
     return incorrect_REST_method("GET")
+
 
 @csrf_exempt
 def get_jersey(request, **kwargs):
