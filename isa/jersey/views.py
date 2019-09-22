@@ -108,8 +108,8 @@ def update_user(request, id):
 
 def delete_data(model, id):
     try:
-        # obj = model.objects.get(pk=id)
-        # obj.delete()
+        obj = model.objects.get(pk=id)
+        obj.delete()
         result = json.dumps({'ok': True})
         return HttpResponse(result, content_type='application/json')
     except model.DoesNotExist:
