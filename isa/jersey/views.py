@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.core import serializers
 from .models import User, Jersey
 import json
 from django.views.decorators.csrf import csrf_exempt
@@ -7,6 +8,11 @@ from django.views.decorators.csrf import csrf_exempt
 
 def index(request):
     return HttpResponse("Hello, world. You're at the jersey index.")
+
+def incorrect_REST_method(method):
+    return json.dumps(
+            {'error': 'Incorrect REST method used. This endpoint expects a {} request'.format(method), 'ok': False}
+        )
 
 
 @csrf_exempt
@@ -88,18 +94,22 @@ def update(request, model, id):
 def update_jersey(request, id):
     if request.method == "POST":
         return update(request, Jersey, id)
+    else:
+        return incorrect_REST_method("POST")
 
 
 @csrf_exempt
 def update_user(request, id):
     if request.method == "POST":
         return update(request, User, id)
+    else: 
+        return incorrect_REST_method("POST")
 
 
-def delete(request, model, id):
+def delete_data(model, id):
     try:
-        obj = model.objects.get(pk=id)
-        obj.delete()
+        # obj = model.objects.get(pk=id)
+        # obj.delete()
         result = json.dumps({'ok': True})
         return HttpResponse(result, content_type='application/json')
     except model.DoesNotExist:
@@ -111,4 +121,32 @@ def delete(request, model, id):
 @csrf_exempt
 def delete_user(request, id):
     if request.method == "DELETE":
-        return delete(request, User, id)
+        return delete_data(User, id)
+    return incorrect_REST_method("DELETE")
+
+@csrf_exempt
+def delete_jersey(request, id):
+    if request.method == "DELETE":
+        return delete_data(Jersey, id)
+    return incorrect_REST_method("DELETE")
+
+def get_data(model, args):
+    if (args['id']):   
+        id = args['id']
+        obj = model.objects.get(pk=id)
+        response = serializers.serialize("json", [obj])
+    else:
+        response = serializers.serialize("json", model.objects.all())
+    return HttpResponse(response, content_type='applications/json')
+
+@csrf_exempt
+def get_user(request, **kwargs):
+    if request.method == "GET":
+        return get_data(User, kwargs)
+    return incorrect_REST_method("GET")
+
+@csrf_exempt
+def get_jersey(request, **kwargs):
+    if request.method == "GET":
+        return get_data(Jersey, kwargs)
+    return incorrect_REST_method("GET")
