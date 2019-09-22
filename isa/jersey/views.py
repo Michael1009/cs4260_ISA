@@ -131,11 +131,16 @@ def delete_jersey(request, id):
     return incorrect_REST_method("DELETE")
 
 def get_data(model, args):
-    if (args['id']):   
+    try:
         id = args['id']
-        obj = model.objects.get(pk=id)
-        response = serializers.serialize("json", [obj])
-    else:
+        try: 
+            obj = model.objects.get(pk=id)
+            response = serializers.serialize("json", [obj])
+        except model.DoesNotExist:
+            result = json.dumps(
+                {'error': '{} with id={} not found'.format(model, id), 'ok': False})
+            return HttpResponse(result, content_type='applications/json')
+    except KeyError:
         response = serializers.serialize("json", model.objects.all())
     return HttpResponse(response, content_type='applications/json')
 
