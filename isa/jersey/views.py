@@ -89,7 +89,7 @@ def update(request, model, id):
     except model.DoesNotExist:
         result = json.dumps(
             {'error': '{} with id={} not found'.format(model, id), 'ok': False})
-        return HttpResponse(result, content_type='applications/json')
+        return HttpResponse(result, content_type='application/json')
 
 
 @csrf_exempt
@@ -117,7 +117,7 @@ def delete_data(model, id):
     except model.DoesNotExist:
         result = json.dumps(
             {'error': '{} with id={} not found'.format(model, id), 'ok': False})
-        return HttpResponse(result, content_type='applications/json')
+        return HttpResponse(result, content_type='application/json')
 
 
 @csrf_exempt
@@ -141,7 +141,7 @@ def get_data(model, args):
         response = serializers.serialize("json", [obj])
     except KeyError as e:
         response = serializers.serialize("json", model.objects.all())
-    return HttpResponse(response, content_type='applications/json')
+    return HttpResponse(response, content_type="application/json")
 
 
 @csrf_exempt
