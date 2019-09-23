@@ -88,14 +88,8 @@ def update(request, model, id):
         return HttpResponse(status=200)
 
     except:
-        result = json.dumps(
-<<<<<<< Updated upstream
-            {'error': '{} with id={} not found'.format(model, id), 'ok': False})
-        return HttpResponse(result, content_type='application/json')
-=======
-            {'error': 'Missing field or malformed data in POST request.', 'ok': False})
+        result = json.dumps({'error': 'Missing field or malformed data in POST request.', 'ok': False})
         return HttpResponse(result, content_type='applications/json')
->>>>>>> Stashed changes
 
 
 @csrf_exempt
@@ -158,13 +152,9 @@ def get_data(model, args):
 def get_all_data(model, args):
     try:
         response = serializers.serialize("json", model.objects.all())
-<<<<<<< Updated upstream
-    return HttpResponse(response, content_type="application/json")
-=======
     except:
         response = json.dumps({'error': 'Was not able to get data', 'ok': False})
     return HttpResponse(response, content_type='application/json')
->>>>>>> Stashed changes
 
 
 @csrf_exempt
