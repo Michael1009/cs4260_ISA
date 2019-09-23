@@ -11,7 +11,7 @@ services:
       - "8001:8000"
     networks:
       - backend
-    command: bash -c "mod_wsgi-express start-server --working-directory ./isa --reload-on-changes ./isa/isa/wsgi.py"
+    command: bash -c "python ./isa/manage.py migrate && python ./isa/manage.py loaddata ./isa/db.json && mod_wsgi-express start-server --working-directory ./isa --reload-on-changes ./isa/isa/wsgi.py"
 
 networks:
   backend:
