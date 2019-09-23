@@ -70,6 +70,7 @@ def create_jersey(request):
 def update(request, model, id):
     try:
         obj = model.objects.get(pk=id)
+        form = request.POST
         if model == Jersey:
             obj.team = request.POST['team']
             obj.number = request.POST['number']
@@ -86,10 +87,15 @@ def update(request, model, id):
         obj.save()
         return HttpResponse(status=200)
 
-    except model.DoesNotExist:
+    except:
         result = json.dumps(
+<<<<<<< Updated upstream
             {'error': '{} with id={} not found'.format(model, id), 'ok': False})
         return HttpResponse(result, content_type='application/json')
+=======
+            {'error': 'Missing field or malformed data in POST request.', 'ok': False})
+        return HttpResponse(result, content_type='applications/json')
+>>>>>>> Stashed changes
 
 
 @csrf_exempt
@@ -97,7 +103,8 @@ def update_jersey(request, id):
     if request.method == "POST":
         return update(request, Jersey, id)
     else:
-        return incorrect_REST_method("POST")
+        result = incorrect_REST_method("POST")
+        return HttpResponse(result, content_type='applications/json')
 
 
 @csrf_exempt
@@ -105,7 +112,8 @@ def update_user(request, id):
     if request.method == "POST":
         return update(request, User, id)
     else:
-        return incorrect_REST_method("POST")
+        result = incorrect_REST_method("POST")
+        return HttpResponse(result, content_type='applications/json')
 
 
 def delete_data(model, id):
@@ -124,14 +132,16 @@ def delete_data(model, id):
 def delete_user(request, id):
     if request.method == "DELETE":
         return delete_data(User, id)
-    return incorrect_REST_method("DELETE")
+    result = incorrect_REST_method("DELETE")
+    return HttpResponse(result, content_type='applications/json')
 
 
 @csrf_exempt
 def delete_jersey(request, id):
     if request.method == "DELETE":
         return delete_data(Jersey, id)
-    return incorrect_REST_method("DELETE")
+    result = incorrect_REST_method("DELETE")
+    return HttpResponse(result, content_type='applications/json')
 
 
 def get_data(model, args):
@@ -139,20 +149,48 @@ def get_data(model, args):
         id = args['id']
         obj = model.objects.get(pk=id)
         response = serializers.serialize("json", [obj])
-    except KeyError as e:
+    except:
+        id = args['id']
+        response = json.dumps({'error': '{} with id={} not found'.format(model, id), 'ok': False})
+    return HttpResponse(response, content_type='application/json')
+
+
+def get_all_data(model, args):
+    try:
         response = serializers.serialize("json", model.objects.all())
+<<<<<<< Updated upstream
     return HttpResponse(response, content_type="application/json")
+=======
+    except:
+        response = json.dumps({'error': 'Was not able to get data', 'ok': False})
+    return HttpResponse(response, content_type='application/json')
+>>>>>>> Stashed changes
 
 
 @csrf_exempt
 def get_user(request, **kwargs):
     if request.method == "GET":
         return get_data(User, kwargs)
-    return incorrect_REST_method("GET")
+    result = incorrect_REST_method("GET")
+    return HttpResponse(result, content_type='applications/json')
 
 
 @csrf_exempt
 def get_jersey(request, **kwargs):
     if request.method == "GET":
         return get_data(Jersey, kwargs)
-    return incorrect_REST_method("GET")
+    result = incorrect_REST_method("GET")
+    return HttpResponse(result, content_type='applications/json')
+
+@csrf_exempt
+def get_all_user(request, **kwargs):    
+    if request.method == "GET":
+        return get_all_data(User, kwargs)
+    result = incorrect_REST_method("GET")
+    return HttpResponse(result, content_type='applications/json')
+
+def get_all_jersey(request, **kwargs):    
+    if request.method == "GET":
+        return get_all_data(Jersey, kwargs)
+    result = incorrect_REST_method("GET")
+    return HttpResponse(result, content_type='applications/json')

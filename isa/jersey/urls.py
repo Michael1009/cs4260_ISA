@@ -10,8 +10,8 @@ urlpatterns = [
      path('api/v1/User/create', views.create_user, name='create_user'),
 
      # Read
-     path('api/v1/Jersey', views.get_jersey, name='get_jersey'),
-     path('api/v1/User', views.get_user, name='get_user'),
+     path('api/v1/Jersey', views.get_all_jersey, name='get_jersey'),
+     path('api/v1/User', views.get_all_user, name='get_user'),
      path('api/v1/Jersey/<int:id>', views.get_jersey, name='get_jersey'),
      path('api/v1/User/<int:id>', views.get_user, name='get_user'),
 
