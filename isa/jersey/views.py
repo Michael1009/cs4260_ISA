@@ -29,7 +29,8 @@ def create_user(request):
                 shirt_size=request.POST['shirt_size']
             )
             new_user.save()
-            return HttpResponse(status=201)
+            result = json.dumps({'ok': True})
+            return HttpResponse(result, status=200)
         except:
             result = json.dumps(
                 {'error': 'Missing field or malformed data in CREATE request. Here is the data we received: {}'.format(form), 'ok': False})
@@ -44,7 +45,6 @@ def create_user(request):
 @csrf_exempt
 def create_jersey(request):
     if request.method == "POST":
-        form = request.POST
         try:
             new_jersey = Jersey(
                 team=request.POST['team'],
@@ -55,10 +55,11 @@ def create_jersey(request):
                 secondary_color=request.POST['secondary_color']
             )
             new_jersey.save()
-            return HttpResponse(status=201)
+            result = json.dumps({'ok': True})
+            return HttpResponse(result, status=200)
         except:
             result = json.dumps(
-                {'error': 'Missing field or malformed data in CREATE request. Here is the data we received: {}'.format(form), 'ok': False})
+                {'error': 'Missing field or malformed data in CREATE request.', 'ok': False})
             return HttpResponse(result)
     else:
         result = json.dumps(
@@ -70,25 +71,31 @@ def create_jersey(request):
 def update(request, model, id):
     try:
         obj = model.objects.get(pk=id)
-        form = request.POST
         if model == Jersey:
-            obj.team = request.POST['team']
-            obj.number = request.POST['number']
-            obj.player = request.POST['player']
-            obj.shirt_size = request.POST['shirt_size']
-            obj.primary_color = request.POST['primary_color']
-            obj.secondary_color = request.POST['secondary_color']
+            try:
+                obj.team = request.POST['team']
+                obj.number = request.POST['number']
+                obj.player = request.POST['player']
+                obj.shirt_size = request.POST['shirt_size']
+                obj.primary_color = request.POST['primary_color']
+                obj.secondary_color = request.POST['secondary_color']
+            except: 
+                result = json.dumps({'error': 'Missing field or malformed data in POST request.', 'ok': False})
+                return HttpResponse(result)
         elif model == User:
-            obj.email = request.POST['email']
-            obj.first_name = request.POST['first_name']
-            obj.last_name = request.POST['last_name']
-            obj.shirt_size = request.POST['shirt_size']
-
+            try: 
+                obj.email = request.POST['email']
+                obj.first_name = request.POST['first_name']
+                obj.last_name = request.POST['last_name']
+                obj.shirt_size = request.POST['shirt_size']
+            except: 
+                result = json.dumps({'error': 'Missing field or malformed data in POST request.', 'ok': False})
+                return HttpResponse(result)
         obj.save()
-        return HttpResponse(status=200)
-
+        result = json.dumps({'ok': True})
+        return HttpResponse(result, status=200)
     except:
-        result = json.dumps({'error': 'Missing field or malformed data in POST request.', 'ok': False})
+        result = json.dumps({'error': 'Incorrect Id in POST request.', 'ok': False})
         return HttpResponse(result, content_type='applications/json')
 
 
