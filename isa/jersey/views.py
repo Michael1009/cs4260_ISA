@@ -96,7 +96,7 @@ def update(request, model, id):
         return HttpResponse(result, status=200)
     except:
         result = json.dumps({'error': 'Incorrect Id in POST request.', 'ok': False})
-        return HttpResponse(result, content_type='applications/json')
+        return HttpResponse(result, content_type='application/json')
 
 
 @csrf_exempt
@@ -105,7 +105,7 @@ def update_jersey(request, id):
         return update(request, Jersey, id)
     else:
         result = incorrect_REST_method("POST")
-        return HttpResponse(result, content_type='applications/json')
+        return HttpResponse(result, content_type='application/json')
 
 
 @csrf_exempt
@@ -114,7 +114,7 @@ def update_user(request, id):
         return update(request, User, id)
     else:
         result = incorrect_REST_method("POST")
-        return HttpResponse(result, content_type='applications/json')
+        return HttpResponse(result, content_type='application/json')
 
 
 def delete_data(model, id):
@@ -134,7 +134,7 @@ def delete_user(request, id):
     if request.method == "DELETE":
         return delete_data(User, id)
     result = incorrect_REST_method("DELETE")
-    return HttpResponse(result, content_type='applications/json')
+    return HttpResponse(result, content_type='application/json')
 
 
 @csrf_exempt
@@ -142,7 +142,7 @@ def delete_jersey(request, id):
     if request.method == "DELETE":
         return delete_data(Jersey, id)
     result = incorrect_REST_method("DELETE")
-    return HttpResponse(result, content_type='applications/json')
+    return HttpResponse(result, content_type='application/json')
 
 
 def get_data(model, args):
@@ -169,7 +169,7 @@ def get_user(request, **kwargs):
     if request.method == "GET":
         return get_data(User, kwargs)
     result = incorrect_REST_method("GET")
-    return HttpResponse(result, content_type='applications/json')
+    return HttpResponse(result, content_type='application/json')
 
 
 @csrf_exempt
@@ -177,17 +177,17 @@ def get_jersey(request, **kwargs):
     if request.method == "GET":
         return get_data(Jersey, kwargs)
     result = incorrect_REST_method("GET")
-    return HttpResponse(result, content_type='applications/json')
+    return HttpResponse(result, content_type='application/json')
 
 @csrf_exempt
 def get_all_user(request, **kwargs):    
     if request.method == "GET":
         return get_all_data(User, kwargs)
     result = incorrect_REST_method("GET")
-    return HttpResponse(result, content_type='applications/json')
+    return HttpResponse(result, content_type='application/json')
 
 def get_all_jersey(request, **kwargs):    
     if request.method == "GET":
         return get_all_data(Jersey, kwargs)
     result = incorrect_REST_method("GET")
-    return HttpResponse(result, content_type='applications/json')
+    return HttpResponse(result, content_type='application/json')
