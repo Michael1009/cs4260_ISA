@@ -8,13 +8,13 @@ _jersey/api/v1/Jersey/create_
 
 In the post body as form data this expects:
 
-A team (CharField), number (PositiveIntegerField), player(CharField), shirt_size(S,M,L,XL,XXL choices), primary color (CharField), secondary color (CharField)
+A team (CharField), number (PositiveIntegerField), player(CharField), shirt_size(S,M,L,XL,XXL choices), primary_color (CharField), secondary_color (CharField)
 
 _jersey/api/v1/User/create_
 
 In the post body as form data this expects:
 
-First name (CharField), Last Name(CharField), shirt_size(S,M,L,XL,XXL choices), email (CharField)
+first_name (CharField), last_name(CharField), shirt_size(S,M,L,XL,XXL choices), email (CharField)
 
 ### Read
 _jersey/api/v1/Jersey_
