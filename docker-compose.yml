@@ -11,8 +11,34 @@ services:
       - "8001:8000"
     networks:
       - backend
+      - service_mesh
     command: bash -c "python ./isa/manage.py migrate && python ./isa/manage.py loaddata ./isa/db.json && mod_wsgi-express start-server --working-directory ./isa --reload-on-changes ./isa/isa/wsgi.py"
+
+  exp:
+    image: tp33/django
+    container_name: exp
+    networks:
+      - service_mesh
+      - public
+    ports:
+      - "8002:8000"
+    volumes:
+      - .:/app
+    command: "mod_wsgi-express start-server --reload-on-changes exp/wsgi.py"
+
+  web:
+    image: tp33/django
+    container_name: web
+    networks:
+      - public
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    command: "mod_wsgi-express start-server --reload-on-changes web/wsgi.py"
 
 networks:
   backend:
+  service_mesh:
+  public:
     
