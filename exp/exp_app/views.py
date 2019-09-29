@@ -1,6 +1,4 @@
-from django.shortcuts import render
 from django.http import HttpResponse
-from django.core import serializers
 import json
 from django.views.decorators.csrf import csrf_exempt
 import urllib.request
@@ -15,12 +13,14 @@ def incorrect_REST_method(method):
 @csrf_exempt
 def home(request):
     data = None
-    with urllib.request.urlopen('http://app_models_1:8000/jersey/api/v1/Jersey') as response:
-        data = response.read()
-
-    return HttpResponse(json.loads(data.decode('utf8')))
+    with urllib.request.urlopen('http://models:8000/jersey/api/v1/Jersey') as response:
+        data = response.read().decode('UTF-8')
+    return HttpResponse(json.loads(data))
 
 
 @csrf_exempt
-def jersey_detail(request):
-    return HttpResponse('Could not save data')
+def jersey_detail(request, id):
+    data = None
+    with urllib.request.urlopen('http://models:8000/jersey/api/v1/Jersey/'+str(id)) as response:
+        data = response.read().decode('UTF-8')
+    return HttpResponse(json.loads(data))
