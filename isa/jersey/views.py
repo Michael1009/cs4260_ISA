@@ -11,10 +11,9 @@ def index(request):
 
 
 def incorrect_REST_method(method):
-    return json.dumps(
-        {'error': 'Incorrect REST method used. This endpoint expects a {} request'.format(
-            method), 'ok': False}
-    )
+    result = json.dumps(
+        {'error': 'Incorrect REST method used. This endpoint expects a {} request'.format(method), 'ok': False})
+    return HttpResponse(result)
 
 
 @csrf_exempt
@@ -79,23 +78,26 @@ def update(request, model, id):
                 obj.shirt_size = request.POST['shirt_size']
                 obj.primary_color = request.POST['primary_color']
                 obj.secondary_color = request.POST['secondary_color']
-            except: 
-                result = json.dumps({'error': 'Missing field or malformed data in POST request.', 'ok': False})
+            except:
+                result = json.dumps(
+                    {'error': 'Missing field or malformed data in POST request.', 'ok': False})
                 return HttpResponse(result)
         elif model == User:
-            try: 
+            try:
                 obj.email = request.POST['email']
                 obj.first_name = request.POST['first_name']
                 obj.last_name = request.POST['last_name']
                 obj.shirt_size = request.POST['shirt_size']
-            except: 
-                result = json.dumps({'error': 'Missing field or malformed data in POST request.', 'ok': False})
+            except:
+                result = json.dumps(
+                    {'error': 'Missing field or malformed data in POST request.', 'ok': False})
                 return HttpResponse(result)
         obj.save()
         result = json.dumps({'ok': True})
         return HttpResponse(result, status=200)
     except:
-        result = json.dumps({'error': 'Incorrect Id in POST request.', 'ok': False})
+        result = json.dumps(
+            {'error': 'Incorrect Id in POST request.', 'ok': False})
         return HttpResponse(result, content_type='application/json')
 
 
@@ -152,7 +154,8 @@ def get_data(model, args):
         response = serializers.serialize("json", [obj])
     except:
         id = args['id']
-        response = json.dumps({'error': '{} with id={} not found'.format(model, id), 'ok': False})
+        response = json.dumps(
+            {'error': '{} with id={} not found'.format(model, id), 'ok': False})
     return HttpResponse(response, content_type='application/json')
 
 
@@ -160,7 +163,8 @@ def get_all_data(model, args):
     try:
         response = serializers.serialize("json", model.objects.all())
     except:
-        response = json.dumps({'error': 'Was not able to get data', 'ok': False})
+        response = json.dumps(
+            {'error': 'Was not able to get data', 'ok': False})
     return HttpResponse(response, content_type='application/json')
 
 
@@ -179,14 +183,16 @@ def get_jersey(request, **kwargs):
     result = incorrect_REST_method("GET")
     return HttpResponse(result, content_type='application/json')
 
+
 @csrf_exempt
-def get_all_user(request, **kwargs):    
+def get_all_user(request, **kwargs):
     if request.method == "GET":
         return get_all_data(User, kwargs)
     result = incorrect_REST_method("GET")
     return HttpResponse(result, content_type='application/json')
 
-def get_all_jersey(request, **kwargs):    
+
+def get_all_jersey(request, **kwargs):
     if request.method == "GET":
         return get_all_data(Jersey, kwargs)
     result = incorrect_REST_method("GET")
