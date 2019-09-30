@@ -3,6 +3,7 @@ services:
 
   models:
     image: tp33/django
+    container_name: models
     external_links:
       - mysql:db
     volumes:
