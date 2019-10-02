@@ -128,6 +128,10 @@ class UserTest(TestCase):
             })
         self.assertEqual(response.status_code, 200)
 
+    def test_createUser_MalformedRequest(self):
+        response = self.client.post('/jersey/api/v1/User/create')
+        self.assertEqual(response.status_code, 400)
+
     def test_updateUser(self):
         response = self.client.post(
             '/jersey/api/v1/User/1/update',
