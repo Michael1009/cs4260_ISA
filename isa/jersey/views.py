@@ -91,8 +91,8 @@ def update(request, model, id):
         return HttpResponse(result, status=200)
     except:
         result = json.dumps(
-            {'error': 'Incorrect Id in POST request.', 'ok': False})
-        return HttpResponse(result, content_type='application/json', status=400)
+            {'error': 'Invalid Id in POST request.', 'ok': False})
+        return HttpResponse(result, content_type='application/json', status=404)
 
 
 @csrf_exempt
@@ -120,7 +120,7 @@ def delete_data(model, id):
     except model.DoesNotExist:
         result = json.dumps(
             {'error': '{} with id={} not found'.format(model, id), 'ok': False})
-        return HttpResponse(result, content_type='application/json', status=400)
+        return HttpResponse(result, content_type='application/json', status=404)
 
 
 @csrf_exempt
@@ -147,7 +147,7 @@ def get_data(model, args):
         id = args['id']
         response = json.dumps(
             {'error': '{} with id={} not found'.format(model, id), 'ok': False})
-        return HttpResponse(response, content_type='application/json', status=400)
+        return HttpResponse(response, content_type='application/json', status=404)
 
 
 def get_all_data(model, args):
@@ -157,7 +157,7 @@ def get_all_data(model, args):
     except:
         response = json.dumps(
             {'error': 'Was not able to get data', 'ok': False})
-        return HttpResponse(response, content_type='application/json', status=400)
+        return HttpResponse(response, content_type='application/json', status=404)
 
 
 @csrf_exempt

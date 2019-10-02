@@ -69,7 +69,7 @@ class JerseyTest(TestCase):
                 'primary_color': 'White',
                 'secondary_color': 'Black',
             })
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 404)
 
     def test_getJersey(self):
         response = self.client.get('/jersey/api/v1/Jersey/1')
@@ -78,7 +78,7 @@ class JerseyTest(TestCase):
 
     def test_getJersey_InvalidID(self):
         response = self.client.get('/jersey/api/v1/Jersey/99')
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 404)
 
     def test_getAllJerseys(self):
         response = self.client.get('/jersey/api/v1/Jersey')
@@ -140,7 +140,7 @@ class UserTest(TestCase):
                 'last_name': 'Chang',
                 'shirt_size': 'M',
             })
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 404)
 
     def test_getUser(self):
         response = self.client.get('/jersey/api/v1/User/1')
@@ -149,7 +149,7 @@ class UserTest(TestCase):
 
     def test_getUser_InvalidID(self):
         response = self.client.get('/jersey/api/v1/User/99')
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 404)
 
     def test_getAllUsers(self):
         response = self.client.get('/jersey/api/v1/User')
