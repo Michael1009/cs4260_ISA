@@ -7,11 +7,11 @@ from .models import User, Jersey
 class JerseyTest(TestCase):
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         super().setUpClass()
         # creating instance of a client.
-        self.client = Client()
-        logged_in = self.client.login(username='www', password='$3cureUS')
+        cls.client = Client()
+        logged_in = cls.client.login(username='www', password='$3cureUS')
 
         Jersey.objects.create(team="ExampleTeam_1", number="1", player="Bob Dylan",
                               shirt_size="M", primary_color="White", secondary_color="Black")
@@ -104,11 +104,11 @@ class JerseyTest(TestCase):
 
 class UserTest(TestCase):
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         super().setUpClass()
         # creating instance of a client.
-        self.client = Client()
-        logged_in = self.client.login(username='www', password='$3cureUS')
+        cls.client = Client()
+        logged_in = cls.client.login(username='www', password='$3cureUS')
 
         User.objects.create(email="myc6cp@virginia.edu",
                             first_name="Michael", last_name="Chang", shirt_size="M")
