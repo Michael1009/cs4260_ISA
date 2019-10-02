@@ -35,7 +35,7 @@ def create_user(request):
                 {'error': 'Missing field or malformed data in CREATE request. Here is the data we received: {}'.format(form), 'ok': False})
             return HttpResponse(result, status=400)
     else:
-        incorrect_REST_method("POST")
+        return incorrect_REST_method("POST")
 
 
 @csrf_exempt
@@ -58,7 +58,7 @@ def create_jersey(request):
                 {'error': 'Missing field or malformed data in CREATE request.', 'ok': False})
             return HttpResponse(result, status=400)
     else:
-        incorrect_REST_method("POST")
+        return incorrect_REST_method("POST")
 
 
 def update(request, model, id):
@@ -100,7 +100,7 @@ def update_jersey(request, id):
     if request.method == "POST":
         return update(request, Jersey, id)
     else:
-        incorrect_REST_method("POST")
+        return incorrect_REST_method("POST")
 
 
 @csrf_exempt
@@ -108,7 +108,7 @@ def update_user(request, id):
     if request.method == "POST":
         return update(request, User, id)
     else:
-        incorrect_REST_method("POST")
+        return incorrect_REST_method("POST")
 
 
 def delete_data(model, id):
@@ -127,14 +127,14 @@ def delete_data(model, id):
 def delete_user(request, id):
     if request.method == "DELETE":
         return delete_data(User, id)
-    incorrect_REST_method("DELETE")
+    return incorrect_REST_method("DELETE")
 
 
 @csrf_exempt
 def delete_jersey(request, id):
     if request.method == "DELETE":
         return delete_data(Jersey, id)
-    incorrect_REST_method("DELETE")
+    return incorrect_REST_method("DELETE")
 
 
 def get_data(model, args):
@@ -164,24 +164,24 @@ def get_all_data(model, args):
 def get_user(request, **kwargs):
     if request.method == "GET":
         return get_data(User, kwargs)
-    incorrect_REST_method("GET")
+    return incorrect_REST_method("GET")
 
 
 @csrf_exempt
 def get_jersey(request, **kwargs):
     if request.method == "GET":
         return get_data(Jersey, kwargs)
-    incorrect_REST_method("GET")
+    return incorrect_REST_method("GET")
 
 
 @csrf_exempt
 def get_all_user(request, **kwargs):
     if request.method == "GET":
         return get_all_data(User, kwargs)
-    incorrect_REST_method("GET")
+    return incorrect_REST_method("GET")
 
 
 def get_all_jersey(request, **kwargs):
     if request.method == "GET":
         return get_all_data(Jersey, kwargs)
-    incorrect_REST_method("GET")
+    return incorrect_REST_method("GET")

@@ -16,6 +16,10 @@ class JerseyTest(TestCase):
         Jersey.objects.create(team="ExampleTeam_1", number="1", player="Bob Dylan",
                               shirt_size="M", primary_color="White", secondary_color="Black")
 
+    def test_createJersey_InvalidMethod(self):
+        response = self.client.get('/jersey/api/v1/Jersey/create')
+        self.assertEqual(response.status_code, 400)
+
     def test_createJersey(self):
         response = self.client.post(
             '/jersey/api/v1/Jersey/create',
@@ -52,7 +56,7 @@ class JerseyTest(TestCase):
 
     def test_updateJersey_MalformedRequest(self):
         response = self.client.post(
-            '/jersey/api/v1/Jersey/99/update',
+            '/jersey/api/v1/Jersey/1/update',
             {
                 'team': 'NewTeam',
             })
@@ -85,6 +89,14 @@ class JerseyTest(TestCase):
         objects = serializers.serialize("json", Jersey.objects.all())
         self.assertContains(response, objects)
 
+    def test_deleteJersey(self):
+        response = self.client.delete('/jersey/api/v1/Jersey/1/delete')
+        self.assertEquals(response.status_code, 200)
+
+    def test_deleteJersey_InvalidID(self):
+        response = self.client.delete('/jersey/api/v1/Jersey/99/delete')
+        self.assertEquals(response.status_code, 404)
+
     @classmethod
     def tearDownClass(cls):
         super().tearDownClass()
@@ -100,6 +112,10 @@ class UserTest(TestCase):
 
         User.objects.create(email="myc6cp@virginia.edu",
                             first_name="Michael", last_name="Chang", shirt_size="M")
+
+    def test_createUser_InvalidMethod(self):
+        response = self.client.get('/jersey/api/v1/User/create')
+        self.assertEqual(response.status_code, 400)
 
     def test_createUser(self):
         response = self.client.post(
@@ -155,6 +171,14 @@ class UserTest(TestCase):
         response = self.client.get('/jersey/api/v1/User')
         objects = serializers.serialize("json", User.objects.all())
         self.assertContains(response, objects)
+
+    def test_deleteUser(self):
+        response = self.client.delete('/jersey/api/v1/User/1/delete')
+        self.assertEquals(response.status_code, 200)
+
+    def test_deleteUser_InvalidID(self):
+        response = self.client.delete('/jersey/api/v1/User/99/delete')
+        self.assertEquals(response.status_code, 404)
 
     @classmethod
     def tearDownClass(cls):
