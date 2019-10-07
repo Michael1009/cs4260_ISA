@@ -3,9 +3,6 @@
 {% block content %}
 <h1>Welcome to the Home Page</h1>
 
-<form action="/jersey/small">
-    <input type="submit" value="Size Small" />
-</form>
 <div class = "row">
     <ul class="uk-list ">
         {% for key,i in jerseys.items %}
@@ -15,4 +12,8 @@
         {% endfor %}
     </ul>
 </div>
+
+<form action="/jersey/small">
+    <input type="submit" value="Size Small" />
+</form>
 {% endblock %}
