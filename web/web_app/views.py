@@ -8,12 +8,12 @@ def index(request):
     data = None
     with urllib.request.urlopen('http://exp:8000/exp/home/') as response:
         data = response.read().decode('UTF-8')
-    myList = []
+    myList = {}
     i = 0
-    for fields in json.loads(data):
+    for loop1 in json.loads(data):
         bigData = json.loads(data)[i]['fields']
+        myList[json.loads(data)[i]['pk']] = bigData
         i = i + 1
-        myList.append(bigData)
     context = {
         'jerseys' : myList
     }
