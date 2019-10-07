@@ -153,7 +153,7 @@ def get_data(model, args):
 
 def get_all_data(model, args):
     try:
-        response = serializers.serialize("json", model.objects.all())
+        response = serializers.serialize("json", model.objects.all().order_by('id'))
         return HttpResponse(response, content_type='application/json', status=200)
     except:
         response = json.dumps(
