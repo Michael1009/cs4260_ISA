@@ -22,9 +22,9 @@ def index(request):
     }
     return render(request,'web_app/index.html',context)
 
-def jersey_by_size(request):
+def jersey_by_size(request,size):
     data = None
-    with urllib.request.urlopen('http://exp:8000/exp/home/small') as response:
+    with urllib.request.urlopen('http://exp:8000/exp/home/'+size) as response:
         data = response.read().decode('UTF-8')
     myList = {}
     i = 0

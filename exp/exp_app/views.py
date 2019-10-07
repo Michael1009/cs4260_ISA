@@ -20,9 +20,9 @@ def home(request):
     return HttpResponse(result)
 
 @csrf_exempt
-def jersey_by_size(request):
+def jersey_by_size(request,size):
     data = None
-    with urllib.request.urlopen('http://models:8000/jersey/api/v1/Jersey/small') as response:
+    with urllib.request.urlopen('http://models:8000/jersey/api/v1/Jersey/'+size) as response:
         data = json.dumps(response.read().decode('UTF-8'))
     result = json.loads(data)
     return HttpResponse(result)

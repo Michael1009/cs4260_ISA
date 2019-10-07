@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.core import serializers
 from .models import User, Jersey
-from django.forms.models import model_to_dict
 import json
 from django.views.decorators.csrf import csrf_exempt
 from django.core.serializers.json import DjangoJSONEncoder
@@ -154,10 +153,6 @@ def get_data(model, args):
 
 def get_all_data(model, args):
     try:
-        if (model == "Jersey"):
-            data = model.objects.all().order_by('-id')
-            response = serializers.serialize("json", data)
-            return HttpResponse(response, content_type='application/json', status=200)
         response = serializers.serialize("json", model.objects.all())
         return HttpResponse(response, content_type='application/json', status=200)
     except:
@@ -192,14 +187,26 @@ def get_all_jersey(request, **kwargs):
         return get_all_data(Jersey, kwargs)
     return incorrect_REST_method("GET")
 
-def get_jersey_by_size(request):
+def get_jersey_by_size(request, **kwargs):
     if request.method == "GET":
-        return get_all_data_by_size(Jersey)
+        return get_all_data_by_size(Jersey, kwargs)
     return incorrect_REST_method("GET")
 
-def get_all_data_by_size(model):
+def get_all_data_by_size(model, args):
     try:
-        data = model.objects.filter(shirt_size="S")
+        if args['size'] == "small":
+            data = model.objects.filter(shirt_size="S")
+            response = serializers.serialize("json", data)
+            return HttpResponse(response, content_type='application/json', status=200)
+        if args['size'] == "medium":
+            data = model.objects.filter(shirt_size="M")
+            response = serializers.serialize("json", data)
+            return HttpResponse(response, content_type='application/json', status=200)
+        if args['size'] == 'large':
+            data = model.objects.filter(shirt_size="L")
+            response = serializers.serialize("json", data)
+            return HttpResponse(response, content_type='application/json', status=200)
+        data = model.objects.filter(shirt_size="L")
         response = serializers.serialize("json", data)
         return HttpResponse(response, content_type='application/json', status=200)
     except:

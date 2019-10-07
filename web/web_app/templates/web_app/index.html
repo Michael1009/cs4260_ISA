@@ -1,7 +1,46 @@
 {% extends 'web_app/base.html' %}
 
+
 {% block content %}
 <h1>Welcome to the Home Page</h1>
+
+<html>
+<head>
+<style> 
+input[type=submit] {
+    text-align: center;
+    padding: 10px 15px 10px !important;
+    font-size: 12px !important;
+    background-color: #57d6c7;
+    font-weight: bold;
+    text-shadow: 1px 1px #57D6C7;
+    color: #ffffff;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border: 1px solid #57D6C7;
+    cursor: pointer;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+    -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset
+}
+</style>
+</head>
+<body>
+
+<div>
+    <form action="/jersey/small">
+        <input type="submit" value="Size Small" />
+    </form>
+
+    <form action="/jersey/medium">
+        <input type="submit" value="Size Medium" />
+    </form>
+
+    <form action="/jersey/large">
+        <input type="submit" value="Size Large" />
+    </form>
+</div>
 
 <div class = "row">
     <ul class="uk-list ">
@@ -12,8 +51,6 @@
         {% endfor %}
     </ul>
 </div>
+</body>
 
-<form action="/jersey/small">
-    <input type="submit" value="Size Small" />
-</form>
 {% endblock %}

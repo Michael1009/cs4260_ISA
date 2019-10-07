@@ -1,3 +1,13 @@
-.boxed {
-    border: 1px solid lightblue;
+
+.inline {
+    display:inline-block;
+    margin-right:5px;
+ }
+
+ .wrapper {
+    text-align: center;
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
   }
