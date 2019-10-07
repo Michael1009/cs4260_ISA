@@ -18,6 +18,14 @@ def home(request):
     result = json.loads(data)
     return HttpResponse(result)
 
+@csrf_exempt
+def jersey_by_size(request):
+    data = None
+    with urllib.request.urlopen('http://models:8000/jersey/api/v1/Jersey/small') as response:
+        data = json.dumps(response.read().decode('UTF-8'))
+    result = json.loads(data)
+    return HttpResponse(result)
+
 
 @csrf_exempt
 def jersey_detail(request, id):

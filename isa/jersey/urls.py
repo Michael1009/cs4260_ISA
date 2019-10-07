@@ -14,7 +14,7 @@ urlpatterns = [
      path('api/v1/User', views.get_all_user, name='get_user'),
      path('api/v1/Jersey/<int:id>', views.get_jersey, name='get_jersey'),
      path('api/v1/User/<int:id>', views.get_user, name='get_user'),
-
+     path('api/v1/Jersey/small', views.get_jersey_by_size, name='get_jersey_by_size'),
      # Update
      path('api/v1/Jersey/<int:id>/update',
          views.update_jersey, name='update_jersey'),

@@ -152,6 +152,10 @@ def get_data(model, args):
 
 def get_all_data(model, args):
     try:
+        if (model == "Jersey"):
+            data = model.objects.all().order_by('id')
+            response = serializers.serialize("json", data)
+            return HttpResponse(response, content_type='application/json', status=200)
         response = serializers.serialize("json", model.objects.all())
         return HttpResponse(response, content_type='application/json', status=200)
     except:
@@ -185,3 +189,18 @@ def get_all_jersey(request, **kwargs):
     if request.method == "GET":
         return get_all_data(Jersey, kwargs)
     return incorrect_REST_method("GET")
+
+def get_jersey_by_size(request):
+    if request.method == "GET":
+        return get_all_data_by_size(Jersey)
+    return incorrect_REST_method("GET")
+
+def get_all_data_by_size(model):
+    try:
+        data = model.objects.filter(shirt_size="S")
+        response = serializers.serialize("json", data)
+        return HttpResponse(response, content_type='application/json', status=200)
+    except:
+        response = json.dumps(
+            {'error': 'Was not able to get data', 'ok': False})
+        return HttpResponse(response, content_type='application/json', status=404)

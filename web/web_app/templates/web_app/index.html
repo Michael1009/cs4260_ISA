@@ -3,15 +3,16 @@
 {% block content %}
 <h1>Welcome to the Home Page</h1>
 
-<div class = "container">
-    <div class = "row">
-        <ul class="uk-list uk-list-divider featured-items">
-            {% for key,i in jerseys.items %}
-                <h4><a href = "/item/{{key}}">{{i.player}}</a></h4>
-                <p>{{ i.team }} - {{ i.number }} - {{ i.shirt_size }} </p>
-                <img class="img-responsive" src="https://imgur.com/0PCUsve.png"  width="300" height="300"> 
-            {% endfor %}
-        </ul>
-    </div>
+<form action="/jersey/small">
+    <input type="submit" value="Size Small" />
+</form>
+<div class = "row">
+    <ul class="uk-list ">
+        {% for key,i in jerseys.items %}
+            <h4><a href = "/item/{{key}}">{{i.player}}</a></h4>
+            <p>{{ i.team }} - {{ i.number }} - {{ i.shirt_size }} </p>
+            <img class="img-responsive" src="https://imgur.com/0PCUsve.png"  width="300" height="300"> 
+        {% endfor %}
+    </ul>
 </div>
 {% endblock %}
