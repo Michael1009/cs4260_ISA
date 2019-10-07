@@ -37,6 +37,6 @@ def jersey_detail(request, id):
     except:
         result = json.dumps(
             {'error': '404', 'ok': False})
-        return HttpResponse(result, content_type='application/json', status=404)
+        return HttpResponse(result, content_type='application/json', status=200)
     result = json.loads(data)
     return HttpResponse(result)

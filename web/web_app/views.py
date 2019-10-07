@@ -41,10 +41,15 @@ def jersey_by_size(request,size):
 def item_detail(request,id):
     data = None
     template = None
+    context = None
     with urllib.request.urlopen('http://exp:8000/exp/jersey_detail/'+str(id)) as response:
         data = response.read().decode('UTF-8')
-    context = {
-        'jersey' : json.loads(data)[0]['fields']
-    }
-    template = 'web_app/item_detail.html'
+    json_data = json.loads(data)
+    if 'error' in json_data:
+        template = '404.html'
+    else:
+        template = 'web_app/item_detail.html'
+        context = {
+            'jersey' : json_data[0]['fields']
+        }
     return render(request,template,context)
