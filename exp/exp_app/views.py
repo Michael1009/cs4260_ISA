@@ -22,7 +22,9 @@ def home(request):
 @csrf_exempt
 def jersey_detail(request, id):
     data = None
+    code = None
     with urllib.request.urlopen('http://models:8000/jersey/api/v1/Jersey/'+str(id)) as response:
         data = json.dumps(response.read().decode('UTF-8'))
+        code = response.getcode()
     result = json.loads(data)
     return HttpResponse(result)
