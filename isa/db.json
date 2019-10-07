@@ -1,1 +1,72 @@
-[{"model": "jersey.user", "pk": 13, "fields": {"email": "davidyoon70@gmail.com", "first_name": "David", "last_name": "Yoon", "shirt_size": "M"}}, {"model": "jersey.user", "pk": 14, "fields": {"email": "soccerlover@gmail.com", "first_name": "Michael", "last_name": "Myers", "shirt_size": "S"}}, {"model": "jersey.user", "pk": 15, "fields": {"email": "karim@gmail.com", "first_name": "Karim", "last_name": "Shoorbajee", "shirt_size": "L"}}, {"model": "jersey.jersey", "pk": 1, "fields": {"team": "Manchester United", "number": 10, "player": "Rashford", "shirt_size": "M", "primary_color": "Red", "secondary_color": "White"}}, {"model": "jersey.jersey", "pk": 5, "fields": {"team": "Barcelona", "number": 21, "player": "De Jong", "shirt_size": "L", "primary_color": "Blue", "secondary_color": "Maroon"}}, {"model": "jersey.jersey", "pk": 6, "fields": {"team": "Bayern Munich", "number": 6, "player": "Thiago", "shirt_size": "S", "primary_color": "Red", "secondary_color": "Black"}}, {"model": "jersey.jersey", "pk": 7, "fields": {"team": "Real Madrid", "number": 22, "player": "Isco", "shirt_size": "M", "primary_color": "White", "secondary_color": "Black"}}]
+[{
+	"model": "jersey.user",
+	"pk": 13,
+	"fields": {
+		"email": "davidyoon70@gmail.com",
+		"first_name": "David",
+		"last_name": "Yoon",
+		"shirt_size": "M"
+	}
+}, {
+	"model": "jersey.user",
+	"pk": 14,
+	"fields": {
+		"email": "soccerlover@gmail.com",
+		"first_name": "Michael",
+		"last_name": "Myers",
+		"shirt_size": "S"
+	}
+}, {
+	"model": "jersey.user",
+	"pk": 15,
+	"fields": {
+		"email": "karim@gmail.com",
+		"first_name": "Karim",
+		"last_name": "Shoorbajee",
+		"shirt_size": "L"
+	}
+}, {
+	"model": "jersey.jersey",
+	"pk": 1,
+	"fields": {
+		"team": "Manchester United",
+		"number": 10,
+		"player": "Rashford",
+		"shirt_size": "M",
+		"primary_color": "Red",
+		"secondary_color": "White"
+	}
+}, {
+	"model": "jersey.jersey",
+	"pk": 2,
+	"fields": {
+		"team": "Barcelona",
+		"number": 21,
+		"player": "De Jong",
+		"shirt_size": "L",
+		"primary_color": "Blue",
+		"secondary_color": "Maroon"
+	}
+}, {
+	"model": "jersey.jersey",
+	"pk": 3,
+	"fields": {
+		"team": "Bayern Munich",
+		"number": 6,
+		"player": "Thiago",
+		"shirt_size": "S",
+		"primary_color": "Red",
+		"secondary_color": "Black"
+	}
+}, {
+	"model": "jersey.jersey",
+	"pk": 4,
+	"fields": {
+		"team": "Real Madrid",
+		"number": 22,
+		"player": "Isco",
+		"shirt_size": "M",
+		"primary_color": "White",
+		"secondary_color": "Black"
+	}
+}]
