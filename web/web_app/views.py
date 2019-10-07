@@ -5,3 +5,6 @@ from django.http import HttpResponse
 
 def index(request):
     return render(request,'web_app/index.html')
+
+def item_detail(request,id):
+    return render(request,'web_app/item_detail.html')
