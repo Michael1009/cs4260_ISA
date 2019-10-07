@@ -2,8 +2,10 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.core import serializers
 from .models import User, Jersey
+from django.forms.models import model_to_dict
 import json
 from django.views.decorators.csrf import csrf_exempt
+from django.core.serializers.json import DjangoJSONEncoder
 
 
 def index(request):
@@ -153,7 +155,7 @@ def get_data(model, args):
 def get_all_data(model, args):
     try:
         if (model == "Jersey"):
-            data = model.objects.all().order_by('id')
+            data = model.objects.all().order_by('-id')
             response = serializers.serialize("json", data)
             return HttpResponse(response, content_type='application/json', status=200)
         response = serializers.serialize("json", model.objects.all())

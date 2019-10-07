@@ -2,6 +2,7 @@ from django.http import HttpResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
 import urllib.request
+from django.core.serializers.json import DjangoJSONEncoder
 
 
 def incorrect_REST_method(method):

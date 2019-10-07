@@ -23,5 +23,5 @@ urlpatterns = [
 
      # Delete
      path('api/v1/User/<int:id>/delete', views.delete_user, name='delete_user'),
-     path('api/v1/Jersey/<int:id>/delete', views.delete_jersey, name='delete_jersey')
+     path('api/v1/Jersey/<int:id>/delete', views.delete_jersey, name='delete_jersey'),
 ]

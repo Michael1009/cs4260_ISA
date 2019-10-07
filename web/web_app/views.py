@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 import urllib.request, json
+from collections import OrderedDict
 # Create your views here.
 
 def index(request):
@@ -13,8 +14,11 @@ def index(request):
         bigData = json.loads(data)[i]['fields']
         myList[json.loads(data)[i]['pk']] = bigData
         i = i + 1
+    #I reverse sorted the dictionaries because order_by doesn't seem to be working
+    #essentially, the first item in this new dict is the last thing put into the database
+    sorted_dictionary = OrderedDict(sorted(myList.items(), key=lambda v: v, reverse=True))
     context = {
-        'jerseys' : myList
+        'jerseys' : sorted_dictionary
     }
     return render(request,'web_app/index.html',context)
 
