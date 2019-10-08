@@ -46,7 +46,6 @@ input[type=submit] {
     <ul class="uk-list ">
         {% for key,i in jerseys.items %}
             <h4><a href = "/item/{{key}}">{{i.player}}</a></h4>
-            <p>{{ i.team }} - {{ i.number }} - {{ i.shirt_size }} </p>
             <img class="img-responsive" src="https://imgur.com/0PCUsve.png"  width="300" height="300"> 
         {% endfor %}
     </ul>
