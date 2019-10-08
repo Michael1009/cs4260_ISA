@@ -2,6 +2,7 @@ from django.http import HttpResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
 import urllib.request
+from django.core.serializers.json import DjangoJSONEncoder
 
 
 def incorrect_REST_method(method):
@@ -18,11 +19,24 @@ def home(request):
     result = json.loads(data)
     return HttpResponse(result)
 
+@csrf_exempt
+def jersey_by_size(request,size):
+    data = None
+    with urllib.request.urlopen('http://models:8000/jersey/api/v1/Jersey/'+size) as response:
+        data = json.dumps(response.read().decode('UTF-8'))
+    result = json.loads(data)
+    return HttpResponse(result)
+
 
 @csrf_exempt
 def jersey_detail(request, id):
     data = None
-    with urllib.request.urlopen('http://models:8000/jersey/api/v1/Jersey/'+str(id)) as response:
-        data = json.dumps(response.read().decode('UTF-8'))
+    try:
+        with urllib.request.urlopen('http://models:8000/jersey/api/v1/Jersey/'+str(id)) as response:
+            data = json.dumps(response.read().decode('UTF-8'))
+    except:
+        result = json.dumps(
+            {'error': '404', 'ok': False})
+        return HttpResponse(result, content_type='application/json', status=200)
     result = json.loads(data)
     return HttpResponse(result)
