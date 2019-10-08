@@ -1,4 +1,4 @@
-"""isa URL Configuration
+"""web URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.2/topics/http/urls/
@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.shortcuts import render
+from django.http import HttpResponse
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('jersey/', include('jersey.urls')),
-    path('user/', include('jersey.urls')),
+    path('', include('web_app.urls')),
 ]

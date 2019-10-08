@@ -16,7 +16,7 @@ class User(models.Model):
     shirt_size = models.CharField(max_length=3, choices=SHIRT_SIZES)
 
     def __str__(self):
-        return self.email
+        return "{}, {} {}".format(self.email, self.first_name, self.last_name)
 
 
 class Jersey(models.Model):
@@ -31,8 +31,9 @@ class Jersey(models.Model):
         ('XL', "Extra Large"),
         ('XXL', "Double Extra Large"),
     )
-    shirt_size = models.CharField(max_length=1, choices=SHIRT_SIZES)
+    shirt_size = models.CharField(max_length=3, choices=SHIRT_SIZES)
     primary_color = models.CharField(max_length=60)
     secondary_color = models.CharField(max_length=60)
+
     def __str__(self):
-        return "{}, Number {} for {}".format(self.player,self.number,self.team)
+        return "{}, Number {} for {}".format(self.player, self.number, self.team)
