@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 import urllib.request, json
 from collections import OrderedDict
+
+from web_app.forms import RegisterForm
 # Create your views here.
 
 def index(request):
@@ -53,3 +55,10 @@ def item_detail(request,id):
             'jersey' : json_data[0]['fields']
         }
     return render(request,template,context)
+
+def register(request):
+    form = RegisterForm()
+    args = {'form': form}
+    url = 'http://exp:8000/exp/users/create'
+
+    return render(request, "register.html", args)
