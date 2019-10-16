@@ -26,6 +26,6 @@ urlpatterns = [
          views.delete_jersey, name='delete_jersey'),
 
     # Authenticate
-    path('api/v1/users/create', views.register, name="register"),
+    path('api/v1/users/register', views.register, name="register"),
     path('api/v1/users/login', views.login, name="login")
 ]

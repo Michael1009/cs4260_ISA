@@ -9,7 +9,8 @@ from django.contrib.auth.hashers import make_password, check_password
 import os
 import hmac
 # import django settings file
-import settings
+from django.conf import settings
+import datetime
 
 
 def index(request):
@@ -225,6 +226,37 @@ def get_all_data_by_size(model, args):
 ##### Authentication #####
 
 
+@csrf_exempt
+def login(request):
+    if request.method == "POST":
+        try:
+            user = User.objects.get(email=request.POST['email'])
+
+            # If valid password, create authenticator and return success
+            if check_password(request.POST['password'], user.password):
+                # Create Authenticator
+                try:
+                    create_authenticator(user)
+                except:
+                    result = json.dumps(
+                        {'error': 'LOGIN: Create Authenticator Failed', 'ok': False})
+                    return HttpResponse(result, status=400)
+
+                result = json.dumps({'ok': True})
+                return HttpResponse(result, status=200)
+            else:
+                result = json.dumps(
+                    {'error': 'LOGIN: User is not authorized', 'ok': False})
+                return HttpResponse(result, status=401)
+        except:
+            result = json.dumps(
+                {'error': 'LOGIN: Missing field or malformed data in POST request.', 'ok': False})
+            return HttpResponse(result, status=400)
+    else:
+        return incorrect_REST_method("POST")
+
+
+@csrf_exempt
 def register(request):
     if request.method == "POST":
         try:
@@ -242,7 +274,7 @@ def register(request):
                 create_authenticator(new_user)
             except:
                 result = json.dumps(
-                    {'error': 'CREATE AUTHENTICATOR FAILED', 'ok': False})
+                    {'error': 'REGISTER: Create Authenticator Failed', 'ok': False})
                 return HttpResponse(result, status=400)
 
             result = json.dumps({'ok': True})
@@ -255,10 +287,6 @@ def register(request):
         return incorrect_REST_method("POST")
 
 
-def login(request):
-    return HttpResponse("TODO")
-
-
 def create_authenticator(user):
     authenticator = hmac.new(
         key=settings.SECRET_KEY.encode('utf-8'),
@@ -266,7 +294,7 @@ def create_authenticator(user):
         digestmod='sha256',
     ).hexdigest()
     new_authenticator = Authenticator(
-        user_id=user.email,
-        authenticator=authenticator
+        user_id=user,
+        authenticator=authenticator,
     )
     new_authenticator.save()
