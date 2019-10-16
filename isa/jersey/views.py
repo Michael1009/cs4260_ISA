@@ -235,14 +235,16 @@ def login(request):
             # If valid password, create authenticator and return success
             if check_password(request.POST['password'], user.password):
                 # Create Authenticator
+                authenticator = None
                 try:
-                    create_authenticator(user)
+                    authenticator = create_authenticator(user)
                 except:
                     result = json.dumps(
                         {'error': 'LOGIN: Create Authenticator Failed', 'ok': False})
                     return HttpResponse(result, status=400)
 
-                result = json.dumps({'ok': True})
+                result = json.dumps(
+                    {'ok': True, 'authenticator': authenticator})
                 return HttpResponse(result, status=200)
             else:
                 result = json.dumps(
@@ -270,14 +272,15 @@ def register(request):
             new_user.save()
 
             # Create Authenticator
+            authenticator = None
             try:
-                create_authenticator(new_user)
+                authenticator = create_authenticator(new_user)
             except:
                 result = json.dumps(
                     {'error': 'REGISTER: Create Authenticator Failed', 'ok': False})
                 return HttpResponse(result, status=400)
 
-            result = json.dumps({'ok': True})
+            result = json.dumps({'ok': True, 'authenticator': authenticator})
             return HttpResponse(result, status=200)
         except:
             result = json.dumps(
@@ -298,3 +301,4 @@ def create_authenticator(user):
         authenticator=authenticator,
     )
     new_authenticator.save()
+    return authenticator
