@@ -250,7 +250,7 @@ def login(request):
                 return HttpResponse(result, status=401)
         except:
             result = json.dumps(
-                {'error': 'LOGIN: Missing field or malformed data in POST request.', 'ok': False})
+                {'error': 'LOGIN: Cannot find User.', 'ok': False})
             return HttpResponse(result, status=400)
     else:
         return incorrect_REST_method("POST")
