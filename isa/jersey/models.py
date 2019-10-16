@@ -5,6 +5,7 @@ class User(models.Model):
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
+    password = models.TextField()
     SHIRT_SIZES = (
         ('XS', "Extra Small"),
         ('S', "Small"),
@@ -18,6 +19,10 @@ class User(models.Model):
     def __str__(self):
         return "{}, {} {}".format(self.email, self.first_name, self.last_name)
 
+class Authenticator(models.Model):
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    authenticator = models.CharField(max_length=64, primary_key=True)
+    date_created = models.DateField(auto_now=True)
 
 class Jersey(models.Model):
     team = models.CharField(max_length=60)
