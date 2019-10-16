@@ -1,10 +1,15 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.core import serializers
-from .models import User, Jersey
+from .models import User, Jersey, Authenticator
 import json
 from django.views.decorators.csrf import csrf_exempt
 from django.core.serializers.json import DjangoJSONEncoder
+from django.contrib.auth.hashers import make_password, check_password
+import os
+import hmac
+# import django settings file
+import settings
 
 
 def index(request):
@@ -16,7 +21,7 @@ def incorrect_REST_method(method):
         {'error': 'Incorrect REST method used. This endpoint expects a {} request'.format(method), 'ok': False})
     return HttpResponse(result, status=400)
 
-
+##### CRUD #####
 @csrf_exempt
 def create_user(request):
     if request.method == "POST":
@@ -153,7 +158,8 @@ def get_data(model, args):
 
 def get_all_data(model, args):
     try:
-        response = serializers.serialize("json", model.objects.all().order_by('id'))
+        response = serializers.serialize(
+            "json", model.objects.all().order_by('id'))
         return HttpResponse(response, content_type='application/json', status=200)
     except:
         response = json.dumps(
@@ -187,10 +193,12 @@ def get_all_jersey(request, **kwargs):
         return get_all_data(Jersey, kwargs)
     return incorrect_REST_method("GET")
 
+
 def get_jersey_by_size(request, **kwargs):
     if request.method == "GET":
         return get_all_data_by_size(Jersey, kwargs)
     return incorrect_REST_method("GET")
+
 
 def get_all_data_by_size(model, args):
     try:
@@ -213,3 +221,52 @@ def get_all_data_by_size(model, args):
         response = json.dumps(
             {'error': 'Was not able to get data', 'ok': False})
         return HttpResponse(response, content_type='application/json', status=404)
+
+##### Authentication #####
+
+
+def register(request):
+    if request.method == "POST":
+        try:
+            new_user = User(
+                email=request.POST['email'],
+                first_name=request.POST['first_name'],
+                last_name=request.POST['last_name'],
+                password=make_password(request.POST['password']),
+                shirt_size=request.POST['shirt_size'],
+            )
+            new_user.save()
+
+            # Create Authenticator
+            try:
+                create_authenticator(new_user)
+            except:
+                result = json.dumps(
+                    {'error': 'CREATE AUTHENTICATOR FAILED', 'ok': False})
+                return HttpResponse(result, status=400)
+
+            result = json.dumps({'ok': True})
+            return HttpResponse(result, status=200)
+        except:
+            result = json.dumps(
+                {'error': 'REGISTER: Missing field or malformed data in POST request.', 'ok': False})
+            return HttpResponse(result, status=400)
+    else:
+        return incorrect_REST_method("POST")
+
+
+def login(request):
+    return HttpResponse("TODO")
+
+
+def create_authenticator(user):
+    authenticator = hmac.new(
+        key=settings.SECRET_KEY.encode('utf-8'),
+        msg=os.urandom(32),
+        digestmod='sha256',
+    ).hexdigest()
+    new_authenticator = Authenticator(
+        user_id=user.email,
+        authenticator=authenticator
+    )
+    new_authenticator.save()
