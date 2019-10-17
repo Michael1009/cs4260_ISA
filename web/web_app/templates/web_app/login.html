@@ -1,0 +1,9 @@
+{% extends 'web_app/base.html' %}
+
+{% block content %}
+<form action = "/index">
+    {% csrf_token %}
+    {{ form }}
+    <input type = "submit" value = "Submit">
+</form>
+{% endblock%}

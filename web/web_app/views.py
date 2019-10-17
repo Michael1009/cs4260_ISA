@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
 import urllib.request, json
 from collections import OrderedDict
 
-from web_app.forms import RegisterForm
+from web_app.forms import RegisterForm, LoginForm
 # Create your views here.
 
 def index(request):
@@ -60,5 +60,15 @@ def register(request):
     form = RegisterForm()
     args = {'form': form}
     url = 'http://exp:8000/exp/users/create'
-
     return render(request, "register.html", args)
+
+def login(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            # here is where we would send the email and password down our tiers to verify it
+            # for now just sending back to the homepage
+            return HttpResponseRedirect('/')
+    else:
+        form = LoginForm()
+    return render(request, 'login.html', {'form':form})
