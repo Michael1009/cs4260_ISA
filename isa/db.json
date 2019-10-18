@@ -34,7 +34,8 @@
 		"player": "Rashford",
 		"shirt_size": "M",
 		"primary_color": "Red",
-		"secondary_color": "White"
+		"secondary_color": "White",
+		"user_id": "13"
 	}
 }, {
 	"model": "jersey.jersey",
@@ -45,7 +46,8 @@
 		"player": "De Jong",
 		"shirt_size": "L",
 		"primary_color": "Blue",
-		"secondary_color": "Maroon"
+		"secondary_color": "Maroon",
+		"user_id": "13"
 	}
 }, {
 	"model": "jersey.jersey",
@@ -56,7 +58,8 @@
 		"player": "Thiago",
 		"shirt_size": "S",
 		"primary_color": "Red",
-		"secondary_color": "Black"
+		"secondary_color": "Black",
+		"user_id": "13"
 	}
 }, {
 	"model": "jersey.jersey",
@@ -67,6 +70,7 @@
 		"player": "Isco",
 		"shirt_size": "M",
 		"primary_color": "White",
-		"secondary_color": "Black"
+		"secondary_color": "Black",
+		"user_id": "13"
 	}
 }]
