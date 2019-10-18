@@ -294,10 +294,10 @@ def register(request):
                 authenticator = None
                 try:
                     authenticator = create_authenticator(new_user)
-                except:
+                except Exception as e:
                     result = json.dumps(
                         {'error': 'REGISTER: Create Authenticator Failed', 'ok': False})
-                    return HttpResponse(result, status=400)
+                    return HttpResponse(str(e), status=400)
 
                 result = json.dumps(
                     {'ok': True, 'authenticator': authenticator})
@@ -321,8 +321,11 @@ def create_authenticator(user):
         digestmod='sha256',
     ).hexdigest()
     # Clear out any old Auth
-    last_auth = Authenticator.objects.get(user_id=user)
-    last_auth.delete()
+    auth_count = Authenticator.objects.filter(
+        user_id=user).count()
+    if auth_count == 1:
+        last_auth = Authenticator.objects.get(user_id=user)
+        last_auth.delete()
     # Create new one
     new_authenticator = Authenticator(
         user_id=user,
