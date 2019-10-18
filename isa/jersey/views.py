@@ -278,27 +278,35 @@ def login(request):
 def register(request):
     if request.method == "POST":
         try:
-            new_user = User(
-                email=request.POST['email'],
-                first_name=request.POST['first_name'],
-                last_name=request.POST['last_name'],
-                password=make_password(request.POST['password']),
-                shirt_size=request.POST['shirt_size'],
-            )
-            new_user.save()
+            user_count = User.objects.filter(
+                email=request.POST['email']).count()
+            if user_count == 0:
+                new_user = User(
+                    email=request.POST['email'],
+                    first_name=request.POST['first_name'],
+                    last_name=request.POST['last_name'],
+                    password=make_password(request.POST['password']),
+                    shirt_size=request.POST['shirt_size'],
+                )
+                new_user.save()
 
-            # Create Authenticator
-            authenticator = None
-            try:
-                authenticator = create_authenticator(new_user)
-            except:
+                # Create Authenticator
+                authenticator = None
+                try:
+                    authenticator = create_authenticator(new_user)
+                except:
+                    result = json.dumps(
+                        {'error': 'REGISTER: Create Authenticator Failed', 'ok': False})
+                    return HttpResponse(result, status=400)
+
                 result = json.dumps(
-                    {'error': 'REGISTER: Create Authenticator Failed', 'ok': False})
+                    {'ok': True, 'authenticator': authenticator})
+                return HttpResponse(result, status=200)
+            else:
+                result = json.dumps(
+                    {'error': 'REGISTER: User already exists', 'ok': False})
                 return HttpResponse(result, status=400)
-
-            result = json.dumps({'ok': True, 'authenticator': authenticator})
-            return HttpResponse(result, status=200)
-        except:
+        except Exception as e:
             result = json.dumps(
                 {'error': 'REGISTER: Missing field or malformed data in POST request.', 'ok': False})
             return HttpResponse(result, status=400)
@@ -312,6 +320,10 @@ def create_authenticator(user):
         msg=os.urandom(32),
         digestmod='sha256',
     ).hexdigest()
+    # Clear out any old Auth
+    last_auth = Authenticator.objects.get(user_id=user)
+    last_auth.delete()
+    # Create new one
     new_authenticator = Authenticator(
         user_id=user,
         authenticator=authenticator,
