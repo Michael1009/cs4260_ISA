@@ -49,20 +49,22 @@ def create_user(request):
 def create_jersey(request):
     if request.method == "POST":
         try:
+            user = User.objects.get(email=request.POST['user_id'])
             new_jersey = Jersey(
                 team=request.POST['team'],
                 number=request.POST['number'],
                 player=request.POST['player'],
                 shirt_size=request.POST['shirt_size'],
                 primary_color=request.POST['primary_color'],
-                secondary_color=request.POST['secondary_color']
+                secondary_color=request.POST['secondary_color'],
+                user_id=user,
             )
             new_jersey.save()
             result = json.dumps({'ok': True})
             return HttpResponse(result, status=200)
         except:
             result = json.dumps(
-                {'error': 'Missing field or malformed data in CREATE request.', 'ok': False})
+                {'error': 'Create Jersey: Missing field or malformed data in POST request.', 'ok': False})
             return HttpResponse(result, status=400)
     else:
         return incorrect_REST_method("POST")
@@ -73,15 +75,18 @@ def update(request, model, id):
         obj = model.objects.get(pk=id)
         if model == Jersey:
             try:
+                user = User.objects.get(email=request.POST['user_id'])
                 obj.team = request.POST['team']
                 obj.number = request.POST['number']
                 obj.player = request.POST['player']
                 obj.shirt_size = request.POST['shirt_size']
                 obj.primary_color = request.POST['primary_color']
                 obj.secondary_color = request.POST['secondary_color']
+                obj.user_id = user
+
             except:
                 result = json.dumps(
-                    {'error': 'Missing field or malformed data in POST request.', 'ok': False})
+                    {'error': 'Update Jersey: Missing field or malformed data in POST request.', 'ok': False})
                 return HttpResponse(result, status=400)
         elif model == User:
             try:
@@ -91,7 +96,7 @@ def update(request, model, id):
                 obj.shirt_size = request.POST['shirt_size']
             except:
                 result = json.dumps(
-                    {'error': 'Missing field or malformed data in POST request.', 'ok': False})
+                    {'error': 'Update User: Missing field or malformed data in POST request.', 'ok': False})
                 return HttpResponse(result, status=400)
         obj.save()
         result = json.dumps({'ok': True})
