@@ -60,7 +60,7 @@ def register(request):
     form = RegisterForm()
     args = {'form': form}
     url = 'http://exp:8000/exp/users/create'
-    return render(request, "register.html", args)
+    return render(request, "web_app/register.html", args)
 
 def login(request):
     if request.method == 'POST':
@@ -71,5 +71,6 @@ def login(request):
             return HttpResponseRedirect('/')
     else:
         form = LoginForm()
-    return render(request, 'login.html', {'form':form})
+    return render(request, 'web_app/login.html', { 'form' : form})
+    # return HttpResponse("<h1> Hello World </h1>")
     
