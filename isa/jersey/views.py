@@ -50,22 +50,28 @@ def create_jersey(request):
     if request.method == "POST":
         try:
             user = User.objects.get(email=request.POST['user_id'])
-            new_jersey = Jersey(
-                team=request.POST['team'],
-                number=request.POST['number'],
-                player=request.POST['player'],
-                shirt_size=request.POST['shirt_size'],
-                primary_color=request.POST['primary_color'],
-                secondary_color=request.POST['secondary_color'],
-                user_id=user,
-            )
-            new_jersey.save()
-            result = json.dumps({'ok': True})
-            return HttpResponse(result, status=200)
-        except:
+            auth = Authenticator.objects.get(user_id=user)
+            if auth.authenticator == request.POST['authenticator']:
+                new_jersey = Jersey(
+                    team=request.POST['team'],
+                    number=request.POST['number'],
+                    player=request.POST['player'],
+                    shirt_size=request.POST['shirt_size'],
+                    primary_color=request.POST['primary_color'],
+                    secondary_color=request.POST['secondary_color'],
+                    user_id=user,
+                )
+                new_jersey.save()
+                result = json.dumps({'ok': True})
+                return HttpResponse(result, status=200)
+            else:
+                result = json.dumps(
+                    {'error': 'Create Jersey: Not authorized', 'ok': False})
+                return HttpResponse(result, status=401)
+        except Exception as e:
             result = json.dumps(
                 {'error': 'Create Jersey: Missing field or malformed data in POST request.', 'ok': False})
-            return HttpResponse(result, status=400)
+            return HttpResponse(str(e), status=400)
     else:
         return incorrect_REST_method("POST")
 
@@ -76,14 +82,19 @@ def update(request, model, id):
         if model == Jersey:
             try:
                 user = User.objects.get(email=request.POST['user_id'])
-                obj.team = request.POST['team']
-                obj.number = request.POST['number']
-                obj.player = request.POST['player']
-                obj.shirt_size = request.POST['shirt_size']
-                obj.primary_color = request.POST['primary_color']
-                obj.secondary_color = request.POST['secondary_color']
-                obj.user_id = user
-
+                auth = Authenticator.objects.get(user_id=user)
+                if auth.authenticator == request.POST['authenticator']:
+                    obj.team = request.POST['team']
+                    obj.number = request.POST['number']
+                    obj.player = request.POST['player']
+                    obj.shirt_size = request.POST['shirt_size']
+                    obj.primary_color = request.POST['primary_color']
+                    obj.secondary_color = request.POST['secondary_color']
+                    obj.user_id = user
+                else:
+                    result = json.dumps(
+                        {'error': 'Update Jersey: Unauthorized.', 'ok': False})
+                    return HttpResponse(result, status=401)
             except:
                 result = json.dumps(
                     {'error': 'Update Jersey: Missing field or malformed data in POST request.', 'ok': False})
