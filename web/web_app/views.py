@@ -62,14 +62,14 @@ def register(request):
     url = 'http://exp:8000/exp/users/create'
     return render(request, "register.html", args)
 
-# def login(request):
-#     if request.method == 'POST':
-#         form = LoginForm(request.POST)
-#         if form.is_valid():
-#             # here is where we would send the email and password down our tiers to verify it
-#             # for now just sending back to the homepage
-#             return HttpResponseRedirect('/')
-#     else:
-#         form = LoginForm()
-#     return render(request, 'login.html', {'form':form})
+def login(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            # here is where we would send the email and password down our tiers to verify it
+            # for now just sending back to the homepage
+            return HttpResponseRedirect('/')
+    else:
+        form = LoginForm()
+    return render(request, 'login.html', {'form':form})
     
