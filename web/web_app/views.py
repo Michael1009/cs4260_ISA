@@ -76,8 +76,14 @@ def register(request):
             # with urllib.request.urlopen('http://exp:8000/exp/home/') as response:
             #     data = response.read().decode('UTF-8')
             data = urllib.parse.urlencode(register_data).encode('UTF-8')
-            with urllib.request.urlopen('http://exp:8000/exp/users/register/',data=data) as response:
+
+            
+            with urllib.request.urlopen('http://exp:8000/exp/users/register/', data=json.dumps(register_data).encode("utf-8")) as response:
                 resp = response.read().decode('UTF-8')
+
+            f = open("respop.txt", "a")
+            f.write(resp)
+            f.close()
 
             resp_json = json.loads(resp)
             if not resp or not resp_json['ok']:

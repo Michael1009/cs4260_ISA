@@ -5,7 +5,7 @@ class User(models.Model):
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
-    password = models.TextField()
+    password = models.CharField(max_length=32)
     SHIRT_SIZES = (
         ('XS', "Extra Small"),
         ('S', "Small"),

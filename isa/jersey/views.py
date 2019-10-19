@@ -32,7 +32,8 @@ def create_user(request):
                 email=request.POST['email'],
                 first_name=request.POST['first_name'],
                 last_name=request.POST['last_name'],
-                shirt_size=request.POST['shirt_size']
+                shirt_size=request.POST['shirt_size'],
+                password=request.POST['password']
             )
             new_user.save()
             result = json.dumps({'ok': True})
