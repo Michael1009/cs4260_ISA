@@ -73,23 +73,33 @@ def register(request):
                 "password":password,
                 "shirt_size":shirt_size
             }
-            # with urllib.request.urlopen('http://exp:8000/exp/home/') as response:
-            #     data = response.read().decode('UTF-8')
-            data = urllib.parse.urlencode(register_data).encode('UTF-8')
-
             
-            with urllib.request.urlopen('http://exp:8000/exp/users/register/', data=json.dumps(register_data).encode("utf-8")) as response:
-                resp = response.read().decode('UTF-8')
 
-            f = open("respop.txt", "a")
-            f.write(resp)
-            f.close()
 
-            resp_json = json.loads(resp)
-            if not resp or not resp_json['ok']:
+            data = urllib.parse.urlencode(register_data).encode('utf-8')
+            
+            req = urllib.request.Request(
+                'http://exp:8000/exp/users/register/', 
+                method='POST',
+                data=data, 
+                headers={'Content-Type': 'application/json'}) 
+
+            # f = open("request.txt", "a")
+            # f.write(req.data.decode('utf-8'))
+            # f.close()
+
+            resp = urllib.request.urlopen(req)
+
+            resp_text = resp.read().decode('utf-8')
+            resp_dict = json.loads(resp_text)
+
+
+
+
+            if not resp or not resp_dict['ok']:
                 #todo figure out how to display possible errors here
                 return render(request, 'web_app/login.html', {'form' : form, 'error': True})
-            authenticator = resp_json['resp']['authenticator'] #this is not going to work
+            authenticator = resp_dict['resp']['authenticator'] #this is not going to work
             response = HttpResponseRedirect('index')
             response.set_cookie("auth", authenticator)
             return response
