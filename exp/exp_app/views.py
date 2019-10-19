@@ -46,7 +46,7 @@ def register(request):
     if request.method == "POST":
         get_post_data = request.POST
         try:
-            url = 'http://models:8000/api/v1/users/create/'
+            url = 'http://models:8000/api/v1/users/register/'
             get_post_encoded = urllib.parse.urlencode(get_post_data).encode('utf-8')
 
             request = urllib.request.Request(url, data=get_post_encoded, method='POST')

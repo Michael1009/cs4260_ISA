@@ -3,7 +3,7 @@
 {% block content %}
 
 
-<form action = "/" method = "POST">
+<form action="register" method = "post">
     {% csrf_token %}
     {{ form }}
     <input type = "submit" value = "Submit">
@@ -17,4 +17,17 @@
             </strong>
         </div>
     {% endfor %}
+{% endif %}
+
+{% if error %}
+<h1>there was an error :(</h1>
+{% endif %}
+{% if get %}
+<h1>get :(</h1>
+{% endif %}
+
+{% if resp %}
+<h1>{{resp}}(</h1>
+{% endif %}
+
 {% endblock %}

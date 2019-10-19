@@ -60,10 +60,38 @@ def register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
-            return HttpResponseRedirect('/')
+            email = form.cleaned_data['email']
+            first_name = form.cleaned_data['first_name']
+            last_name = form.cleaned_data['last_name']
+            password = form.cleaned_data['password']
+            shirt_size = form.cleaned_data['shirt_size']
+
+            register_data = {
+                "email":email,
+                "first_name":first_name,
+                "last_name":last_name,
+                "password":password,
+                "shirt_size":shirt_size
+            }
+            # with urllib.request.urlopen('http://exp:8000/exp/home/') as response:
+            #     data = response.read().decode('UTF-8')
+            data = urllib.parse.urlencode(register_data).encode('UTF-8')
+            with urllib.request.urlopen('http://exp:8000/exp/users/register/',data=data) as response:
+                resp = response.read().decode('UTF-8')
+
+            resp_json = json.loads(resp)
+            if not resp or not resp_json['ok']:
+                #todo figure out how to display possible errors here
+                return render(request, 'web_app/login.html', {'form' : form, 'error': True})
+            authenticator = resp_json['resp']['authenticator'] #this is not going to work
+            response = HttpResponseRedirect('index')
+            response.set_cookie("auth", authenticator)
+            return response
+        else:
+            return render(request, 'web_app/register.html', {'form' : form, 'error': True})
     else:
         form = RegisterForm()
-    return render(request, 'web_app/register.html', { 'form' : form})
+    return render(request, 'web_app/register.html', {'form' : form, 'get': True})
     # return HttpResponse("<h1> Hello World </h1>")
 
 def login(request):
@@ -73,10 +101,10 @@ def login(request):
             #cleaning the data
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
-            data = {"email" : email, "password" : password}
+            login_data = {"email" : email, "password" : password}
             #our next page
             next = reverse('index')
-            resp = urllib.request.Request('http://exp:8000/exp/users/login', data=data)
+            resp = urllib.request.Request('http://exp:8000/exp/users/login', data=login_data)
             resp_json = json.dumps(resp)
             if not resp or not resp_json['ok']:
                 #todo figure out how to display possible errors here
