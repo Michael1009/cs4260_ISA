@@ -309,7 +309,7 @@ def register(request):
                 return HttpResponse(result, status=400)
         except Exception as e:
             result = json.dumps(
-                {'error': 'REGISTER: Missing field or malformed data in POST request.', 'ok': False})
+                {'error': 'REGISTER: Missing field or malformed data in POST request.', 'ok': False, 'data':request.POST, 'exception': str(e)})
             return HttpResponse(result, status=400)
     else:
         return incorrect_REST_method("POST")

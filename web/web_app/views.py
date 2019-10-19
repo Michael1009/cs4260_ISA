@@ -94,8 +94,14 @@ def register(request):
             if not resp or not resp_dict['ok']:
                 #todo figure out how to display possible errors here
                 return render(request, 'web_app/login.html', {'form' : form,'error' : resp_dict['error']})
-            authenticator = resp_dict['resp']['authenticator'] #this is not going to work
-            response = HttpResponseRedirect('index')
+
+            f = open("request.txt", "a")
+            # f.write(req.data.decode('utf-8'))
+            f.write(resp_text)
+            f.close()
+            
+            authenticator = resp_dict['authenticator'] 
+            response = HttpResponseRedirect('/')
             response.set_cookie("auth", authenticator)
             return response
         else:

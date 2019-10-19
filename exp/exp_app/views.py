@@ -53,7 +53,7 @@ def register(request):
                 "shirt_size": request.POST.get("shirt_size")
                 }
             data = urllib.parse.urlencode(preform_data).encode("utf-8")
-            url = 'http://models:8000/jersey/api/v1/users/register/'
+            url = 'http://models:8000/jersey/api/v1/users/register'
     
 
             request = urllib.request.Request(url, data=data, method='POST')

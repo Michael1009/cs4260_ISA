@@ -5,7 +5,8 @@
 		"email": "davidyoon70@gmail.com",
 		"first_name": "David",
 		"last_name": "Yoon",
-		"shirt_size": "M"
+		"shirt_size": "M",
+		"password": "abc123"
 	}
 }, {
 	"model": "jersey.user",
@@ -14,7 +15,8 @@
 		"email": "soccerlover@gmail.com",
 		"first_name": "Michael",
 		"last_name": "Myers",
-		"shirt_size": "S"
+		"shirt_size": "S",
+		"password": "abc123"
 	}
 }, {
 	"model": "jersey.user",
@@ -23,7 +25,8 @@
 		"email": "karim@gmail.com",
 		"first_name": "Karim",
 		"last_name": "Shoorbajee",
-		"shirt_size": "L"
+		"shirt_size": "L",
+		"password": "abc123"
 	}
 }, {
 	"model": "jersey.jersey",
