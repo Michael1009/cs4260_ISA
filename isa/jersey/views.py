@@ -40,7 +40,7 @@ def create_user(request):
             return HttpResponse(result, status=200)
         except:
             result = json.dumps(
-                {'error': 'Missing field or malformed data in CREATE request. Here is the data we received: {}'.format(form), 'ok': False})
+                {'error': 'Missing field or malformed data in CREATE request. Caught at models layer. Here is the data we received: {}'.format(form), 'ok': False})
             return HttpResponse(result, status=400)
     else:
         return incorrect_REST_method("POST")

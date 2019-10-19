@@ -44,22 +44,28 @@ def jersey_detail(request, id):
 @csrf_exempt 
 def register(request): 
     if request.method == "POST":
-        get_post_data = request.POST
         try:
-            url = 'http://models:8000/api/v1/users/register/'
-            get_post_encoded = urllib.parse.urlencode(get_post_data).encode('utf-8')
+            preform_data = {
+                "email": request.POST.get("email"),
+                "first_name": request.POST.get("first_name"),
+                "last_name": request.POST.get("last_name"),
+                "password": request.POST.get("password"),
+                "shirt_size": request.POST.get("shirt_size")
+                }
+            data = urllib.parse.urlencode(preform_data).encode("utf-8")
+            url = 'http://models:8000/jersey/api/v1/users/register/'
+    
 
-            
-
-            request = urllib.request.Request(url, data=get_post_encoded, method='POST')
+            request = urllib.request.Request(url, data=data, method='POST')
 
             json_response = urllib.request.urlopen(request).read().decode('utf-8')
             resp = json.loads(json_response)
             json_dump = json.dumps(resp)
+
             return HttpResponse(json_dump)
-        except:
+        except Exception as e:
             result = json.dumps(
-            {'error': 'Missing field or malformed data in CREATE request. Here is the data we received: {}'.format(get_post_data), 'ok': False})
+            {'error': 'Missing field or malformed data in CREATE request. Caught at exp layer. Here is the data we received: {}'.format(data), 'ok': False, 'exception': str(e)})
             return HttpResponse(result, content_type='application/json')  
 
 @csrf_exempt 
@@ -67,7 +73,7 @@ def login(request):
     if request.method == "POST":
         get_post_data = request.POST
         try: 
-            url = 'http://models.:8000/api/v1/users/login'
+            url = 'http://models.:8000/jersey/api/v1/users/login'
             get_post_encoded = urllib.parse.urlencode(get_post_data).encode('utf-8')
 
             request = urllib.request.Request(url, data=get_post_encoded, method='POST')
