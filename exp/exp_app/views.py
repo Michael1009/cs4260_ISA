@@ -57,5 +57,24 @@ def register(request):
             return HttpResponse(json_dump)
         except:
             result = json.dumps(
-            {'error': 'Missing field or malformed data in CREATE request. Here is the data we received: {}'.format(post_data), 'ok': False})
+            {'error': 'Missing field or malformed data in CREATE request. Here is the data we received: {}'.format(get_post_data), 'ok': False})
+            return HttpResponse(result, content_type='application/json')  
+
+@csrf_exempt 
+def login(request):
+    if request.method == "POST":
+        get_post_data = request.POST
+        try: 
+            url = 'http://models.:8000/api/v1/users/login'
+            get_post_encoded = urllib.parse.urlencode(get_post_data).encode('utf-8')
+
+            request = urllib.request.Request(url, data=get_post_encoded, method='POST')
+
+            json_response = urllib.request.urlopen(request).read().decode('utf-8')
+            resp = json.loads(json_response)
+            json_dump = json.dumps(resp)
+            return HttpRespose(json_dump)
+        except:
+            result = json.dumps(
+            {'error': 'Missing field or malformed data in CREATE request. Here is the data we received: {}'.format(get_post_data), 'ok': False})
             return HttpResponse(result, content_type='application/json')  
