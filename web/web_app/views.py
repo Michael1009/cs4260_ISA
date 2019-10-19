@@ -85,21 +85,12 @@ def register(request):
             resp_text = resp.decode('utf-8')
             resp_dict = json.loads(resp_text)
 
-            f = open("request.txt", "a")
-            # f.write(req.data.decode('utf-8'))
-            f.write(resp_text)
-            f.close()
-
 
             if not resp or not resp_dict['ok']:
                 #todo figure out how to display possible errors here
                 return render(request, 'web_app/login.html', {'form' : form,'error' : resp_dict['error']})
 
-            f = open("request.txt", "a")
-            # f.write(req.data.decode('utf-8'))
-            f.write(resp_text)
-            f.close()
-            
+                
             authenticator = resp_dict['authenticator'] 
             response = HttpResponseRedirect('/')
             response.set_cookie("auth", authenticator)
