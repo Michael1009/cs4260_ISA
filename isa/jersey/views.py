@@ -32,14 +32,15 @@ def create_user(request):
                 email=request.POST['email'],
                 first_name=request.POST['first_name'],
                 last_name=request.POST['last_name'],
-                shirt_size=request.POST['shirt_size']
+                shirt_size=request.POST['shirt_size'],
+                password=request.POST['password']
             )
             new_user.save()
             result = json.dumps({'ok': True})
             return HttpResponse(result, status=200)
         except:
             result = json.dumps(
-                {'error': 'Missing field or malformed data in CREATE request. Here is the data we received: {}'.format(form), 'ok': False})
+                {'error': 'Missing field or malformed data in CREATE request. Caught at models layer. Here is the data we received: {}'.format(form), 'ok': False})
             return HttpResponse(result, status=400)
     else:
         return incorrect_REST_method("POST")
@@ -70,8 +71,11 @@ def create_jersey(request):
                 return HttpResponse(result, status=401)
         except Exception as e:
             result = json.dumps(
-                {'error': 'Create Jersey: Missing field or malformed data in POST request.', 'ok': False})
-            return HttpResponse(str(e), status=400)
+                {'error': 'Create Jersey: Missing field or malformed data in POST request.',
+                 'ok': False,
+                 'exception': str(e)}
+            )
+            return HttpResponse(result, status=400)
     else:
         return incorrect_REST_method("POST")
 
@@ -289,7 +293,6 @@ def register(request):
                     shirt_size=request.POST['shirt_size'],
                 )
                 new_user.save()
-
                 # Create Authenticator
                 authenticator = None
                 try:
@@ -305,15 +308,15 @@ def register(request):
             else:
                 result = json.dumps(
                     {'error': 'REGISTER: User already exists', 'ok': False})
-                return HttpResponse(result, status=400)
+                return HttpResponse(result, status=200)
         except Exception as e:
             result = json.dumps(
-                {'error': 'REGISTER: Missing field or malformed data in POST request.', 'ok': False})
+                {'error': 'REGISTER: Missing field or malformed data in POST request.', 'ok': False, 'data':request.POST, 'exception': str(e)})
             return HttpResponse(result, status=400)
     else:
         return incorrect_REST_method("POST")
 
-
+@csrf_exempt
 def create_authenticator(user):
     authenticator = hmac.new(
         key=settings.SECRET_KEY.encode('utf-8'),
@@ -333,3 +336,28 @@ def create_authenticator(user):
     )
     new_authenticator.save()
     return authenticator
+
+@csrf_exempt
+def info(request):
+    # use auth to get user and subsequently their info
+    if request.method == "POST":
+        try:
+            post_data = request.POST
+            auth_val = post_data['auth']
+            auth_obj = Authenticator.objects.get(authenticator = auth_val)
+            user_obj = auth_obj.user_id
+            result = json.dumps({
+                'first_name': user_obj.first_name,
+                'last_name': user_obj.last_name,
+                'email': user_obj.email,
+                'shirt_size': user_obj.shirt_size   
+            })
+            return HttpResponse(result, status=200)
+        except Exception as e:
+            result = json.dumps(
+                {'error': 'REGISTER: Missing field or malformed data in POST request.', 'ok': False, 'data':request.POST, 'exception': str(e)})
+            return HttpResponse(result, status=400)            
+
+
+
+
