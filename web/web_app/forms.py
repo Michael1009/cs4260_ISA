@@ -20,3 +20,7 @@ class RegisterForm(forms.Form):
         ('XXL', "Double Extra Large"),
     ]
     shirt_size = forms.ChoiceField(choices=SHIRT_SIZES)
+
+
+
+    
