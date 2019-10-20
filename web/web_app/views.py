@@ -2,7 +2,7 @@ from django.shortcuts import render,reverse
 from django.http import HttpResponse,HttpResponseRedirect
 import urllib.request, json
 from collections import OrderedDict
-
+from django.template.context_processors import csrf
 from web_app.forms import RegisterForm, LoginForm
 # Create your views here.
 
