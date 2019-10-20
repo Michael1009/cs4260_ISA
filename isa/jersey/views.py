@@ -306,7 +306,7 @@ def register(request):
             else:
                 result = json.dumps(
                     {'error': 'REGISTER: User already exists', 'ok': False})
-                return HttpResponse(result, status=400)
+                return HttpResponse(result, status=200)
         except Exception as e:
             result = json.dumps(
                 {'error': 'REGISTER: Missing field or malformed data in POST request.', 'ok': False, 'data':request.POST, 'exception': str(e)})

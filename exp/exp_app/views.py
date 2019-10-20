@@ -44,6 +44,8 @@ def jersey_detail(request, id):
 @csrf_exempt 
 def register(request): 
     if request.method == "POST":
+        data = None
+        result = None
         try:
             preform_data = {
                 "email": request.POST.get("email"),
@@ -53,20 +55,24 @@ def register(request):
                 "shirt_size": request.POST.get("shirt_size")
                 }
             data = urllib.parse.urlencode(preform_data).encode("utf-8")
-            url = 'http://models:8000/jersey/api/v1/users/register'
-    
+        except Exception as e:
+            result = json.dumps(
+            {'message': 'Missing field or malformed data in CREATE request. Caught at exp layer. Here is the data we received: {}'.format(data),
+            'ok': False,})
 
+        try: 
+            url = 'http://models:8000/jersey/api/v1/users/register'
             request = urllib.request.Request(url, data=data, method='POST')
 
             json_response = urllib.request.urlopen(request).read().decode('utf-8')
             resp = json.loads(json_response)
             json_dump = json.dumps(resp)
-
-            return HttpResponse(json_dump)
+            result = json_dump
         except Exception as e:
             result = json.dumps(
-            {'error': 'Missing field or malformed data in CREATE request. Caught at exp layer. Here is the data we received: {}'.format(data), 'ok': False, 'exception': str(e)})
-            return HttpResponse(result, content_type='application/json')  
+                {'error': 'REGISTER: Missing field or malformed data in POST request.', 'ok': False, 'data':request.POST, 'exception': str(e)}
+            )
+        return HttpResponse(result, content_type='application/json')  
 
 @csrf_exempt 
 def login(request):

@@ -19,4 +19,11 @@
     {% endfor %}
 {% endif %}
 
+{% if error %}
+<div class = "alert alert-danger">
+    <strong>
+        {{ error }}
+    </strong>
+</div>
+{% endif %}
 {% endblock %}

@@ -85,10 +85,12 @@ def register(request):
             resp_text = resp.decode('utf-8')
             resp_dict = json.loads(resp_text)
 
-
+            context = {}
             if not resp or not resp_dict['ok']:
-                #todo figure out how to display possible errors here
-                return render(request, 'web_app/login.html', {'form' : form,'error' : resp_dict['error']})
+                context['error'] = resp_dict['error']
+                context['form'] = form
+                return render(request,'web_app/register.html',context)
+
 
                 
             authenticator = resp_dict['authenticator'] 
