@@ -24,29 +24,6 @@ def incorrect_REST_method(method):
 
 ##### CRUD #####
 @csrf_exempt
-def create_user(request):
-    if request.method == "POST":
-        form = request.POST
-        try:
-            new_user = User(
-                email=request.POST['email'],
-                first_name=request.POST['first_name'],
-                last_name=request.POST['last_name'],
-                shirt_size=request.POST['shirt_size'],
-                password=request.POST['password']
-            )
-            new_user.save()
-            result = json.dumps({'ok': True})
-            return HttpResponse(result, status=200)
-        except:
-            result = json.dumps(
-                {'error': 'Missing field or malformed data in CREATE request. Caught at models layer. Here is the data we received: {}'.format(form), 'ok': False})
-            return HttpResponse(result, status=400)
-    else:
-        return incorrect_REST_method("POST")
-
-
-@csrf_exempt
 def create_jersey(request):
     if request.method == "POST":
         try:
@@ -83,11 +60,11 @@ def create_jersey(request):
 def update(request, model, id):
     try:
         obj = model.objects.get(pk=id)
-        if model == Jersey:
-            try:
-                user = User.objects.get(email=request.POST['user_id'])
-                auth = Authenticator.objects.get(user_id=user)
-                if auth.authenticator == request.POST['authenticator']:
+        user = User.objects.get(email=request.POST['user_id'])
+        auth = Authenticator.objects.get(user_id=user)
+        if auth.authenticator == request.POST['authenticator']:
+            if model == Jersey:
+                try:
                     obj.team = request.POST['team']
                     obj.number = request.POST['number']
                     obj.player = request.POST['player']
@@ -95,27 +72,28 @@ def update(request, model, id):
                     obj.primary_color = request.POST['primary_color']
                     obj.secondary_color = request.POST['secondary_color']
                     obj.user_id = user
-                else:
+
+                except:
                     result = json.dumps(
-                        {'error': 'Update Jersey: Unauthorized.', 'ok': False})
-                    return HttpResponse(result, status=401)
-            except:
-                result = json.dumps(
-                    {'error': 'Update Jersey: Missing field or malformed data in POST request.', 'ok': False})
-                return HttpResponse(result, status=400)
-        elif model == User:
-            try:
-                obj.email = request.POST['email']
-                obj.first_name = request.POST['first_name']
-                obj.last_name = request.POST['last_name']
-                obj.shirt_size = request.POST['shirt_size']
-            except:
-                result = json.dumps(
-                    {'error': 'Update User: Missing field or malformed data in POST request.', 'ok': False})
-                return HttpResponse(result, status=400)
-        obj.save()
-        result = json.dumps({'ok': True})
-        return HttpResponse(result, status=200)
+                        {'error': 'Update Jersey: Missing field or malformed data in POST request.', 'ok': False})
+                    return HttpResponse(result, status=400)
+            elif model == User:
+                try:
+                    obj.email = request.POST['email']
+                    obj.first_name = request.POST['first_name']
+                    obj.last_name = request.POST['last_name']
+                    obj.shirt_size = request.POST['shirt_size']
+                except:
+                    result = json.dumps(
+                        {'error': 'Update User: Missing field or malformed data in POST request.', 'ok': False})
+                    return HttpResponse(result, status=400)
+            obj.save()
+            result = json.dumps({'ok': True})
+            return HttpResponse(result, status=200)
+        else:
+            result = json.dumps(
+                {'error': 'Update: Unauthorized.', 'ok': False})
+            return HttpResponse(result, status=401)
     except:
         result = json.dumps(
             {'error': 'Invalid Id in POST request.', 'ok': False})
@@ -311,10 +289,11 @@ def register(request):
                 return HttpResponse(result, status=200)
         except Exception as e:
             result = json.dumps(
-                {'error': 'REGISTER: Missing field or malformed data in POST request.', 'ok': False, 'data':request.POST, 'exception': str(e)})
+                {'error': 'REGISTER: Missing field or malformed data in POST request.', 'ok': False, 'data': request.POST, 'exception': str(e)})
             return HttpResponse(result, status=400)
     else:
         return incorrect_REST_method("POST")
+
 
 @csrf_exempt
 def create_authenticator(user):
@@ -354,6 +333,7 @@ def logout(request):
     else:
         return incorrect_REST_method("POST")
 
+
 @csrf_exempt
 def info(request):
     # use auth to get user and subsequently their info
@@ -361,20 +341,16 @@ def info(request):
         try:
             post_data = request.POST
             auth_val = post_data['auth']
-            auth_obj = Authenticator.objects.get(authenticator = auth_val)
+            auth_obj = Authenticator.objects.get(authenticator=auth_val)
             user_obj = auth_obj.user_id
             result = json.dumps({
                 'first_name': user_obj.first_name,
                 'last_name': user_obj.last_name,
                 'email': user_obj.email,
-                'shirt_size': user_obj.shirt_size   
+                'shirt_size': user_obj.shirt_size
             })
             return HttpResponse(result, status=200)
         except Exception as e:
             result = json.dumps(
-                {'error': 'REGISTER: Missing field or malformed data in POST request.', 'ok': False, 'data':request.POST, 'exception': str(e)})
-            return HttpResponse(result, status=400)            
-
-
-
-
+                {'error': 'REGISTER: Missing field or malformed data in POST request.', 'ok': False, 'data': request.POST, 'exception': str(e)})
+            return HttpResponse(result, status=400)
