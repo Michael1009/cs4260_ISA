@@ -125,18 +125,19 @@ def login(request):
 @csrf_exempt
 def create_item(request):
     if request.method == "POST":
-        url = 'http://models:8000/jersey/api/v1/create_item'
+        url = 'http://models:8000/jersey/api/v1/Jersey/create'
         data = None
         result = None
         try: 
             preform_data = {
-                "auth": request.POST.get("auth"),
+                "authenticator": request.POST.get("authenticator"),
                 "team": request.POST.get("team"),
                 "player": request.POST.get("player"),
                 "number": request.POST.get("number"),
                 "shirt_size": request.POST.get("shirt_size"),
                 "primary_color": request.POST.get("primary_color"),
-                "secondary_color": request.POST.get("secondary_color")
+                "secondary_color": request.POST.get("secondary_color"),
+                "user_id": request.POST.get("user_id")
             }
             data = urllib.parse.urlencode(preform_data).encode("utf-8")
         except Exception as e:
