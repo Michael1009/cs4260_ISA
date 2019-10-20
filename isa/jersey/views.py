@@ -337,6 +337,23 @@ def create_authenticator(user):
     new_authenticator.save()
     return authenticator
 
+
+@csrf_exempt
+def logout(request):
+    if request.method == "POST":
+        try:
+            auth_val = request.POST['auth']
+            auth_obj = Authenticator.objects.get(authenticator=auth_val)
+            auth_obj.delete()
+            result = json.dumps({'ok': True})
+            return HttpResponse(result, status=200)
+        except:
+            result = json.dumps(
+                {'error': 'LOGOUT: Cannot find auth.', 'ok': False})
+            return HttpResponse(result, status=400)
+    else:
+        return incorrect_REST_method("POST")
+
 @csrf_exempt
 def info(request):
     # use auth to get user and subsequently their info

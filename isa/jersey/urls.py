@@ -28,5 +28,6 @@ urlpatterns = [
     # Authenticate
     path('api/v1/users/register', views.register, name="register"),
     path('api/v1/users/login', views.login, name="login"),
+    path('api/v1/users/logout', views.logout, name="logout"),
     path('api/v1/info', views.info, name="info"),
 ]
