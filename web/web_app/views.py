@@ -19,13 +19,8 @@ def index(request):
     #I reverse sorted the dictionaries because order_by doesn't seem to be working
     #essentially, the first item in this new dict is the last thing put into the database
     sorted_dictionary = OrderedDict(sorted(myList.items(), key=lambda v: v, reverse=True))
-    auth = request.COOKIES.get("auth")
-    logged_in = True
-    if not auth: logged_in = False
     context = {
         'jerseys' : sorted_dictionary,
-        'logged_in': logged_in,
-        'auth': auth
     }
     return render(request,'web_app/index.html',context)
 
