@@ -290,12 +290,6 @@ def register(request):
                     shirt_size=request.POST['shirt_size'],
                 )
                 new_user.save()
-                user_data = {
-                    'email' :request.POST['email'],
-                    'first_name':request.POST['first_name'],
-                    'last_name':request.POST['last_name'],
-                    'shirt_size':request.POST['shirt_size']
-                }
                 # Create Authenticator
                 authenticator = None
                 try:
@@ -306,7 +300,7 @@ def register(request):
                     return HttpResponse(str(e), status=400)
 
                 result = json.dumps(
-                    {'ok': True, 'authenticator': authenticator, 'user_data': user_data})
+                    {'ok': True, 'authenticator': authenticator})
                 return HttpResponse(result, status=200)
             else:
                 result = json.dumps(
@@ -360,5 +354,44 @@ def info(request):
             result = json.dumps(
                 {'error': 'REGISTER: Missing field or malformed data in POST request.', 'ok': False, 'data':request.POST, 'exception': str(e)})
             return HttpResponse(result, status=400)            
+
+
+@csrf_exempt
+def create_item(request):
+    if request.method == "POST":
+        user_obj = None
+        post_data = None
+        result = None
+        try:
+            post_data = request.POST
+            auth_val = post_data['auth']
+            auth_obj = Authenticator.objects.get(authenticator = auth_val)
+            user_obj = auth_obj.user_id
+        except Exception as e:
+            result = json.dumps(
+                {'error': 'User not logged in', 'ok':False, 'data':request.POST, 'xxception': str(e)}
+            )
+        try:
+            new_item = Jersey(
+                team = post_data['team'],
+                number = post_data['number'],
+                player = post_data['player'],
+                shirt_size = post_data['shirt_size'],
+                primary_color = post_data['primary_color'],
+                secondary_color = post_data['secondary_color'],
+                user_id = user_obj
+            )
+            new_item.save()
+            result = json.dumps({
+                'ok': True,
+                'data': request.POST
+                })
+        except Exception as e:
+            result = json.dumps({
+                'error': 'Missing or malformed data in post request for creating a listing',
+                'exception': str(e),
+                'data': request.POST
+                })
+        return HttpResponse(result, status=400) 
 
 
