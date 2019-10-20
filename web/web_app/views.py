@@ -130,3 +130,7 @@ def login(request):
         form = LoginForm()
     return render(request, 'web_app/login.html', { 'form' : form})
 
+def logout(request):
+    response = HttpResponseRedirect(reverse('index'))
+    response.delete_cookie('authenticator')
+    return response
