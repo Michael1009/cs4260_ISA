@@ -19,8 +19,13 @@ def index(request):
     #I reverse sorted the dictionaries because order_by doesn't seem to be working
     #essentially, the first item in this new dict is the last thing put into the database
     sorted_dictionary = OrderedDict(sorted(myList.items(), key=lambda v: v, reverse=True))
+    auth = request.COOKIES.get("auth")
+    logged_in = True
+    if not auth: logged_in = False
     context = {
-        'jerseys' : sorted_dictionary
+        'jerseys' : sorted_dictionary,
+        'logged_in': logged_in,
+        'auth': auth
     }
     return render(request,'web_app/index.html',context)
 
@@ -73,8 +78,6 @@ def register(request):
                 "password":password,
                 "shirt_size":shirt_size
             }
-
-            data = urllib.parse.urlencode(register_data)
             
             data = urllib.parse.urlencode(register_data).encode("utf-8")
             req = urllib.request.Request('http://exp:8000/exp/users/register/')

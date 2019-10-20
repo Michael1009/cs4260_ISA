@@ -62,9 +62,9 @@ def register(request):
 
         try: 
             url = 'http://models:8000/jersey/api/v1/users/register'
-            request = urllib.request.Request(url, data=data, method='POST')
+            req = urllib.request.Request(url, data=data, method='POST')
 
-            json_response = urllib.request.urlopen(request).read().decode('utf-8')
+            json_response = urllib.request.urlopen(req).read().decode('utf-8')
             resp = json.loads(json_response)
             json_dump = json.dumps(resp)
             result = json_dump
@@ -75,20 +75,52 @@ def register(request):
         return HttpResponse(result, content_type='application/json')  
 
 @csrf_exempt 
+def info(request):
+    if request.method == "POST":
+        url = 'http://models.:8000/jersey/api/v1/info'
+        data=None
+        try: 
+            preform_data = {
+                "auth": request.POST.get("auth")
+            }
+            data = urllib.parse.urlencode(preform_data).encode("utf-8")
+        except Exception as e:
+            result = json.dumps(
+            {'message': 'Missing field or malformed data in CREATE request. Caught at exp layer. Here is the data we received: {}'.format(data),
+            'ok': False,})
+        try: 
+            req = urllib.request.Request(url, data=data, method='POST')
+            json_response = urllib.request.urlopen(req).read().decode('utf-8')
+            resp = json.loads(json_response)
+            json_dump = json.dumps(resp)
+            result = json_dump
+        except Exception as e:
+            result = json.dumps(
+                {'error': 'REGISTER: Missing field or malformed data in POST request.', 'ok': False, 'data':data.decode('utf-8'), 'exception': str(e)}
+            )
+        return HttpResponse(result, content_type='application/json')  
+
+@csrf_exempt
 def login(request):
+    return authenticate_data(request,'http://models.:8000/jersey/api/v1/users/login')
+
+@csrf_exempt
+def authenticate_data(request,url): 
     if request.method == "POST":
         get_post_data = request.POST
         try: 
-            url = 'http://models.:8000/jersey/api/v1/users/login'
             get_post_encoded = urllib.parse.urlencode(get_post_data).encode('utf-8')
 
-            request = urllib.request.Request(url, data=get_post_encoded, method='POST')
+            URLrequest = urllib.request.Request(url, data=get_post_encoded, method='POST')
 
-            json_response = urllib.request.urlopen(request).read().decode('utf-8')
+            json_response = urllib.request.urlopen(URLrequest).read().decode('utf-8')
             resp = json.loads(json_response)
             json_dump = json.dumps(resp)
-            return HttpRespose(json_dump)
-        except:
+            return HttpResponse(json_dump)
+        except Exception as e:
             result = json.dumps(
-            {'error': 'Missing field or malformed data in CREATE request. Here is the data we received: {}'.format(get_post_data), 'ok': False})
+            {'error': 'Missing field or malformed data in CREATE request. Here is the data we received: {}'.format(request.POST), 
+            'ok': False,
+            'exception': str(e)
+            })
             return HttpResponse(result, content_type='application/json')  

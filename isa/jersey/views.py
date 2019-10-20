@@ -290,7 +290,12 @@ def register(request):
                     shirt_size=request.POST['shirt_size'],
                 )
                 new_user.save()
-
+                user_data = {
+                    'email' :request.POST['email'],
+                    'first_name':request.POST['first_name'],
+                    'last_name':request.POST['last_name'],
+                    'shirt_size':request.POST['shirt_size']
+                }
                 # Create Authenticator
                 authenticator = None
                 try:
@@ -301,7 +306,7 @@ def register(request):
                     return HttpResponse(str(e), status=400)
 
                 result = json.dumps(
-                    {'ok': True, 'authenticator': authenticator})
+                    {'ok': True, 'authenticator': authenticator, 'user_data': user_data})
                 return HttpResponse(result, status=200)
             else:
                 result = json.dumps(
@@ -314,7 +319,7 @@ def register(request):
     else:
         return incorrect_REST_method("POST")
 
-
+@csrf_exempt
 def create_authenticator(user):
     authenticator = hmac.new(
         key=settings.SECRET_KEY.encode('utf-8'),
@@ -334,3 +339,26 @@ def create_authenticator(user):
     )
     new_authenticator.save()
     return authenticator
+
+@csrf_exempt
+def info(request):
+    # use auth to get user and subsequently their info
+    if request.method == "POST":
+        try:
+            post_data = request.POST
+            auth_val = post_data['auth']
+            auth_obj = Authenticator.objects.get(authenticator = auth_val)
+            user_obj = auth_obj.user_id
+            result = json.dumps({
+                'first_name': user_obj.first_name,
+                'last_name': user_obj.last_name,
+                'email': user_obj.email,
+                'shirt_size': user_obj.shirt_size   
+            })
+            return HttpResponse(result, status=200)
+        except Exception as e:
+            result = json.dumps(
+                {'error': 'REGISTER: Missing field or malformed data in POST request.', 'ok': False, 'data':request.POST, 'exception': str(e)})
+            return HttpResponse(result, status=400)            
+
+

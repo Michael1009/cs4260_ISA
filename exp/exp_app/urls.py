@@ -10,5 +10,8 @@ urlpatterns = [
  
     # Register
     path('users/register/', views.register),
-    path('users/login/' , views.login)
+    path('users/login/' , views.login),
+
+    # get user info
+    path('info/', views.info)
 ]
