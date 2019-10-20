@@ -9,6 +9,6 @@ urlpatterns = [
     path('jersey_detail/<int:id>', views.jersey_detail, name='jersey_detail'),
  
     # Register
-    path('users/create', views.register)
-
+    path('users/register/', views.register),
+    path('users/login/' , views.login)
 ]
