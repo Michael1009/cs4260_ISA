@@ -14,6 +14,7 @@
         </div>
         {% if logged_in  %}
             <h2>Hello {% get_name request %}!</h2>
+            <div> <a href = "{% url 'create_item' %}">sell your jersey</a> </div> 
         {% else %}
             <div> <a href = "{% url 'register' %}">register</a> </div> 
             <div> <a href = "{% url 'login_page' %}">login</a> </div>

@@ -3,7 +3,7 @@ from django.http import HttpResponse,HttpResponseRedirect
 import urllib.request, json
 from collections import OrderedDict
 
-from web_app.forms import RegisterForm, LoginForm
+from web_app.forms import RegisterForm, LoginForm, CreateItemForm
 # Create your views here.
 
 def index(request):
@@ -134,5 +134,50 @@ def login(request):
     else:
         form = LoginForm()
     return render(request, 'web_app/login.html', { 'form' : form})
-    # return HttpResponse("<h1> Hello World </h1>")
-    
+
+def create_item(request):
+    if request.method == 'POST':
+        form = CreateItemForm(request.POST)
+        if form.is_valid():
+            player = form.cleaned_data['player']
+            team = form.cleaned_data['team']
+            number = form.cleaned_data['number']
+            shirt_size = form.cleaned_data['shirt_size']
+            primary_color = form.cleaned_data['primary_color']
+            secondary_color = form.cleaned_data['secondary_color']
+
+            new_jersey_data = {
+                "player":player,
+                "team":team,
+                "number":number,
+                "shirt_size":shirt_size,
+                "primary_color":primary_color,
+                "secondary_color":secondary_color,
+                "auth": request.POST.get("auth")
+            }
+
+            data = urllib.parse.urlencode(new_jersey_data).encode("utf-8")
+            req = urllib.request.Request('http://exp:8000/exp/users/create_item')
+            with urllib.request.urlopen(req,data=data) as f:
+                resp = f.read()
+
+            resp_text = resp.decode('utf-8')
+            resp_dict = json.loads(resp_text)
+            context = {}
+            if not resp or not resp_dict['ok']:
+                context['error'] = resp_dict['error']
+                context['form'] = form
+                return render(request,'web_app/register.html',context)
+
+            response = HttpResponseRedirect('/')
+            response.set_cookie("auth", request.POST.get("auth"))
+            return response
+        else:
+            return render(request, 'web_app/create_item.html', {'form' : form, })
+    else:
+        form = CreateItemForm()
+        context = {
+            'form': form,
+            'auth': request.COOKIES.get("auth")
+        }
+        return render(request, 'web_app/create_item.html', context)

@@ -146,11 +146,11 @@ def create_item(request):
                 'exception':str(e)
             })
         try:
-        req = urllib.request.Request(url,data=data,method="POST")
-        json_response = urllib.request.urlopen(req).read().decode('utf-8')
-        resp = json.loads(json_response)
-        json_dump = json.dumps(resp)
-        result = json_dump
+            req = urllib.request.Request(url,data=data,method="POST")
+            json_response = urllib.request.urlopen(req).read().decode('utf-8')
+            resp = json.loads(json_response)
+            json_dump = json.dumps(resp)
+            result = json_dump
         except Exception as e:
             result = json.dumps({
                 'error': 'REGISTER: Missing field or malformed data in POST request.', 
