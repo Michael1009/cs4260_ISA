@@ -7,7 +7,6 @@ urlpatterns = [
     path('', views.index, name='index'),
     # Create
     path('api/v1/Jersey/create', views.create_jersey, name='create_jersey'),
-    path('api/v1/User/create', views.create_user, name='create_user'),
     # Read
     path('api/v1/Jersey', views.get_all_jersey, name='get_jersey'),
     path('api/v1/User', views.get_all_user, name='get_user'),
@@ -28,5 +27,6 @@ urlpatterns = [
     # Authenticate
     path('api/v1/users/register', views.register, name="register"),
     path('api/v1/users/login', views.login, name="login"),
+    path('api/v1/users/logout', views.logout, name="logout"),
     path('api/v1/info', views.info, name="info"),
 ]
