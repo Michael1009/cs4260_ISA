@@ -392,6 +392,6 @@ def create_item(request):
                 'exception': str(e),
                 'data': request.POST
                 })
-        return HttpResponse(result, status=400) 
+        return HttpResponse(result, status=200) 
 
 

@@ -11,6 +11,7 @@ urlpatterns = [
     # Register
     path('users/register/', views.register),
     path('users/login/' , views.login),
+    path('users/create_item', views.create_item),
 
     # get user info
     path('info/', views.info)

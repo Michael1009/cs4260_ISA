@@ -102,12 +102,9 @@ def info(request):
 
 @csrf_exempt
 def login(request):
-    return authenticate_data(request,'http://models.:8000/jersey/api/v1/users/login')
-
-@csrf_exempt
-def authenticate_data(request,url): 
     if request.method == "POST":
         get_post_data = request.POST
+        url = 'http://models:8000/jersey/api/v1/users/login'
         try: 
             get_post_encoded = urllib.parse.urlencode(get_post_data).encode('utf-8')
 
@@ -124,3 +121,41 @@ def authenticate_data(request,url):
             'exception': str(e)
             })
             return HttpResponse(result, content_type='application/json')  
+
+@csrf_exempt
+def create_item(request):
+    if request.method == "POST":
+        url = 'http://models:8000/jersey/api/v1/create_item'
+        data = None
+        result = None
+        try: 
+            preform_data = {
+                "auth": request.POST.get("auth"),
+                "team": request.POST.get("team"),
+                "player": request.POST.get("player"),
+                "number": request.POST.get("number"),
+                "shirt_size": request.POST.get("shirt_size"),
+                "primary_color": request.POST.get("primary_color"),
+                "secondary_color": request.POST.get("secondary_color")
+            }
+            data = urllib.parse.urlencode(preform_data).encode("utf-8")
+        except Exception as e:
+            result = json.dumps({
+                'message': 'Missing field or malformed data in creating a listing. Caught at exp layer. Here is the data we received: {}'.format(request.POST),
+                'ok': False,
+                'exception':str(e)
+            })
+        try:
+        req = urllib.request.Request(url,data=data,method="POST")
+        json_response = urllib.request.urlopen(req).read().decode('utf-8')
+        resp = json.loads(json_response)
+        json_dump = json.dumps(resp)
+        result = json_dump
+        except Exception as e:
+            result = json.dumps({
+                'error': 'REGISTER: Missing field or malformed data in POST request.', 
+                'ok': False, 
+                'data':data.decode('utf-8'), 
+                'exception': str(e)
+            })
+        return HttpResponse(result, content_type='application/json')  
