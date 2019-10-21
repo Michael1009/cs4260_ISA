@@ -3,7 +3,7 @@ from django.http import HttpResponse,HttpResponseRedirect
 import urllib.request, json
 from collections import OrderedDict
 from django.template.context_processors import csrf
-from web_app.forms import RegisterForm, LoginForm
+from web_app.forms import RegisterForm, LoginForm, CreateJerseyForm
 # Create your views here.
 
 def index(request):
@@ -135,3 +135,41 @@ def logout(request):
     response = HttpResponseRedirect(reverse('index'))
     response.delete_cookie('auth')
     return response
+
+def create_jersey(request):
+    if request.method == 'POST':
+        form = CreateJerseyForm(request.POST)
+        if form.is_valid():
+            #cleaning the data
+            team = form.cleaned_data['team']
+            number = form.cleaned_data['number']
+            player = form.cleaned_data['player']
+            shirt_size = form.cleaned_data['shirt_size']
+            primary_color = form.cleaned_data['primary_color']
+            secondary_color = form.cleaned_data['secondary_color']
+            
+            jersey_data = {
+                "team":team,
+                "number":number,
+                "player":player,
+                "shirt_size":shirt_size,
+                "primary_color":primary_color,
+                "secondary_color":secondary_color
+            }
+            data_encoded = urllib.parse.urlencode(jersey_data).encode('utf-8')
+
+            resp = urllib.request.Request('http://exp:8000/exp/users/create_item/', data=data_encoded, method = 'POST')
+            req = urllib.request.urlopen(resp).read().decode('utf-8')
+            resp_json = json.loads(req)
+            if not resp or not resp_json['ok']:
+                    #todo figure out how to display possible errors here
+                return render(request, 'web_app/base.html', {'form': form})
+                    #new_item = resp['result']['id']
+                    # url = 'http://exp-api:8000/api/jersey_detail/'{}/'.format(new_item)
+                    #resp_json = urllib.request.urlopen(url).read().decode('utf-8')
+                    #resp = json.loads(resp_json)
+            response = HttpResponseRedirect(reverse('index'))
+            return response
+    else:
+        form = CreateJerseyForm()
+    return render(request, 'web_app/create_jersey.html', { 'form' : form})
