@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
 import urllib.request
@@ -74,6 +74,31 @@ def register(request):
             )
         return HttpResponse(result, content_type='application/json')  
 
+@csrf_exempt
+def login(request):
+    if request.method == "POST":
+        url = 'http://models:8000/jersey/api/v1/users/login'
+        try: 
+            preform_data = {
+                "email": request.POST.get("email"),
+                "password": request.POST.get("password")
+            }
+            get_post_encoded = urllib.parse.urlencode(preform_data).encode('utf-8')
+
+            URLrequest = urllib.request.Request(url, data=get_post_encoded, method='POST')
+
+            json_response = urllib.request.urlopen(URLrequest).read().decode('utf-8')
+            resp = json.loads(json_response)
+            json_dump = json.dumps(resp)
+            return HttpResponse(json_dump, content_type='applications/json')
+        except Exception as e:
+            result = json.dumps(
+            {'error': 'Missing field or malformed data in CREATE request. Here is the data we received: {}'.format(request.POST), 
+            'ok': False,
+            'exception': str(e)
+            })
+            return HttpResponse(result, content_type='application/json')  
+
 @csrf_exempt 
 def info(request):
     if request.method == "POST":
@@ -101,28 +126,6 @@ def info(request):
         return HttpResponse(result, content_type='application/json')  
 
 @csrf_exempt
-def login(request):
-    if request.method == "POST":
-        get_post_data = request.POST
-        url = 'http://models:8000/jersey/api/v1/users/login'
-        try: 
-            get_post_encoded = urllib.parse.urlencode(get_post_data).encode('utf-8')
-
-            URLrequest = urllib.request.Request(url, data=get_post_encoded, method='POST')
-
-            json_response = urllib.request.urlopen(URLrequest).read().decode('utf-8')
-            resp = json.loads(json_response)
-            json_dump = json.dumps(resp)
-            return HttpResponse(json_dump)
-        except Exception as e:
-            result = json.dumps(
-            {'error': 'Missing field or malformed data in CREATE request. Here is the data we received: {}'.format(request.POST), 
-            'ok': False,
-            'exception': str(e)
-            })
-            return HttpResponse(result, content_type='application/json')  
-
-@csrf_exempt
 def create_item(request):
     if request.method == "POST":
         url = 'http://models:8000/jersey/api/v1/Jersey/create'
@@ -137,7 +140,6 @@ def create_item(request):
                 "shirt_size": request.POST.get("shirt_size"),
                 "primary_color": request.POST.get("primary_color"),
                 "secondary_color": request.POST.get("secondary_color"),
-                "user_id": request.POST.get("user_id")
             }
             data = urllib.parse.urlencode(preform_data).encode("utf-8")
         except Exception as e:

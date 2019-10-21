@@ -1,9 +1,9 @@
 {% extends 'web_app/base.html' %}
 
+
 {% block content %}
 
-
-<form action="register" method = "post">
+<form action="/create_jersey" method="post">
     {% csrf_token %}
     {{ form }}
     <input type = "submit" value = "Submit">
@@ -17,13 +17,5 @@
             </strong>
         </div>
     {% endfor %}
-{% endif %}
-
-{% if error %}
-<div class = "alert alert-danger">
-    <strong>
-        {{ error }}
-    </strong>
-</div>
-{% endif %}
+{% endif %}    
 {% endblock %}

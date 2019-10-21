@@ -21,6 +21,19 @@ class RegisterForm(forms.Form):
     ]
     shirt_size = forms.ChoiceField(choices=SHIRT_SIZES)
 
-
-
-    
+class CreateJerseyForm(forms.Form):
+    team = forms.CharField(max_length=60, widget=forms.TextInput)
+    number = forms.IntegerField()
+    player = forms.CharField(max_length=60, widget=forms.TextInput)
+    SHIRT_SIZES = [
+        ('XS', "Extra Small"),
+        ('S', "Small"),
+        ('M', "Medium"),
+        ('L', "Large"),
+        ('XL', "Extra Large"),
+        ('XXL', "Double Extra Large"),
+    ]
+    shirt_size = forms.ChoiceField(choices=SHIRT_SIZES)
+    primary_color = forms.CharField(max_length=60, widget=forms.TextInput)
+    secondary_color = forms.CharField(max_length=60, widget=forms.TextInput)
+   # user_id = forms.ForeignKey(User, on_delete=models.CASCADE)
