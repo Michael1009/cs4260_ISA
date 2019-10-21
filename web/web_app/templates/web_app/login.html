@@ -1,0 +1,27 @@
+{% extends 'web_app/base.html' %}
+
+
+
+
+{% block content %}
+
+{% if next %}
+<form action="/login/?next={{next}}" method="post">
+{% else %}
+<form action="/login_page" method="post">
+{% endif %}
+    {% csrf_token %}
+    {{ form }}
+    <input type = "submit" value = "Submit">
+</form>
+<!-- error display stolen from: https://stackoverflow.com/questions/14647723/django-forms-if-not-valid-show-form-with-error-message -->
+{% if form.errors %}
+    {% for field in form %} 
+        <div class = "alert alert-danger">
+            <strong>
+                {{ error|escape }}
+            </strong>
+        </div>
+    {% endfor %}
+{% endif %}    
+{% endblock %}

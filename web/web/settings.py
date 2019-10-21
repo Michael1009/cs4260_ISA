@@ -65,6 +65,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'web_app.context_processors.get_if_logged_in',
             ],
         },
     },
@@ -115,6 +116,8 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+DEBUG = True
 
 
 # Static files (CSS, JavaScript, Images)

@@ -11,6 +11,14 @@
         <div class="page-header">
             <h1><a href="/">Jersey Market</a></h1>
         </div>
+        {% if logged_in  %}
+            <h2>Hello {{ first_name }}!</h2>
+            <div> <a href = "{% url 'logout' %}">logout</a> </div>
+            <div> <a href = "{% url 'create_jersey' %}">create jersey</a> </div>
+        {% else %}
+            <div> <a href = "{% url 'register' %}">register</a> </div> 
+            <div> <a href = "{% url 'login_page' %}">login</a> </div>
+        {% endif %}
         <div class="content container">
             <div class="row">
                 <div class="col-md-8">

@@ -28,6 +28,13 @@ input[type=submit] {
 </head>
 <body>
 
+<!-- {% if logged_in %}
+    <h1>Welcome!</h1>
+{% else %}
+    <div> <a href = "{% url 'register' %}">register</a> </div> 
+    <div> <a href = "{% url 'login_page' %}">login</a> </div>
+{% endif %} -->
+
 <div>
     <form action="/jersey/small">
         <input type="submit" value="Size Small" />
