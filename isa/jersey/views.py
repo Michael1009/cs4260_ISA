@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 from .models import User, Jersey, Authenticator
 import json
@@ -222,7 +222,12 @@ def get_all_data_by_size(model, args):
         return HttpResponse(response, content_type='application/json', status=404)
 
 ##### Authentication #####
-
+def jsonResponse(dic=None):
+    if dic == None:
+        result = json.dumps({'ok': True})
+    else:
+        result = json.dumps({'result': dic, 'ok': True}, cls=DjangoJSONEncoder)
+    return HttpResponse(result, content_type='application/json')
 
 @csrf_exempt
 def login(request):
@@ -253,7 +258,7 @@ def login(request):
                 {'error': 'LOGIN: Cannot find User.', 'ok': False})
             return HttpResponse(result, status=400)
     else:
-        return incorrect_REST_method("POST")
+        return incorrect_REST_method("POST") 
 
 
 @csrf_exempt

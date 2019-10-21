@@ -79,8 +79,7 @@ def register(request):
             with urllib.request.urlopen(req,data=data) as f:
                 resp = f.read()
 
-
-            resp_text = resp.decode('utf-8')
+            resp_text = resp.decode('utf-8')    
             resp_dict = json.loads(resp_text)
 
             context = {}
@@ -110,18 +109,20 @@ def login(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             login_data = {"email" : email, "password" : password}
+            data_encoded = urllib.parse.urlencode(login_data).encode('utf-8')
             #our next page
             next = reverse('index')
-            resp = urllib.request.Request('http://exp:8000/exp/users/login', data=login_data)
-            resp_json = json.dumps(resp)
+            resp = urllib.request.Request('http://exp:8000/exp/users/login/', data=data_encoded, method = 'POST')
+            #resp_json = json.dumps(resp)
+            req = urllib.request.urlopen(resp).read().decode('utf-8')
+            resp_json = json.loads(req)
             if not resp or not resp_json['ok']:
                 #todo figure out how to display possible errors here
                 return render(request, 'web_app/login.html', {'form': form})
 
             # at this point we can log them in
-
-            authenticator = resp_json['resp']['authenticator']
-            response = HttpResponseRedirect(next)
+            authenticator = resp_json['authenticator']
+            response = HttpResponseRedirect('/')
             response.set_cookie("auth",authenticator)
             return response
         else:
