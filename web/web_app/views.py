@@ -140,7 +140,7 @@ def create_jersey(request):
     auth = request.COOKIES.get('auth')
     if not auth:
         #handle not logged in
-         return HttpResponseRedirect('web_app/login.html') 
+         return HttpResponseRedirect('login_page') 
     if request.method == 'POST':
         form = CreateJerseyForm(request.POST)
         if form.is_valid():
