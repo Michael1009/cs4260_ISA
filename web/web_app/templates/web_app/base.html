@@ -1,5 +1,4 @@
 {% load static %}
-{% load tags %}
 <html>
     <head>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -13,7 +12,9 @@
             <h1><a href="/">Jersey Market</a></h1>
         </div>
         {% if logged_in  %}
-            <h2>Hello {% get_name request %}!</h2>
+            <h2>Hello {{ first_name }}!</h2>
+            <div> <a href = "{% url 'logout' %}">logout</a> </div>
+            <div> <a href = "{% url 'create_jersey' %}">create jersey</a> </div>
         {% else %}
             <div> <a href = "{% url 'register' %}">register</a> </div> 
             <div> <a href = "{% url 'login_page' %}">login</a> </div>
