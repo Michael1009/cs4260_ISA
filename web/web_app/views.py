@@ -137,10 +137,15 @@ def logout(request):
     return response
 
 def create_jersey(request):
+    auth = request.COOKIES.get('auth')
+    if not auth:
+        #handle not logged in
+         return HttpResponseRedirect('web_app/login.html') 
     if request.method == 'POST':
         form = CreateJerseyForm(request.POST)
         if form.is_valid():
             #cleaning the data
+            authenticator = auth
             team = form.cleaned_data['team']
             number = form.cleaned_data['number']
             player = form.cleaned_data['player']
@@ -149,6 +154,7 @@ def create_jersey(request):
             secondary_color = form.cleaned_data['secondary_color']
             
             jersey_data = {
+                "authenticator":authenticator,
                 "team":team,
                 "number":number,
                 "player":player,
@@ -163,7 +169,7 @@ def create_jersey(request):
             resp_json = json.loads(req)
             if not resp or not resp_json['ok']:
                     #todo figure out how to display possible errors here
-                return render(request, 'web_app/base.html', {'form': form})
+                return render(request, 'web_app/login.html', {'form': form})
                     #new_item = resp['result']['id']
                     # url = 'http://exp-api:8000/api/jersey_detail/'{}/'.format(new_item)
                     #resp_json = urllib.request.urlopen(url).read().decode('utf-8')

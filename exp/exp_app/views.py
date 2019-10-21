@@ -140,7 +140,6 @@ def create_item(request):
                 "shirt_size": request.POST.get("shirt_size"),
                 "primary_color": request.POST.get("primary_color"),
                 "secondary_color": request.POST.get("secondary_color"),
-                "user_id": request.POST.get("user_id")
             }
             data = urllib.parse.urlencode(preform_data).encode("utf-8")
         except Exception as e:

@@ -26,9 +26,14 @@ def incorrect_REST_method(method):
 @csrf_exempt
 def create_jersey(request):
     if request.method == "POST":
+        post_data = request.POST
+        auth_val = post_data['authenticator']
+        auth_obj = Authenticator.objects.get(authenticator=auth_val)
+        user_obj = auth_obj.user_id
         try:
-            user = User.objects.get(email=request.POST['user_id'])
-            auth = Authenticator.objects.get(user_id=user)
+            user = user_obj
+            #user = User.objects.get(email=request.POST['user_id'])
+            auth = auth_obj
             if auth.authenticator == request.POST['authenticator']:
                 new_jersey = Jersey(
                     team=request.POST['team'],
