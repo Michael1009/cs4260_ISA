@@ -132,5 +132,5 @@ def login(request):
 
 def logout(request):
     response = HttpResponseRedirect(reverse('index'))
-    response.delete_cookie('authenticator')
+    response.delete_cookie('auth')
     return response

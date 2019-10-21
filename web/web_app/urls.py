@@ -9,4 +9,5 @@ urlpatterns = [
      path('jersey/<str:size>', views.jersey_by_size, name='jersey_detail'),
      path('register', views.register, name="register"),
      path('login_page', views.login, name="login_page"),
+     path('logout', views.logout, name="logout"),
 ]

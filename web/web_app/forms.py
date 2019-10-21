@@ -20,10 +20,10 @@ class RegisterForm(forms.Form):
         ('XXL', "Double Extra Large"),
     ]
     shirt_size = forms.ChoiceField(choices=SHIRT_SIZES)
-
+""" 
 class CreateJerseyForm(forms.Form):
     team = forms.CharField(max_length=60)
-    number = forms.NumberInput
+    number = forms.CharField(max_length=60)
     player = forms.CharField(max_length=60)
     SHIRT_SIZES = (
         ('XS', "Extra Small"),
@@ -39,4 +39,4 @@ class CreateJerseyForm(forms.Form):
    # user_id = forms.ForeignKey(User, on_delete=models.CASCADE)
 
 
-    
+     """

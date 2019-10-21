@@ -1,9 +1,13 @@
 {% extends 'web_app/base.html' %}
 
+
+{% block title %} | Login{% endblock %}
+
+
 {% block content %}
 
 
-<form action = "/" method = "POST">
+<form action = "/login_page" method = "POST">
     {% csrf_token %}
     {{ form }}
     <input type = "submit" value = "Submit">

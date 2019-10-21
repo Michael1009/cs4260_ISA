@@ -13,6 +13,7 @@
         </div>
         {% if logged_in  %}
             <h2>Hello {{ first_name }}!</h2>
+            <div> <a href = "{% url 'logout' %}">logout</a> </div>
         {% else %}
             <div> <a href = "{% url 'register' %}">register</a> </div> 
             <div> <a href = "{% url 'login_page' %}">login</a> </div>
