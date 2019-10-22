@@ -5,15 +5,21 @@
 
 {% block content %}
 
-{% if next %}
-<form action="/login/?next={{next}}" method="post">
+{% if redirect_create %}
+<h3 color = 'red'>You must be logged in to post a listing.</h3>
+<form  method="post">
 {% else %}
-<form action="/login_page" method="post">
+<form  method="post">
 {% endif %}
     {% csrf_token %}
     {{ form }}
     <input type = "submit" value = "Submit">
+    {% if request.GET.next %}
+    <input type="hidden" name = "next" value = "{{ request.GET.next }}" method = "post`">
+    {% endif %}
 </form>
+
+
 <!-- error display stolen from: https://stackoverflow.com/questions/14647723/django-forms-if-not-valid-show-form-with-error-message -->
 {% if form.errors %}
     {% for field in form %} 

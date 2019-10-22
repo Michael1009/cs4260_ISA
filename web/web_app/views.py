@@ -122,14 +122,19 @@ def login(request):
 
             # at this point we can log them in
             authenticator = resp_json['authenticator']
-            response = HttpResponseRedirect('/')
+            response = HttpResponseRedirect(reverse('index'))
+            if 'next' in request.POST:
+                response =  HttpResponseRedirect(reverse(request.POST.get('next')))
             response.set_cookie("auth",authenticator)
             return response
         else:
             return render(request, 'web_app/login.html', {'form' : form})
     else:
         form = LoginForm()
-    return render(request, 'web_app/login.html', { 'form' : form})
+        context = {'form': form}
+        if request.GET.get('redirect_create'):
+            context['redirect_create'] = True
+    return render(request, 'web_app/login.html', context)
 
 def logout(request):
     response = HttpResponseRedirect(reverse('index'))
@@ -139,8 +144,10 @@ def logout(request):
 def create_jersey(request):
     auth = request.COOKIES.get('auth')
     if not auth:
-        #handle not logged in
-         return HttpResponseRedirect('login_page') 
+        base_url = reverse('login_page') 
+        query_string =  urllib.parse.urlencode({'redirect_create': True, 'next': 'create_jersey'}) 
+        url = '{}?{}'.format(base_url, query_string)  
+        return HttpResponseRedirect(url) 
     if request.method == 'POST':
         form = CreateJerseyForm(request.POST)
         if form.is_valid():

@@ -36,4 +36,8 @@ class CreateJerseyForm(forms.Form):
     shirt_size = forms.ChoiceField(choices=SHIRT_SIZES)
     primary_color = forms.CharField(max_length=60, widget=forms.TextInput)
     secondary_color = forms.CharField(max_length=60, widget=forms.TextInput)
+    def __init__(self, *args, **kwargs):
+        super(CreateJerseyForm, self).__init__(*args, **kwargs)
+        self.fields['number'].widget.attrs['min'] = 0
+        self.fields['number'].widget.attrs['max'] = 99
    # user_id = forms.ForeignKey(User, on_delete=models.CASCADE)
