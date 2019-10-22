@@ -118,7 +118,7 @@ def login(request):
             resp_json = json.loads(req)
             if not resp or not resp_json['ok']:
                 #todo figure out how to display possible errors here
-                return render(request, 'web_app/login.html', {'form': form})
+                return render(request, 'web_app/login.html', {'form': form, 'message': "Invalid login. Please try again"})
 
             # at this point we can log them in
             authenticator = resp_json['authenticator']

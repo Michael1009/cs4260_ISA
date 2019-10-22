@@ -5,6 +5,9 @@
 
 {% block content %}
 
+{% if message %}
+<h3>{{ message }}</h3>
+{% endif %}
 {% if redirect_create %}
 <h3 color = 'red'>You must be logged in to post a listing.</h3>
 <form  method="post">
