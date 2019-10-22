@@ -26,11 +26,11 @@ def incorrect_REST_method(method):
 @csrf_exempt
 def create_jersey(request):
     if request.method == "POST":
-        post_data = request.POST
-        auth_val = post_data['authenticator']
-        auth_obj = Authenticator.objects.get(authenticator=auth_val)
-        user_obj = auth_obj.user_id
         try:
+            post_data = request.POST
+            auth_val = post_data['authenticator']
+            auth_obj = Authenticator.objects.get(authenticator=auth_val)
+            user_obj = auth_obj.user_id
             user = user_obj
             #user = User.objects.get(email=request.POST['user_id'])
             auth = auth_obj
@@ -51,7 +51,7 @@ def create_jersey(request):
                 result = json.dumps(
                     {'error': 'Create Jersey: Not authorized', 'ok': False})
                 return HttpResponse(result, status=401)
-        except Exception as e:
+        except KeyError as e:
             result = json.dumps(
                 {'error': 'Create Jersey: Missing field or malformed data in POST request.',
                  'ok': False,
@@ -227,12 +227,15 @@ def get_all_data_by_size(model, args):
         return HttpResponse(response, content_type='application/json', status=404)
 
 ##### Authentication #####
+
+
 def jsonResponse(dic=None):
     if dic == None:
         result = json.dumps({'ok': True})
     else:
         result = json.dumps({'result': dic, 'ok': True}, cls=DjangoJSONEncoder)
     return HttpResponse(result, content_type='application/json')
+
 
 @csrf_exempt
 def login(request):
@@ -263,7 +266,7 @@ def login(request):
                 {'error': 'LOGIN: Cannot find User.', 'ok': False})
             return HttpResponse(result, status=400)
     else:
-        return incorrect_REST_method("POST") 
+        return incorrect_REST_method("POST")
 
 
 @csrf_exempt
