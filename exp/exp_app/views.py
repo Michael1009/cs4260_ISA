@@ -3,6 +3,7 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 import urllib.request
 from django.core.serializers.json import DjangoJSONEncoder
+from kafka import KafkaProducer
 
 
 def incorrect_REST_method(method):
@@ -154,6 +155,7 @@ def create_item(request):
             resp = json.loads(json_response)
             json_dump = json.dumps(resp)
             result = json_dump
+           
         except Exception as e:
             result = json.dumps({
                 'error': 'REGISTER: Missing field or malformed data in POST request.', 
@@ -161,4 +163,6 @@ def create_item(request):
                 'data':data.decode('utf-8'), 
                 'exception': str(e)
             })
+        producer = KafkaProducer(bootstrap_servers='kafka:9092')
+        producer.send('new-items-topic', json.dumps(resp['result']).encode('utf-8'))
         return HttpResponse(result, content_type='application/json')  
