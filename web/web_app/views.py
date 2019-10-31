@@ -1,5 +1,6 @@
 from django.shortcuts import render,reverse
 from django.http import HttpResponse,HttpResponseRedirect
+from django.http import JsonResponse
 import urllib.request, json
 from collections import OrderedDict
 from django.template.context_processors import csrf
@@ -186,3 +187,9 @@ def create_jersey(request):
     else:
         form = CreateJerseyForm()
     return render(request, 'web_app/create_jersey.html', { 'form' : form})
+    
+def search(request):
+    if request.method == "GET":
+        query = request.GET.get('query')
+        query_encoded = urllib.parse.urlencode({'query': query})
+        return render(request, 'search.html', {'ok': True, 'query': query, 'items': []})
