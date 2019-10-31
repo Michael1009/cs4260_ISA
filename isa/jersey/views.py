@@ -45,7 +45,11 @@ def create_jersey(request):
                     user_id=user,
                 )
                 new_jersey.save()
-                result = json.dumps({'ok': True})
+
+                new_jersey_json_string = serializers.serialize(
+                    'json', [new_jersey, ])
+                new_jersey_json = json.loads(new_jersey_json_string)
+                result = json.dumps({'ok': True, 'jersey': new_jersey_json[0]})
                 return HttpResponse(result, status=200)
             else:
                 result = json.dumps(
