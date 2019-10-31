@@ -57,6 +57,7 @@ services:
     networks:
         - service_mesh
         - mod_exp_network
+        - batch_network
     ports:
         - "9200:9200"
 
@@ -65,8 +66,11 @@ services:
     container_name: batch
     networks:
         - batch_network
+    depends_on:
+      - es
     volumes:
       - .:/app
+    restart: on-failure
     command: bash -c "python ./batch/search_consumer.py"
 
 networks:

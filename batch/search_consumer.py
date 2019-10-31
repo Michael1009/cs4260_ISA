@@ -9,8 +9,8 @@ es = Elasticsearch(['es'])
 
 while True:
     for message in consumer:
-        print(json.loads((message.value).decode('utf-8')))
-        new_jersey = json.loads((message.value).decode('utf-8'))
+        new_jersey_json = json.loads((message.value).decode('utf-8'))
+        new_jersey_id = new_jersey_json['pk']
         es.index(index='jersey_index', doc_type='jersey',
-                 id=new_jersey['id'], body=new_jersey)
+                 id=new_jersey_id, body=new_jersey_json)
         es.indices.refresh(index="jersey_index")

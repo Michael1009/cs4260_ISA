@@ -3,6 +3,10 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 import urllib.request
 from django.core.serializers.json import DjangoJSONEncoder
+from kafka import KafkaProducer
+
+# Kafka Producer Global Variable
+producer = KafkaProducer(bootstrap_servers='kafka:9092')
 
 
 def incorrect_REST_method(method):
@@ -19,8 +23,9 @@ def home(request):
     result = json.loads(data)
     return HttpResponse(result)
 
+
 @csrf_exempt
-def jersey_by_size(request,size):
+def jersey_by_size(request, size):
     data = None
     with urllib.request.urlopen('http://models:8000/jersey/api/v1/Jersey/'+size) as response:
         data = json.dumps(response.read().decode('UTF-8'))
@@ -41,8 +46,9 @@ def jersey_detail(request, id):
     result = json.loads(data)
     return HttpResponse(result)
 
-@csrf_exempt 
-def register(request): 
+
+@csrf_exempt
+def register(request):
     if request.method == "POST":
         data = None
         result = None
@@ -53,14 +59,14 @@ def register(request):
                 "last_name": request.POST.get("last_name"),
                 "password": request.POST.get("password"),
                 "shirt_size": request.POST.get("shirt_size")
-                }
+            }
             data = urllib.parse.urlencode(preform_data).encode("utf-8")
         except Exception as e:
             result = json.dumps(
-            {'message': 'Missing field or malformed data in CREATE request. Caught at exp layer. Here is the data we received: {}'.format(data),
-            'ok': False,})
+                {'message': 'Missing field or malformed data in CREATE request. Caught at exp layer. Here is the data we received: {}'.format(data),
+                 'ok': False, })
 
-        try: 
+        try:
             url = 'http://models:8000/jersey/api/v1/users/register'
             req = urllib.request.Request(url, data=data, method='POST')
 
@@ -70,50 +76,56 @@ def register(request):
             result = json_dump
         except Exception as e:
             result = json.dumps(
-                {'error': 'REGISTER: Missing field or malformed data in POST request.', 'ok': False, 'data':request.POST, 'exception': str(e)}
+                {'error': 'REGISTER: Missing field or malformed data in POST request.',
+                    'ok': False, 'data': request.POST, 'exception': str(e)}
             )
-        return HttpResponse(result, content_type='application/json')  
+        return HttpResponse(result, content_type='application/json')
+
 
 @csrf_exempt
 def login(request):
     if request.method == "POST":
         url = 'http://models:8000/jersey/api/v1/users/login'
-        try: 
+        try:
             preform_data = {
                 "email": request.POST.get("email"),
                 "password": request.POST.get("password")
             }
-            get_post_encoded = urllib.parse.urlencode(preform_data).encode('utf-8')
+            get_post_encoded = urllib.parse.urlencode(
+                preform_data).encode('utf-8')
 
-            URLrequest = urllib.request.Request(url, data=get_post_encoded, method='POST')
+            URLrequest = urllib.request.Request(
+                url, data=get_post_encoded, method='POST')
 
-            json_response = urllib.request.urlopen(URLrequest).read().decode('utf-8')
+            json_response = urllib.request.urlopen(
+                URLrequest).read().decode('utf-8')
             resp = json.loads(json_response)
             json_dump = json.dumps(resp)
             return HttpResponse(json_dump, content_type='applications/json')
         except Exception as e:
             result = json.dumps(
-            {'error': 'Missing field or malformed data in CREATE request. Here is the data we received: {}'.format(request.POST), 
-            'ok': False,
-            'exception': str(e)
-            })
-            return HttpResponse(result, content_type='application/json')  
+                {'error': 'Missing field or malformed data in CREATE request. Here is the data we received: {}'.format(request.POST),
+                 'ok': False,
+                 'exception': str(e)
+                 })
+            return HttpResponse(result, content_type='application/json')
 
-@csrf_exempt 
+
+@csrf_exempt
 def info(request):
     if request.method == "POST":
         url = 'http://models.:8000/jersey/api/v1/info'
-        data=None
-        try: 
+        data = None
+        try:
             preform_data = {
                 "auth": request.POST.get("auth")
             }
             data = urllib.parse.urlencode(preform_data).encode("utf-8")
         except Exception as e:
             result = json.dumps(
-            {'message': 'Missing field or malformed data in CREATE request. Caught at exp layer. Here is the data we received: {}'.format(data),
-            'ok': False,})
-        try: 
+                {'message': 'Missing field or malformed data in CREATE request. Caught at exp layer. Here is the data we received: {}'.format(data),
+                 'ok': False, })
+        try:
             req = urllib.request.Request(url, data=data, method='POST')
             json_response = urllib.request.urlopen(req).read().decode('utf-8')
             resp = json.loads(json_response)
@@ -121,17 +133,21 @@ def info(request):
             result = json_dump
         except Exception as e:
             result = json.dumps(
-                {'error': 'REGISTER: Missing field or malformed data in POST request.', 'ok': False, 'data':data.decode('utf-8'), 'exception': str(e)}
+                {'error': 'REGISTER: Missing field or malformed data in POST request.',
+                    'ok': False, 'data': data.decode('utf-8'), 'exception': str(e)}
             )
-        return HttpResponse(result, content_type='application/json')  
+        return HttpResponse(result, content_type='application/json')
+
 
 @csrf_exempt
 def create_item(request):
+    global producer
+
     if request.method == "POST":
         url = 'http://models:8000/jersey/api/v1/Jersey/create'
         data = None
         result = None
-        try: 
+        try:
             preform_data = {
                 "authenticator": request.POST.get("authenticator"),
                 "team": request.POST.get("team"),
@@ -146,19 +162,27 @@ def create_item(request):
             result = json.dumps({
                 'message': 'Missing field or malformed data in creating a listing. Caught at exp layer. Here is the data we received: {}'.format(request.POST),
                 'ok': False,
-                'exception':str(e)
+                'exception': str(e)
             })
+            return HttpResponse(result, content_type='application/json')
+
         try:
-            req = urllib.request.Request(url,data=data,method="POST")
+            req = urllib.request.Request(url, data=data, method="POST")
             json_response = urllib.request.urlopen(req).read().decode('utf-8')
             resp = json.loads(json_response)
             json_dump = json.dumps(resp)
             result = json_dump
+
+            # Kafka Producer
+            new_jersey = resp['jersey']
+            new_jersey_dump = json.dumps(new_jersey).encode('utf-8')
+            producer.send('new-jersey-topic', new_jersey_dump)
+
         except Exception as e:
             result = json.dumps({
-                'error': 'REGISTER: Missing field or malformed data in POST request.', 
-                'ok': False, 
-                'data':data.decode('utf-8'), 
+                'error': 'REGISTER: Missing field or malformed data in POST request.',
+                'ok': False,
+                'data': data.decode('utf-8'),
                 'exception': str(e)
             })
-        return HttpResponse(result, content_type='application/json')  
+        return HttpResponse(result, content_type='application/json')
