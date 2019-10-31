@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 import urllib.request
 from django.core.serializers.json import DjangoJSONEncoder
 from kafka import KafkaProducer
+from elasticsearch import Elasticsearch
 
 
 def incorrect_REST_method(method):
@@ -166,3 +167,9 @@ def create_item(request):
         producer = KafkaProducer(bootstrap_servers='kafka:9092')
         producer.send('new-items-topic', json.dumps(resp['result']).encode('utf-8'))
         return HttpResponse(result, content_type='application/json')  
+
+def search(request):
+    query = request.GET.get('query')
+    es = Elasticsearch(['es'])
+    response = es.search(index='jersey_index', body={'query': {'simple_query_string': {'query': query}}, 'size': 10})
+    return JsonResponse({'ok': True, 'result': response['hits']['hits']}) 

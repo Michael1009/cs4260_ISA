@@ -14,5 +14,8 @@ urlpatterns = [
     path('users/create_item/', views.create_item),
 
     # get user info
-    path('info/', views.info)
+    path('info/', views.info),
+
+    # Search
+    path('search/<str:query>', views.search),
 ]

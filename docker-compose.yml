@@ -23,6 +23,7 @@ services:
       - public
     links:
       - kafka:kafka
+      - es:es
     ports:
       - "8002:8000"
     volumes:
