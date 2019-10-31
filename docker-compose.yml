@@ -21,6 +21,8 @@ services:
     networks:
       - service_mesh
       - public
+    links:
+      - kafka:kafka
     ports:
       - "8002:8000"
     volumes:
