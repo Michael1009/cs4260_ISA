@@ -185,7 +185,7 @@ def create_item(request):
 
         except Exception as e:
             result = json.dumps({
-                'error': 'REGISTER: Missing field or malformed data in POST request.',
+                'error': 'Create Jersey: Missing field or malformed data in POST request.',
                 'ok': False,
                 'data': data.decode('utf-8'),
                 'exception': str(e)
