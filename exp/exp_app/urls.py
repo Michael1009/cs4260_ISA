@@ -6,8 +6,8 @@ from . import views
 urlpatterns = [
     path('home/', views.home, name='home'),
     path('home/<str:size>', views.jersey_by_size, name='jersey_by_size'),
-    path('jersey_detail/<int:id>/<str:user_id>',
-         views.jersey_detail, name='jersey_detail'),
+    path('jersey_detail/<int:id>', views.jersey_detail_noauth, name='jersey_detail_noauth'),
+    path('jersey_detail/<int:id>/<str:user_id>', views.jersey_detail, name='jersey_detail'),
 
     # Register
     path('users/register/', views.register),

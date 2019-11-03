@@ -42,9 +42,9 @@ def jersey_detail(request, id, user_id):
             result = json.loads(data)
 
         # Kafka Producer
-        view_count_json = {'user_id': user_id, 'jersey_id': id}
-        view_count_dump = json.dumps(view_count_json).encode('utf-8')
-        producer.send('new-view-topic', view_count_dump)
+            view_count_json = {'user_id': user_id, 'jersey_id': id}
+            view_count_dump = json.dumps(view_count_json).encode('utf-8')
+            producer.send('new-view-topic', view_count_dump)
     except:
         result = json.dumps(
             {'error': '404', 'ok': False})
@@ -52,6 +52,20 @@ def jersey_detail(request, id, user_id):
 
     return HttpResponse(result)
 
+@csrf_exempt
+def jersey_detail_noauth(request, id):
+    data = None
+    try:
+        with urllib.request.urlopen('http://models:8000/jersey/api/v1/Jersey/'+str(id)) as response:
+            data = json.dumps(response.read().decode('UTF-8'))
+            result = json.loads(data)
+
+    except:
+        result = json.dumps(
+            {'error': '404', 'ok': False})
+        return HttpResponse(result, content_type='application/json', status=200)
+
+    return HttpResponse(result)
 
 @csrf_exempt
 def register(request):

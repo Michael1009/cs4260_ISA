@@ -25,6 +25,8 @@ def index(request):
     context = {
         'jerseys': sorted_dictionary,
     }
+    if request.GET.get('already_logged_in'):
+        context['already_logged_in'] = True
     return render(request, 'web_app/index.html', context)
 
 
@@ -46,11 +48,13 @@ def jersey_by_size(request, size):
 
 def item_detail(request, id):
     user_id = request.COOKIES.get('user_id')
-
     data = None
     template = None
     context = None
-    with urllib.request.urlopen('http://exp:8000/exp/jersey_detail/'+str(id)+'/'+user_id) as response:
+    url = 'http://exp:8000/exp/jersey_detail/'+str(id)
+    if user_id:
+        url = url + "/" + user_id
+    with urllib.request.urlopen(url) as response:
         data = response.read().decode('UTF-8')
     json_data = json.loads(data)
     if 'error' in json_data:
@@ -142,6 +146,12 @@ def login(request):
         else:
             return render(request, 'web_app/login.html', {'form': form})
     else:
+        if request.COOKIES.get('auth'):
+            base_url = reverse('index')
+            query_string = urllib.parse.urlencode(
+                {'already_logged_in': True})
+            url = '{}?{}'.format(base_url, query_string)
+            return HttpResponseRedirect(url)
         form = LoginForm()
         context = {'form': form}
         if request.GET.get('redirect_create'):

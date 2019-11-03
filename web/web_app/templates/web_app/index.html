@@ -34,7 +34,9 @@ input[type=submit] {
     <div> <a href = "{% url 'register' %}">register</a> </div> 
     <div> <a href = "{% url 'login_page' %}">login</a> </div>
 {% endif %} -->
-
+{% if already_logged_in %}
+    <h5  style = "color:red"> You're already logged in! </h5>
+{% endif %}
 <div>
     <form action="/jersey/small">
         <input type="submit" value="Size Small" />
