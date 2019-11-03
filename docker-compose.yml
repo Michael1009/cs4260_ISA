@@ -70,8 +70,8 @@ services:
       - es
     volumes:
       - .:/app
+    command: bash -c "python ./batch/search_consumer.py & python ./batch/view_count.py & python ./batch/view_updater.py"
     restart: on-failure
-    command: bash -c "python ./batch/search_consumer.py"
 
 networks:
   backend:

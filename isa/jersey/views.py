@@ -259,7 +259,7 @@ def login(request):
                     return HttpResponse(result, status=400)
 
                 result = json.dumps(
-                    {'ok': True, 'authenticator': authenticator})
+                    {'ok': True, 'authenticator': authenticator, 'user_id': request.POST['email']})
                 return HttpResponse(result, status=200)
             else:
                 result = json.dumps(
@@ -298,7 +298,7 @@ def register(request):
                     return HttpResponse(str(e), status=400)
 
                 result = json.dumps(
-                    {'ok': True, 'authenticator': authenticator})
+                    {'ok': True, 'authenticator': authenticator, 'user_id': request.POST['email']})
                 return HttpResponse(result, status=200)
             else:
                 result = json.dumps(
