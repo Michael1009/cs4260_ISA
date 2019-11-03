@@ -25,6 +25,8 @@ def index(request):
     context = {
         'jerseys': sorted_dictionary,
     }
+    if request.GET.get('already_logged_in'):
+        context['already_logged_in'] = True
     return render(request, 'web_app/index.html', context)
 
 
@@ -144,6 +146,12 @@ def login(request):
         else:
             return render(request, 'web_app/login.html', {'form': form})
     else:
+        if request.COOKIES.get('auth'):
+            base_url = reverse('index')
+            query_string = urllib.parse.urlencode(
+                {'already_logged_in': True})
+            url = '{}?{}'.format(base_url, query_string)
+            return HttpResponseRedirect(url)
         form = LoginForm()
         context = {'form': form}
         if request.GET.get('redirect_create'):

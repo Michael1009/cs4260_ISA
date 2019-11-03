@@ -23,8 +23,12 @@ while True:
         f.close()
 
         for jersey_id in view_dict.keys():
-            es.update(index='jersey_index', doc_type='jersey',
-                      id=jersey_id, body={'script': 'ctx._source.views ='+str(view_dict[jersey_id])})
+            es.update(
+                index='jersey_index', 
+                doc_type='jersey',
+                id=jersey_id, 
+                body={'script': 'ctx._source.views ='+str(view_dict[jersey_id])}
+            )
     except FileNotFoundError:
         f = open("/app/batch/view_count.log", "w")
         f.write()

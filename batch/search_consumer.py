@@ -17,5 +17,6 @@ while True:
             es.index(index='jersey_index', doc_type='jersey',
                      id=new_jersey_id, body=new_jersey_json)
             es.indices.refresh(index="jersey_index")
-    except Exception:
+    except Exception as e:
+        print(e)
         continue
