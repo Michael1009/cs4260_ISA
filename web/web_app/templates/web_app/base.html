@@ -14,7 +14,16 @@
         {% if logged_in  %}
             <h2>Hello {{ first_name }}!</h2>
             <div> <a href = "{% url 'logout' %}">logout</a> </div>
-            <div> <a href = "{% url 'create_jersey' %}">create jersey</a> </div>
+            <div> <a href = "{% url 'create_jersey' %}">create jersey</a> </div>  
+            <div class="uk-navbar-center">
+                <div class="uk-navbar-item">
+                    <form class="uk-search uk-search-navbar" action="/search" method="get">
+                        <!-- {% csrf_token %} -->
+                        <span uk-search-icon></span>
+                        <input class="uk-search-input" name="query" value="{% if query %}{{query}}{%endif%}"type="search" placeholder="Search...">
+                    </form>
+                </div>
+            </div>
         {% else %}
             <div> <a href = "{% url 'register' %}">register</a> </div> 
             <div> <a href = "{% url 'login_page' %}">login</a> </div>

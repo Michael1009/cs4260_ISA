@@ -16,5 +16,8 @@ urlpatterns = [
 
     # get user info
     path('info/', views.info),
+    
+    # Search
+    path('search/', views.search),
 
 ]

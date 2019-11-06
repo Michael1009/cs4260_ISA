@@ -212,3 +212,20 @@ def create_jersey(request):
     else:
         form = CreateJerseyForm()
     return render(request, 'web_app/create_jersey.html', {'form': form})
+
+def search(request):
+    if request.method == "GET":
+        query = request.GET.get('query')
+        encoded = urllib.parse.urlencode({'query': query})
+        url = 'http://exp:8000/exp/search/?{}'.format(encoded)
+        resp_json = urllib.request.urlopen(url).read().decode('utf-8')
+        resp = json.loads(resp_json)
+        ok_check = resp['ok']
+        result = []
+        if 'result' in resp:
+            result = [i['_source'] for i in resp['result']]
+        #auth = request.COOKIES.get('authenticator')
+        #if auth:
+            #['logged_in'] = True
+        # need to check if login is valid ... 
+        return render(request, 'search.html', {'ok': ok_check, 'query': query, 'items': result})

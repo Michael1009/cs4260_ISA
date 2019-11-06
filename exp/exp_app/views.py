@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 import urllib.request
 from django.core.serializers.json import DjangoJSONEncoder
 from kafka import KafkaProducer
+from elasticsearch import Elasticsearch
 
 # Kafka Producer Global Variable
 producer = KafkaProducer(bootstrap_servers='kafka:9092')
@@ -205,3 +206,14 @@ def create_item(request):
                 'exception': str(e)
             })
         return HttpResponse(result, content_type='application/json')
+
+def search(request):
+    query = request.GET.get('query')
+    es = Elasticsearch(['es'])
+    # response = es.search(index='jersey_index', body={'query': {'query_string': {'query': query}}, 'size': 10})
+    response = es.search(index='jersey_index', body={"query": {"function_score": {"query": {"query_string": {"query": query}}}}})
+    return_result = json.dumps({
+        'ok' : True, 
+        'result': response['hits']['hits']
+    })
+    return HttpResponse(return_result, content_type='application/json')
