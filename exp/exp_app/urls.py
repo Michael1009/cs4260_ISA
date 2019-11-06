@@ -18,6 +18,6 @@ urlpatterns = [
     path('info/', views.info),
     
     # Search
-    path('search/<str:query>', views.search),
+    path('search', views.search),
 
 ]

@@ -216,11 +216,16 @@ def create_jersey(request):
 def search(request):
     if request.method == "GET":
         query = request.GET.get('query')
-        query_encoded = urllib.parse.urlencode({'query': query})
-        url = 'http://exp:8000/exp/search/?{}'.format(query_encoded)
+        encoded = urllib.parse.urlencode({'query': query})
+        url = 'http://exp:8000/exp/search/?{}'.format(encoded)
         resp_json = urllib.request.urlopen(url).read().decode('utf-8')
         resp = json.loads(resp_json)
-        ok = resp['ok']
-        result = []
-        #not sure what to do with the result...
-        return render(request, 'search.html', {'ok': True, 'query': query, 'items': []})
+        ok_check = resp['ok']
+        final_data = []
+        if 'result' in resp:
+            final_data = [i['_source'] for i in resp['result']]
+        #auth = request.COOKIES.get('authenticator')
+        #if auth:
+            #['logged_in'] = True
+        # need to check if login is valid ... 
+        return render(request, 'search.html', {'ok': ok_check, 'query': query, 'items': final_data})
