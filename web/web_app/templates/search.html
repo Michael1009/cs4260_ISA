@@ -8,7 +8,7 @@
     <hr>
     <ul class="uk-list uk-list-large uk-list-divider">
         {% for i in items %}
-            <h4><a href = "/item/{{i.id}}">{{i.player}}</a></h4>
+            <h4><a href = "/item/{{i.pk}}">{{i.fields.player}}</a></h4>
             <img class="img-responsive" src="https://imgur.com/0PCUsve.png"  width="300" height="300"> 
 		{% empty %}
     		<li>No results found.</li>
