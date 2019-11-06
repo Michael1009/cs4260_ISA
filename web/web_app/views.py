@@ -212,3 +212,15 @@ def create_jersey(request):
     else:
         form = CreateJerseyForm()
     return render(request, 'web_app/create_jersey.html', {'form': form})
+
+def search(request):
+    if request.method == "GET":
+        query = request.GET.get('query')
+        query_encoded = urllib.parse.urlencode({'query': query})
+        url = 'http://exp:8000/exp/search/?{}'.format(query_encoded)
+        resp_json = urllib.request.urlopen(url).read().decode('utf-8')
+        resp = json.loads(resp_json)
+        ok = resp['ok']
+        result = []
+        #not sure what to do with the result...
+        return render(request, 'search.html', {'ok': True, 'query': query, 'items': []})
