@@ -14,9 +14,10 @@ while True:
             print(json.loads((message.value).decode('utf-8')), flush = True)
             new_jersey_json = json.loads((message.value).decode('utf-8'))
             new_jersey_id = new_jersey_json['pk']
-            es.index(index='jersey_index', doc_type='jersey',
-                     id=new_jersey_id, body=new_jersey_json)
-            es.indices.refresh(index="jersey_index")
+            if es.indices.exists(index="jersey_index"):
+                es.index(index='jersey_index', doc_type='jersey',
+                         id=new_jersey_id, body=new_jersey_json)
+                es.indices.refresh(index="jersey_index")
     except Exception as e:
         print(e)
         continue
