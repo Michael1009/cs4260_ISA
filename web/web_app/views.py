@@ -221,11 +221,11 @@ def search(request):
         resp_json = urllib.request.urlopen(url).read().decode('utf-8')
         resp = json.loads(resp_json)
         ok_check = resp['ok']
-        final_data = []
+        result = []
         if 'result' in resp:
-            final_data = [i['_source'] for i in resp['result']]
+            result = [i['_source'] for i in resp['result']]
         #auth = request.COOKIES.get('authenticator')
         #if auth:
             #['logged_in'] = True
         # need to check if login is valid ... 
-        return render(request, 'search.html', {'ok': ok_check, 'query': query, 'items': final_data})
+        return render(request, 'search.html', {'ok': ok_check, 'query': query, 'items': result})
