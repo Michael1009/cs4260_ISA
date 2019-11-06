@@ -11,7 +11,7 @@ while True:
         consumer = KafkaConsumer(
             'new-jersey-topic', group_id='jersey-indexer', bootstrap_servers=['kafka:9092'], api_version=(0, 10, 1))
         for message in consumer:
-            print(json.loads((message.value).decode('utf-8')))
+            print(json.loads((message.value).decode('utf-8')), flush = True)
             new_jersey_json = json.loads((message.value).decode('utf-8'))
             new_jersey_id = new_jersey_json['pk']
             es.index(index='jersey_index', doc_type='jersey',
