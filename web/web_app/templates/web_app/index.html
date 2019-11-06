@@ -51,17 +51,6 @@ input[type=submit] {
     </form>
 </div>
 
-<div class="uk-navbar-center">
-    <div class="uk-navbar-item">
-        <form class="uk-search uk-search-navbar" action="/search" method="get">
-            <!-- {% csrf_token %} -->
-            <span uk-search-icon></span>
-            <input class="uk-search-input" name="query" value="{% if query %}{{query}}{%endif%}"type="search" placeholder="Search...">
-        </form>
-    </div>
-</div>
-
-
 <div class = "row">
     <ul class="uk-list ">
         {% for key,i in jerseys.items %}
