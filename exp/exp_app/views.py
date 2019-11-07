@@ -221,13 +221,12 @@ def search(request):
 
 def trending(request):
     es = Elasticsearch(['es'])
-    response = es.search(index='jersey_index', body={"query": {
-        "function_score": {
-            "query": { "match_all": {}}
-        }
-    }})
+    response = es.search(index='jersey_index', body={"query": {"function_score": {"query": {"match_all": {}},"field_value_factor": {"field": "visits","modifier": "log1p","missing": 0.1}}}})
     return_result = json.dumps({
         'ok' : True, 
         'result': response['hits']['hits']
     })
     return HttpResponse(return_result, content_type='application/json')
+
+
+    
