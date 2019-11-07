@@ -211,9 +211,22 @@ def search(request):
     query = request.GET.get('query')
     es = Elasticsearch(['es'])
     # response = es.search(index='jersey_index', body={'query': {'query_string': {'query': query}}, 'size': 10})
-    response = es.search(index='jersey_index', body={"query": {"function_score": {"query": {"query_string": {"query": query}}}}})
+    response = es.search(index='jersey_index', body={"query": {"function_score": {" ": {"query_string": {"query": query}}}}})
     return_result = json.dumps({
         'ok' : True, 
         'result': response['hits']['hits']
     })
     return HttpResponse(return_result, content_type='application/json')
+        
+
+def trending(request):
+    es = Elasticsearch(['es'])
+    response = es.search(index='jersey_index', body={"query": {"function_score": {"query": {"match_all": {}},"field_value_factor": {"field": "visits","modifier": "log1p","missing": 0.1}}}})
+    return_result = json.dumps({
+        'ok' : True, 
+        'result': response['hits']['hits']
+    })
+    return HttpResponse(return_result, content_type='application/json')
+
+
+    

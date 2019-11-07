@@ -34,6 +34,7 @@ while True:
                     )
                 except Exception:
                     continue
+            es.indices.refresh(index="jersey_index")
     except FileNotFoundError:
         f = open("/app/batch/view_count.log", "w")
         f.write()
