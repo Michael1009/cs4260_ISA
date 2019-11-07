@@ -229,3 +229,22 @@ def search(request):
             #['logged_in'] = True
         # need to check if login is valid ... 
         return render(request, 'search.html', {'ok': ok_check, 'query': query, 'items': result})
+
+
+def jersey_trending(request): 
+    if request.method == "GET":
+        url = 'http://exp:8000/exp/trending/'
+        resp_json = urllib.request.urlopen(url).read().decode('utf-8')
+        resp = json.loads(resp_json)
+        ok_check = resp['ok']
+        jerseys = {}
+        if 'result' in resp:
+            for x in resp['result']:
+                jerseys[x['_source']['pk']] = x['_source']['fields']
+            
+        #auth = request.COOKIES.get('authenticator')
+        #if auth:
+            #['logged_in'] = True
+        # need to check if login is valid ... 
+        return render(request, 'web_app/index.html', {'ok': ok_check, 'jerseys': jerseys})
+    

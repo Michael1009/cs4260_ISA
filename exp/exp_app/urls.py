@@ -17,7 +17,8 @@ urlpatterns = [
     # get user info
     path('info/', views.info),
     
-    # Search
+    # ES
     path('search/', views.search),
+    path('trending/', views.trending),
 
 ]
