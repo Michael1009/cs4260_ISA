@@ -210,8 +210,8 @@ def create_item(request):
 def search(request):
     query = request.GET.get('query')
     es = Elasticsearch(['es'])
-    # response = es.search(index='jersey_index', body={'query': {'query_string': {'query': query}}, 'size': 10})
-    response = es.search(index='jersey_index', body={"query": {"function_score": {" ": {"query_string": {"query": query}}}}})
+    response = es.search(index='jersey_index', body={'query': {'query_string': {'query': query}}, 'size': 10})
+    # response = es.search(index='jersey_index', body={"query": {"function_score": {" ": {"query_string": {"query": query}}}}})
     return_result = json.dumps({
         'ok' : True, 
         'result': response['hits']['hits']
