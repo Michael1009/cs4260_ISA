@@ -73,6 +73,24 @@ services:
     command: bash -c "python ./batch/search_consumer.py & python ./batch/view_count.py & python ./batch/view_updater.py"
     restart: on-failure
 
+  selenium-chrome:
+    image: selenium/standalone-chrome
+    container_name: selenium-chrome
+    networks:
+       - service_mesh
+       - public
+    ports:
+       - "4444:4444"
+
+  selenium-test:
+    image: tp33/django
+    container_name: selenium-test
+    networks:
+       - service_mesh
+    volumes:
+       - .:/app
+    command: bash -c "pip install selenium && python ./selenium/selenium_tests.py"
+
 networks:
   backend:
   service_mesh:
