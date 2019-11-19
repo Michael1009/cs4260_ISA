@@ -91,6 +91,17 @@ services:
        - .:/app
     command: bash -c "pip install selenium && python ./selenium/selenium_tests.py"
 
+  proxy:
+    image: dockercloud/haproxy
+    depends_on:
+      - web
+    volumes:
+      - .:/app/haproxy
+    ports:
+      - "8000:8000"
+    networks:
+      - public
+
 networks:
   backend:
   service_mesh:
