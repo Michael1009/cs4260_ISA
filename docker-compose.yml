@@ -38,6 +38,17 @@ services:
       - .:/app
     command: "mod_wsgi-express start-server --working-directory ./web --reload-on-changes web/web/wsgi.py"
 
+    proxy:
+      image: dockercloud/haproxy
+      depends_on:
+        - web
+      volumes:
+        - .:/app/haproxy
+      ports:
+        - "8000:8000"
+      networks:
+        - public
+
   kafka:
    image: spotify/kafka
    container_name: kafka
@@ -91,16 +102,7 @@ services:
        - .:/app
     command: bash -c "pip install selenium && python ./selenium/selenium_tests.py"
 
-  proxy:
-    image: dockercloud/haproxy
-    depends_on:
-      - web
-    volumes:
-      - .:/app/haproxy
-    ports:
-      - "8000:8000"
-    networks:
-      - public
+
 
 networks:
   backend:
