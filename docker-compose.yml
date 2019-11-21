@@ -14,6 +14,8 @@ services:
       - backend
       - service_mesh
     command: bash -c "python ./isa/manage.py migrate && python ./isa/manage.py loaddata ./isa/db.json && python ./isa/manage.py test jersey && mod_wsgi-express start-server --working-directory ./isa --reload-on-changes ./isa/isa/wsgi.py"
+    logging:
+      driver: none 
 
   exp:
     image: tp33/django
@@ -26,6 +28,8 @@ services:
     volumes:
       - .:/app
     command: "mod_wsgi-express start-server --working-directory ./exp --reload-on-changes exp/exp/wsgi.py"
+    logging:
+      driver: none 
 
   web:
     image: tp33/django
@@ -37,6 +41,8 @@ services:
     volumes:
       - .:/app
     command: "mod_wsgi-express start-server --working-directory ./web --reload-on-changes web/web/wsgi.py"
+    logging:
+      driver: none 
 
   kafka:
    image: spotify/kafka
@@ -48,6 +54,8 @@ services:
       ADVERTISED_HOST: kafka
       ADVERTISED_PORT: 9092
    hostname: kafka
+   logging:
+      driver: none 
    
   es:
     image: elasticsearch:7.4.0
@@ -60,6 +68,8 @@ services:
         - batch_network
     ports:
         - "9200:9200"
+    logging:
+      driver: none 
 
   batch:
     image: tp33/django
@@ -72,6 +82,8 @@ services:
       - .:/app
     command: bash -c "python ./batch/search_consumer.py & python ./batch/view_count.py & python ./batch/view_updater.py"
     restart: on-failure
+    logging:
+      driver: none 
 
 networks:
   backend:
