@@ -36,4 +36,5 @@ class JerseyMarketTest(unittest.TestCase):
         self.driver.close()
 
 if __name__ == "__main__":
+    # time.sleep(60)
     unittest.main() 
