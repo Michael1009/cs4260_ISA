@@ -1,5 +1,9 @@
 language: bash
 
+branches:
+  only:
+  - develop
+  - David-P6
 services: 
 docker
 
