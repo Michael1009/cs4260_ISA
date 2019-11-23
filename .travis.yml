@@ -1,7 +1,8 @@
 language: bash
 
 services: 
-docker
+  - docker
+  - mysql
 
 # before_install contains mostly project 1 stuff
 before_install:
