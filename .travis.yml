@@ -5,7 +5,8 @@ branches:
   - develop
   - David-P6
 services: 
-docker
+  - docker
+  - mysql
 
 # before_install contains mostly project 1 stuff
 before_install:
