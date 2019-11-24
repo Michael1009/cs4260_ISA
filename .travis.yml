@@ -1,5 +1,6 @@
-language: bash
-
+language: python
+python:
+  - "3.6"
 branches:
   only:
   - develop
@@ -7,14 +8,24 @@ branches:
 services: 
   - docker
   - mysql
+env: 
+  - DOCKER_COMPOSE_VERSION=1.22.0
 
 # before_install contains mostly project 1 stuff
 before_install:
 - docker pull tp33/django
 - docker pull mysql:latest
+- chmod +x scripts/setup_sql.sh
+- chmod +x scripts/enter_sql.sh
 - docker run --name mysql -d -e MYSQL_ROOT_PASSWORD='$3cureUS' -v ~/cs4501/db:/var/lib/mysql  mysql:latest
 - sleep 20
-- docker run -it --name mysql-cmdline --link mysql:db mysql:latest mysql -uroot -p'$3cureUS' -h db -e "create user 'www'@'%' identified by '\$3cureUS'; create database cs4501 character set utf8; grant all on cs4501.* to 'www'@'%'; grant all on test_cs4501.* to 'www'@'%';"
+- docker run -it --name mysql-cmdline -v /home/travis/build/Michael1009/cs4260_ISA/scripts:/scripts --link mysql:db mysql:latest bash -c
+/scirpts/enter_sql.sh
+- sudo bash scripts/setup_sql.sh
+- sudo rm /usr/local/bin/docker-compose
+- curl -L https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m) -o docker-compose
+- chmod +x docker-compose
+- sudo mv docker-compose /usr/local/bin
 
 script:
 - docker-compose up -d --build
