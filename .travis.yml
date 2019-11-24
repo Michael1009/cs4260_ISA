@@ -11,6 +11,7 @@ services:
 env: 
   - DOCKER_COMPOSE_VERSION=1.22.0
 
+# wont trigger travis?
 # before_install contains mostly project 1 stuff
 before_install:
 - docker pull tp33/django
