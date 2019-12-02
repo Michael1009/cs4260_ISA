@@ -1,37 +1,31 @@
-language: python
-python:
-  - "3.6"
-branches:
-  only:
-  - develop
-  - David-P6
-services: 
+language: bash
+
+services:
   - docker
   - mysql
-env: 
-  - DOCKER_COMPOSE_VERSION=1.22.0
 
-# wont trigger travis?
-# before_install contains mostly project 1 stuff
 before_install:
-- docker pull tp33/django
-- docker pull mysql:latest
-- chmod +x scripts/setup_sql.sh
-- chmod +x scripts/enter_sql.sh
-- docker run --name mysql -d -e MYSQL_ROOT_PASSWORD='$3cureUS' -v ~/cs4501/db:/var/lib/mysql  mysql:latest
-- sleep 20
-- docker run -it --name mysql-cmdline -v /home/travis/build/Michael1009/cs4260_ISA/scripts:/scripts --link mysql:db mysql:latest bash -c
-/scirpts/enter_sql.sh
-- sudo bash scripts/setup_sql.sh
-- sudo rm /usr/local/bin/docker-compose
-- curl -L https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m) -o docker-compose
-- chmod +x docker-compose
-- sudo mv docker-compose /usr/local/bin
+  - docker pull tp33/django
+  - docker pull mysql:5.7.23
+  - mkdir db
+  - docker run --name mysql -d -e MYSQL_ROOT_PASSWORD='$3cureUS' -v db:/var/lib/mysql mysql:5.7.23
+  - sleep 30
+  - docker run -it --name mysql-cmdline --link mysql:db mysql:5.7.23 mysql -uroot -p'$3cureUS' -h db -e "create user 'www'@'%' identified by '\$3cureUS'; create database cs4501 character set utf8; grant all on *.* to 'www'@'%';"
+before_script: 
+  - docker start mysql
+  - sleep 5
+  - docker-compose up -d 
+  - docker network connect cs4260_isa_backend mysql
+  - docker-compose stop 
+  - docker ps -a
+  - sleep 3
+  - docker-compose up -d
+  - sleep 10
+  - docker ps -a
 
-script:
-- docker-compose up -d --build
-- sleep 200
+script: 
+  - docker exec -it models bash -c "cd isa; python manage.py test"
 
 after_script:
-- docker-compose stop
-- docker-compose down
+  - docker-compose stop
+  - docker-compose down
