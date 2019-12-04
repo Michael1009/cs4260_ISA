@@ -72,7 +72,7 @@ services:
       - .:/app
     command: bash -c "python ./batch/search_consumer.py & python ./batch/view_count.py & python ./batch/view_updater.py"
     restart: on-failure
-
+    
   selenium-chrome:
     image: selenium/standalone-chrome
     container_name: selenium-chrome

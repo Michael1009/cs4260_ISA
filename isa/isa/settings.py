@@ -25,7 +25,7 @@ SECRET_KEY = ')9pi%v_71!ztqpdry*$k3n@5*6#c399hy)_ja7z(%k50-nshuz'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["models", "localhost"]
+ALLOWED_HOSTS = ["models", "localhost", "64.225.8.170"]
 
 
 # Application definition
@@ -74,16 +74,27 @@ WSGI_APPLICATION = 'isa.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'cs4501',
-        'USER': 'www',
-        'PASSWORD': '$3cureUS',
-        'HOST': 'db',
+if DEBUG: 
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'cs4501',
+            'USER': 'www',
+            'PASSWORD': '$3cureUS',
+            'HOST': 'db',
+     }
+ }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'myproject', 
+            'USER': 'myprojectuser',
+            'PASSWORD': 'FoxFalco',
+            'HOST': 'localhost',
+            'PORT': '',
+        }
     }
-}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -120,5 +131,5 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 STATIC_URL = '/static/'
