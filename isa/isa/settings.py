@@ -82,8 +82,8 @@ if DEBUG:
             'USER': 'www',
             'PASSWORD': '$3cureUS',
             'HOST': 'db',
-     }
- }
+        }
+    }
 else:
     DATABASES = {
         'default': {
