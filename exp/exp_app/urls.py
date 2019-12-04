@@ -6,13 +6,19 @@ from . import views
 urlpatterns = [
     path('home/', views.home, name='home'),
     path('home/<str:size>', views.jersey_by_size, name='jersey_by_size'),
-    path('jersey_detail/<int:id>', views.jersey_detail, name='jersey_detail'),
- 
+    path('jersey_detail/<int:id>', views.jersey_detail_noauth, name='jersey_detail_noauth'),
+    path('jersey_detail/<int:id>/<str:user_id>', views.jersey_detail, name='jersey_detail'),
+
     # Register
     path('users/register/', views.register),
-    path('users/login/' , views.login),
+    path('users/login/', views.login),
     path('users/create_item/', views.create_item),
 
     # get user info
-    path('info/', views.info)
+    path('info/', views.info),
+    
+    # ES
+    path('search/', views.search),
+    path('trending/', views.trending),
+
 ]
