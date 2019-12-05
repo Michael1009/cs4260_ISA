@@ -103,7 +103,7 @@ services:
        - service_mesh
     volumes:
        - ./selenium:/app
-    command: bash -c "pip install selenium==3.141.0  && python selenium_tests.py > test_log.txt && pip install requests"
+    command: bash -c "pip install selenium  &&   pip install requests && python selenium_tests.py"
     depends_on:
       - selenium-chrome
 
