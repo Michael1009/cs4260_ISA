@@ -8,9 +8,9 @@ import requests
 class JerseyMarketTest(unittest.TestCase):
 
     def setUp(self):
-        time.sleep(10)	        
         self.driver = None
         while self.driver is None:
+            time.sleep(10)	        
             try:
                 self.driver = webdriver.Remote(
                     command_executor='http://selenium-chrome:4444/wd/hub',

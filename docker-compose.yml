@@ -93,8 +93,6 @@ services:
        - "4444:4444"
     depends_on:
       - es
-    environment:
-      - START_XVFB=false
 
   selenium-test:
     image: tp33/django
@@ -103,7 +101,7 @@ services:
        - service_mesh
     volumes:
        - ./selenium:/app
-    command: bash -c "pip install selenium  &&   pip install requests && python selenium_tests.py"
+    command: bash -c "pip install selenium==3.141.0  &&   pip install requests && python selenium_tests.py"
     depends_on:
       - selenium-chrome
 
