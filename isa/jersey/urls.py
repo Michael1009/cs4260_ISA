@@ -21,8 +21,9 @@ urlpatterns = [
          views.update_user, name='update_user'),
     # Delete
     path('api/v1/User/<int:id>/delete', views.delete_user, name='delete_user'),
-    path('api/v1/Jersey/<int:id>/delete',
-         views.delete_jersey, name='delete_jersey'),
+    path('api/v1/User/<str:email>/delete_user_by_email', views.delete_user_by_email, name='delete_user_by_email'),
+    path('api/v1/Jersey/<int:id>/delete',views.delete_jersey, name='delete_jersey'),
+
 
     # Authenticate
     path('api/v1/users/register', views.register, name="register"),

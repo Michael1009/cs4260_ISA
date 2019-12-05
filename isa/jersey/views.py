@@ -143,6 +143,28 @@ def delete_user(request, id):
         return delete_data(User, id)
     return incorrect_REST_method("DELETE")
 
+@csrf_exempt
+def delete_user_by_email(request,email):
+    if request.method == "DELETE":
+        try:
+            cur_id = User.objects.get(email=email).id
+            Jersey.objects.filter(user_id = cur_id).delete()
+            User.objects.get(email=email).delete()
+            response  = {
+                'ok': True,
+                'message': "{} deleted".format(email)
+            }
+            return HttpResponse(json.dumps(response), content_type='application/json', status=200)
+
+        except:
+            response = {
+                'ok': False,
+                'error': "Unable to delete specified user",
+            }
+            return HttpResponse(json.dumps(response), content_type='application/json', status=200)
+    else:
+        return incorrect_REST_method("DELETE")
+
 
 @csrf_exempt
 def delete_jersey(request, id):
