@@ -129,6 +129,8 @@ class JerseyMarketTest(unittest.TestCase):
         time.sleep(5)
         self.assertIn("Jamie",driver.page_source)
 
+        # This will call a microservice that deletes the created jersey and the created user. I just have this run at the end of the last test
+        # Probably not the best way of doing this but I unfortunately don't care enought to do anything about it
         url = "http://models:8000/jersey/api/v1/User/JaneDoe@isa.com/delete_user_by_email"
         requests.delete(url)
 
