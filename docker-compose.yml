@@ -83,29 +83,29 @@ services:
     command: bash -c "python ./batch/search_consumer.py && python ./batch/view_count.py && python ./batch/view_updater.py"
     restart: on-failure
 
-  # selenium-chrome:
-  #   image: selenium/standalone-chrome
-  #   container_name: selenium-chrome
-  #   networks:
-  #      - service_mesh
-  #      - public
-  #   ports:
-  #      - "4444:4444"
-  #   depends_on:
-  #     - es
-  #   environment:
-  #     - START_XVFB=false
+  selenium-chrome:
+    image: selenium/standalone-chrome
+    container_name: selenium-chrome
+    networks:
+       - service_mesh
+       - public
+    ports:
+       - "4444:4444"
+    depends_on:
+      - es
+    environment:
+      - START_XVFB=false
 
-  # selenium-test:
-  #   image: tp33/django
-  #   container_name: selenium-test
-  #   networks:
-  #      - service_mesh
-  #   volumes:
-  #      - ./selenium:/app
-  #   command: bash -c "pip install selenium==3.141.0  && python selenium_tests.py > test_log.txt"
-  #   depends_on:
-  #     - selenium-chrome
+  selenium-test:
+    image: tp33/django
+    container_name: selenium-test
+    networks:
+       - service_mesh
+    volumes:
+       - ./selenium:/app
+    command: bash -c "pip install selenium==3.141.0  && python selenium_tests.py > test_log.txt"
+    depends_on:
+      - selenium-chrome
 
 networks:
   backend:
