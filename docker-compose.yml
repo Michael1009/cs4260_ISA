@@ -10,6 +10,8 @@ services:
       - .:/app
     ports:
       - "8001:8000"
+    logging:
+      driver: "none"    
     networks:
       - backend
       - service_mesh
@@ -26,6 +28,9 @@ services:
     volumes:
       - .:/app
     command: "mod_wsgi-express start-server --working-directory ./exp --reload-on-changes exp/exp/wsgi.py"
+    logging:
+      driver: "none"
+
 
   web:
     image: tp33/django
@@ -60,6 +65,8 @@ services:
       - "80:80"
     networks:
       - public
+    logging:
+      driver: "none"
 
   kafka:
    image: spotify/kafka
@@ -71,7 +78,8 @@ services:
       ADVERTISED_HOST: kafka
       ADVERTISED_PORT: 9092
    hostname: kafka
-   
+   logging:
+      driver: "none"
   es:
     image: elasticsearch:7.4.0
     container_name: es
@@ -83,6 +91,8 @@ services:
         - batch_network
     ports:
         - "9200:9200"
+    logging:
+      driver: "none"
 
   batch:
     image: tp33/django
@@ -93,7 +103,7 @@ services:
       - es
     volumes:
       - .:/app
-    command: bash -c "python ./batch/search_consumer.py & python ./batch/view_count.py & python ./batch/view_updater.py"
+    command: bash -c "python ./batch/search_consumer.py && python ./batch/view_count.py && python ./batch/view_updater.py"
     restart: on-failure
 
   selenium-chrome:
@@ -104,6 +114,8 @@ services:
        - public
     ports:
        - "4444:4444"
+    depends_on:
+      - es
 
   selenium-test:
     image: tp33/django
@@ -111,8 +123,10 @@ services:
     networks:
        - service_mesh
     volumes:
-       - .:/app
-    command: bash -c "pip install selenium && python ./selenium/selenium_tests.py"
+       - ./selenium:/app
+    command: bash -c "pip install selenium==3.141.0  &&   pip install requests && python selenium_tests.py"
+    depends_on:
+      - selenium-chrome
 
 
 
