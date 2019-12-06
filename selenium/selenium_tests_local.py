@@ -1,29 +1,21 @@
 import unittest 
 import time
 from selenium import webdriver
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.webdriver.common.keys import Keys
 import requests
 
 
 class JerseyMarketTest(unittest.TestCase):
 
     def setUp(self):
-        self.driver = None
-        while self.driver is None:
-            time.sleep(10)	        
-            try:
-                self.driver = webdriver.Remote(
-                    command_executor='http://selenium-chrome:4444/wd/hub',
-                    desired_capabilities=DesiredCapabilities.CHROME,
-                    # chrome_options=chrome_options
-                )
-            except:
-                pass
-            
+        self.driver = webdriver.Chrome(executable_path=r'C:\Users\Karim\chromedriver.exe')
+        # self.driver = webdriver.Chrome(executable_path=r'your\path\to\a\chrome\driver')
+
+
     # Test for registerring:
     def test_create_accounts(self):
         driver = self.driver
-        driver.get("http://web:8000")
+        driver.get("http://localhost:8000")
         self.assertIn("Welcome to the Home Page",driver.page_source)
         # Navigate to register page
         driver.find_element_by_id('register_button').click()
@@ -50,7 +42,7 @@ class JerseyMarketTest(unittest.TestCase):
 
     def test_log_in_log_out(self):
         driver = self.driver
-        driver.get("http://web:8000")
+        driver.get("http://localhost:8000")
 
         # navigate to log in
         driver.find_element_by_xpath('//*[@id="login_button"]').click()
@@ -73,7 +65,7 @@ class JerseyMarketTest(unittest.TestCase):
 
     def test_log_in_create_item(self):
         driver = self.driver
-        driver.get("http://web:8000")
+        driver.get("http://localhost:8000")
 
         # navigate to log in
         driver.find_element_by_xpath('//*[@id="login_button"]').click()
@@ -110,7 +102,7 @@ class JerseyMarketTest(unittest.TestCase):
 
     def test_search(self):
         driver = self.driver
-        driver.get("http://web:8000")
+        driver.get("http://localhost:8000")
 
         # navigate to log in
         driver.find_element_by_xpath('//*[@id="login_button"]').click()
@@ -129,9 +121,10 @@ class JerseyMarketTest(unittest.TestCase):
         time.sleep(5)
         self.assertIn("Jamie",driver.page_source)
 
+
         # This will call a microservice that deletes the created jersey and the created user. I just have this run at the end of the last test
         # Probably not the best way of doing this but I unfortunately don't care enought to do anything about it
-        url = "http://models:8000/jersey/api/v1/User/JaneDoe@isa.com/delete_user_by_email"
+        url = "http://localhost:8001/jersey/api/v1/User/JaneDoe@isa.com/delete_user_by_email"
         requests.delete(url)
 
 
