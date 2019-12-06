@@ -241,6 +241,14 @@ class UserTest(TestCase):
         response = self.client.delete('/jersey/api/v1/User/99/delete')
         self.assertEquals(response.status_code, 404)
 
+    def test_getUser(self):
+        response = self.client.get('/jersey/api/v1/User/1')
+        self.assertEqual(response.status_code, 200)
+
+    def test_getAllUsers(self):
+        response = self.client.get('/jersey/api/v1/User')
+        self.assertEqual(response.status_code, 200)
+
     @classmethod
     def tearDownClass(cls):
         super().tearDownClass()

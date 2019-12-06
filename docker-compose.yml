@@ -42,6 +42,29 @@ services:
     volumes:
       - .:/app
     command: "mod_wsgi-express start-server --working-directory ./web --reload-on-changes web/web/wsgi.py"
+  
+  web2:
+    image: tp33/django
+    container_name: web2
+    networks:
+      - public
+    ports:
+      - "8003:8000"
+    volumes:
+      - .:/app
+    command: "mod_wsgi-express start-server --working-directory ./web --reload-on-changes web/web/wsgi.py"
+
+  haproxy:
+    image: dockercloud/haproxy
+    container_name: haproxy
+    depends_on:
+      - web
+    volumes:
+      - ./haproxy.cfg:/app/haproxy/haproxy.cfg
+    ports:
+      - "80:80"
+    networks:
+      - public
     logging:
       driver: "none"
 
@@ -104,6 +127,8 @@ services:
     command: bash -c "pip install selenium==3.141.0  &&   pip install requests && python selenium_tests.py"
     depends_on:
       - selenium-chrome
+
+
 
 networks:
   backend:
