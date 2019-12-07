@@ -8,10 +8,8 @@ services:
       - mysql:db
     volumes:
       - .:/app
-    ports:
-      - "8001:8000"
-    logging:
-      driver: "none"    
+    expose:
+      - "8000"
     networks:
       - backend
       - service_mesh
@@ -23,8 +21,8 @@ services:
     networks:
       - service_mesh
       - public
-    ports:
-      - "8002:8000"
+    expose:
+      - "8000"
     volumes:
       - .:/app
     command: "mod_wsgi-express start-server --working-directory ./exp --reload-on-changes exp/exp/wsgi.py"
@@ -37,11 +35,34 @@ services:
     container_name: web
     networks:
       - public
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
     volumes:
       - .:/app
     command: "mod_wsgi-express start-server --working-directory ./web --reload-on-changes web/web/wsgi.py"
+  
+  web2:
+    image: tp33/django
+    container_name: web2
+    networks:
+      - public
+    ports:
+      - "8003:8000"
+    volumes:
+      - .:/app
+    command: "mod_wsgi-express start-server --working-directory ./web --reload-on-changes web/web/wsgi.py"
+
+  haproxy:
+    image: dockercloud/haproxy
+    container_name: haproxy
+    depends_on:
+      - web
+    volumes:
+      - ./haproxy.cfg:/app/haproxy/haproxy.cfg
+    ports:
+      - "80:8000"
+    networks:
+      - public
     logging:
       driver: "none"
 
@@ -66,8 +87,8 @@ services:
         - service_mesh
         - mod_exp_network
         - batch_network
-    ports:
-        - "9200:9200"
+    expose:
+        - "9200"
     logging:
       driver: "none"
 
@@ -89,8 +110,8 @@ services:
     networks:
        - service_mesh
        - public
-    ports:
-       - "4444:4444"
+    expose:
+       - "4444"
     depends_on:
       - es
 
@@ -154,6 +175,8 @@ services:
       - 8081:8081
     volumes:
       - ./batch:/app
+
+
 
 networks:
   backend:
