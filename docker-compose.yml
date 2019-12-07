@@ -8,7 +8,7 @@ services:
       - mysql:db
     volumes:
       - .:/app
-    ports:
+    expose:
       - "8001:8000"
     networks:
       - backend
@@ -21,7 +21,7 @@ services:
     networks:
       - service_mesh
       - public
-    ports:
+    expose:
       - "8002:8000"
     volumes:
       - .:/app
@@ -35,7 +35,7 @@ services:
     container_name: web
     networks:
       - public
-    ports:
+    expose:
       - "8000:8000"
     volumes:
       - .:/app
@@ -60,7 +60,7 @@ services:
     volumes:
       - ./haproxy.cfg:/app/haproxy/haproxy.cfg
     ports:
-      - "80:80"
+      - "80:8000"
     networks:
       - public
     logging:
@@ -87,7 +87,7 @@ services:
         - service_mesh
         - mod_exp_network
         - batch_network
-    ports:
+    expose:
         - "9200:9200"
     logging:
       driver: "none"
@@ -110,7 +110,7 @@ services:
     networks:
        - service_mesh
        - public
-    ports:
+    expose:
        - "4444:4444"
     depends_on:
       - es
