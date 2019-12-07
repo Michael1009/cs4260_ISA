@@ -10,8 +10,6 @@ services:
       - .:/app
     ports:
       - "8001:8000"
-    logging:
-      driver: "none"    
     networks:
       - backend
       - service_mesh
