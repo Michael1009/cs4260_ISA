@@ -9,7 +9,7 @@ def getPairs(item):
 sc = SparkContext("spark://spark-master:7077", "PopularItems")
 
 # Each worker loads a piece of the data file
-data = sc.textFile("view_count.log", 2)
+data = sc.textFile("/tmp/data/view_count.log", 2)
 # Filter out all duplicate rows from RDD
 data = data.distinct()
 # Tell each worker to split each line of its partition
@@ -26,12 +26,12 @@ coclicks = coclicks.map(lambda item: (item, 1))
 # Use reduceByKey to get the counts of them ex. ((item1, item2), 4)
 count = coclicks.reduceByKey(lambda x, y: int(x)+int(y))
 # Filter to remove the ones with less than 3 co-clicks
-count = count.filter(lambda x: x[1] >= 3)
+final = count.filter(lambda x: x[1] >= 3)
 
 # bring the data back to the master node so we can print it out
-output = count.collect()
-for page_id, count in output:
-    print("page_id %s count %d" % (page_id, count))
+output = final.collect()
+for out in output:
+    print(out)
 print("Popular items done")
 
 sc.stop()
