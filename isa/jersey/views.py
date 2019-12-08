@@ -250,6 +250,8 @@ def get_jersey_by_size(request, **kwargs):
     return incorrect_REST_method("GET")
 
 # id is the id of the jersey you want recommendations for
+# this isn't implemented properly, we need to return actual data on the jerseys
+# to make cards and be able to link to the other jerseys
 def get_recommendations(request, id):
     if request.method == "GET":
         try:
