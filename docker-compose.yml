@@ -36,7 +36,7 @@ services:
     networks:
       - public
     expose:
-      - "8000"
+      - "8000:8000"
     volumes:
       - .:/app
     command: "mod_wsgi-express start-server --working-directory ./web --reload-on-changes web/web/wsgi.py"
@@ -46,7 +46,7 @@ services:
     container_name: web2
     networks:
       - public
-    ports:
+    expose:
       - "8003:8000"
     volumes:
       - .:/app
