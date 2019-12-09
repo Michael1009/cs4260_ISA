@@ -46,21 +46,23 @@ services:
     container_name: web2
     networks:
       - public
-    ports:
-      - "8003:8000"
+    expose:
+      - "8000"
     volumes:
       - .:/app
     command: "mod_wsgi-express start-server --working-directory ./web --reload-on-changes web/web/wsgi.py"
 
   haproxy:
-    image: dockercloud/haproxy
+    image: haproxy:1.8
     container_name: haproxy
     depends_on:
       - web
+      - web2
     volumes:
-      - ./haproxy.cfg:/app/haproxy/haproxy.cfg
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
     ports:
-      - "80:8000"
+      - "80:80"
+      - "1936:1936"
     networks:
       - public
     logging:
@@ -125,7 +127,7 @@ services:
     command: bash -c "pip install selenium==3.141.0  &&   pip install requests && python selenium_tests.py"
     depends_on:
       - selenium-chrome
-  
+      
   spark-master:
     image: gettyimages/spark
     command: bin/spark-class org.apache.spark.deploy.master.Master -h spark-master
@@ -150,6 +152,7 @@ services:
       - 8080:8080
     volumes:
       - ./batch:/tmp/data
+    # entrypoint: ./startSpark.sh
 
   spark-worker:
     image: gettyimages/spark
