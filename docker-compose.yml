@@ -151,7 +151,7 @@ services:
       - 7077:7077
       - 8080:8080
     volumes:
-      - ./batch:/app
+      - ./batch:/tmp/data
     # entrypoint: ./startSpark.sh
 
   spark-worker:
@@ -177,7 +177,7 @@ services:
     ports:
       - 8081:8081
     volumes:
-      - ./batch:/app
+      - ./batch:/tmp/data
 
 
 
