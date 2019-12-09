@@ -8,8 +8,8 @@ services:
       - mysql:db
     volumes:
       - .:/app
-    ports:
-      - "8001:8000"
+    expose:
+      - "8000"
     networks:
       - backend
       - service_mesh
@@ -21,8 +21,8 @@ services:
     networks:
       - service_mesh
       - public
-    ports:
-      - "8002:8000"
+    expose:
+      - "8000"
     volumes:
       - .:/app
     command: "mod_wsgi-express start-server --working-directory ./exp --reload-on-changes exp/exp/wsgi.py"
@@ -35,11 +35,36 @@ services:
     container_name: web
     networks:
       - public
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
     volumes:
       - .:/app
     command: "mod_wsgi-express start-server --working-directory ./web --reload-on-changes web/web/wsgi.py"
+  
+  web2:
+    image: tp33/django
+    container_name: web2
+    networks:
+      - public
+    expose:
+      - "8000"
+    volumes:
+      - .:/app
+    command: "mod_wsgi-express start-server --working-directory ./web --reload-on-changes web/web/wsgi.py"
+
+  haproxy:
+    image: haproxy:1.8
+    container_name: haproxy
+    depends_on:
+      - web
+      - web2
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    ports:
+      - "80:80"
+      - "1936:1936"
+    networks:
+      - public
     logging:
       driver: "none"
 
@@ -64,8 +89,8 @@ services:
         - service_mesh
         - mod_exp_network
         - batch_network
-    ports:
-        - "9200:9200"
+    expose:
+        - "9200"
     logging:
       driver: "none"
 
@@ -81,77 +106,80 @@ services:
     command: bash -c "python ./batch/search_consumer.py && python ./batch/view_count.py && python ./batch/view_updater.py"
     restart: on-failure
 
-  # selenium-chrome:
-  #   image: selenium/standalone-chrome
-  #   container_name: selenium-chrome
-  #   networks:
-  #      - service_mesh
-  #      - public
-  #   ports:
-  #      - "4444:4444"
-  #   depends_on:
-  #     - es
+  selenium-chrome:
+    image: selenium/standalone-chrome
+    container_name: selenium-chrome
+    networks:
+       - service_mesh
+       - public
+    expose:
+       - "4444"
+    depends_on:
+      - es
 
-  # selenium-test:
-  #   image: tp33/django
-  #   container_name: selenium-test
-  #   networks:
-  #      - service_mesh
-  #   volumes:
-  #      - ./selenium:/app
-  #   command: bash -c "pip install selenium==3.141.0  &&   pip install requests && python selenium_tests.py"
-  #   depends_on:
-  #     - selenium-chrome
-  
-  # spark-master:
-  #   image: gettyimages/spark
-  #   command: bin/spark-class org.apache.spark.deploy.master.Master -h spark-master
-  #   container_name: spark-master
-  #   hostname: spark-master
-  #   environment:
-  #     MASTER: spark://spark-master:7077
-  #     SPARK_CONF_DIR: /conf
-  #   expose:
-  #     - 7001
-  #     - 7002
-  #     - 7003
-  #     - 7004
-  #     - 7005
-  #     - 7006
-  #     - 7077
-  #     - 6066
-  #   ports:
-  #     - 4040:4040
-  #     - 6066:6066
-  #     - 7077:7077
-  #     - 8080:8080
-  #   volumes:
-  #     - ./batch:/app
+  selenium-test:
+    image: tp33/django
+    container_name: selenium-test
+    networks:
+       - service_mesh
+    volumes:
+       - ./selenium:/app
+    command: bash -c "pip install selenium==3.141.0  &&   pip install requests && python selenium_tests.py"
+    depends_on:
+      - selenium-chrome
+      
+  spark-master:
+    image: gettyimages/spark
+    command: bin/spark-class org.apache.spark.deploy.master.Master -h spark-master
+    container_name: spark-master
+    hostname: spark-master
+    environment:
+      MASTER: spark://spark-master:7077
+      SPARK_CONF_DIR: /conf
+    expose:
+      - 7001
+      - 7002
+      - 7003
+      - 7004
+      - 7005
+      - 7006
+      - 7077
+      - 6066
+    ports:
+      - 4040:4040
+      - 6066:6066
+      - 7077:7077
+      - 8080:8080
+    volumes:
+      - ./batch:/tmp/data
+    # entrypoint: ./startSpark.sh
 
-  # spark-worker:
-  #   image: gettyimages/spark
-  #   command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
-  #   container_name: spark-worker
-  #   hostname: spark-worker
-  #   environment:
-  #     SPARK_CONF_DIR: /conf
-  #     SPARK_WORKER_CORES: 2
-  #     SPARK_WORKER_MEMORY: 512m
-  #     SPARK_WORKER_PORT: 8881
-  #     SPARK_WORKER_WEBUI_PORT: 8081
-  #   links:
-  #     - spark-master
-  #   expose:
-  #     - 7012
-  #     - 7013
-  #     - 7014
-  #     - 7015
-  #     - 7016
-  #     - 8881
-  #   ports:
-  #     - 8081:8081
-  #   volumes:
-  #     - ./batch:/app
+  spark-worker:
+    image: gettyimages/spark
+    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
+    container_name: spark-worker
+    hostname: spark-worker
+    environment:
+      SPARK_CONF_DIR: /conf
+      SPARK_WORKER_CORES: 2
+      SPARK_WORKER_MEMORY: 512m
+      SPARK_WORKER_PORT: 8881
+      SPARK_WORKER_WEBUI_PORT: 8081
+    links:
+      - spark-master
+    expose:
+      - 7012
+      - 7013
+      - 7014
+      - 7015
+      - 7016
+      - 8881
+    ports:
+      - 8081:8081
+    volumes:
+      - ./batch:/tmp/data
+
+
 
 networks:
   backend:
