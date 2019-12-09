@@ -81,6 +81,27 @@
 	"pk": 1,
 	"fields": {
 		"item_being_viewed": "1",
-		"recommended_items": "2,3"
+		"recommended_items": " "
+	}
+}, {
+	"model": "jersey.recommendation",
+	"pk": 2,
+	"fields": {
+		"item_being_viewed": "2",
+		"recommended_items": " "
+	}
+}, {
+	"model": "jersey.recommendation",
+	"pk": 3,
+	"fields": {
+		"item_being_viewed": "3",
+		"recommended_items": " "
+	}
+}, {
+	"model": "jersey.recommendation",
+	"pk": 4,
+	"fields": {
+		"item_being_viewed": "4",
+		"recommended_items": " "
 	}
 }]

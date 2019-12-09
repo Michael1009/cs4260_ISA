@@ -49,5 +49,5 @@ class Jersey(models.Model):
 class Recommendation(models.Model):
     item_being_viewed = models.ForeignKey(Jersey,on_delete=models.CASCADE)
     recommended_items = models.CharField(max_length = 50)
-    def __str(self):
+    def __str__s(self):
         return "{} has recommendations for jersey IDs {}".format(self.item_being_viewed,recommended_items)

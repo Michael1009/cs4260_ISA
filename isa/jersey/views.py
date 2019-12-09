@@ -68,7 +68,12 @@ def create_jersey(request):
                     user_id=user,
                 )
                 new_jersey.save()
-
+                post_data = request.POST
+                new_recommendation = Recommendation(
+                    item_being_viewed = new_jersey,
+                    recommended_items = " "
+                )
+                new_recommendation.save()
                 new_jersey_json_string = serializers.serialize(
                     'json', [new_jersey, ])
                 new_jersey_json = json.loads(new_jersey_json_string)
@@ -88,26 +93,7 @@ def create_jersey(request):
     else:
         return incorrect_REST_method("POST")
 
-def create_recommendation(request): 
-    if request.method == "POST":
-        try:
-            post_data = request.POST
-            new_recommendation = Recommendation(
-                item_being_viewed = post_data['item_being_viewed'],
-                recommended_items = post_data['recommended_items']
-            )
-            new_recommendation.save()
-            result = json.dumps({'ok': True, 'recommendation': json.loads(new_recommendation)[0]})
-            return HttpResponse(result, status=200)
-        except KeyError as e:
-            result = json.dumps(
-                {'error': 'Create Recommendation: Missing field or malformed data in POST request.',
-                 'ok': False,
-                 'exception': str(e)}
-            )
-            return HttpResponse(result, status=400)
-    else:
-        return incorrect_REST_method("POST")
+
 
 def update(request, model, id):
     try:
@@ -162,11 +148,45 @@ def update_jersey(request, id):
 
 @csrf_exempt
 def update_user(request, id):
-    if request.method == "POST":
+    if request.method == "POST":    
         return update(request, User, id)
     else:
         return incorrect_REST_method("POST")
 
+@csrf_exempt
+def update_recommendation(request): 
+    if request.method == "POST":
+        try:
+            post_data = request.POST
+            item1_rec_object = Recommendation.objects.get(item_being_viewed = post_data['item1']) 
+            item2_rec_object = Recommendation.objects.get(item_being_viewed = post_data['item2'])
+            item1_current_recs = [x.strip() for x in item1_rec_object.recommended_items.split(',')]
+            item2_current_recs = [x.strip() for x in item2_rec_object.recommended_items.split(',')]
+
+
+            if not post_data['item2'] in item1_current_recs:
+                item1_current_recs.append(post_data['item2'])
+                item1_rec_object.recommended_items = ', '.join(item1_current_recs)
+                item1_rec_object.save(update_fields=['recommended_items'])
+
+            if not post_data['item1'] in item2_current_recs:
+                item2_current_recs.append(post_data['item1'])
+                item2_rec_object.recommended_items = ', '.join(item2_current_recs)
+                item2_rec_object.save(update_fields=['recommended_items'])
+
+            rec1_json = serializers.serialize("json", [item1_rec_object])
+            rec2_json = serializers.serialize("json", [item2_rec_object])
+            result = json.dumps({'ok': True, 'recommendation 1': json.loads(rec1_json), 'recommendation 2': json.loads(rec2_json)})
+            return HttpResponse(result, status=200)
+        except KeyError as e:
+            result = json.dumps(
+                {'error': 'Create Recommendation: Missing field or malformed data in POST request.',
+                 'ok': False,
+                 'exception': str(e)}
+            )
+            return HttpResponse(result, status=400)
+    else:
+        return incorrect_REST_method("POST")
 
 def delete_data(model, id):
     try:
@@ -452,5 +472,4 @@ def info(request):
             result = json.dumps(
                 {'error': 'REGISTER: Missing field or malformed data in POST request.', 'ok': False, 'data': request.POST, 'exception': str(e)})
             return HttpResponse(result, status=400)
-
 
