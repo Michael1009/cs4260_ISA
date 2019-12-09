@@ -8,12 +8,12 @@ services:
       - mysql:db
     volumes:
       - .:/app
-    expose:
-      - "8000"
+    ports:
+      - "8001:8000"
     networks:
       - backend
       - service_mesh
-    command: bash -c "python ./isa/manage.py migrate && python ./isa/manage.py loaddata ./isa/db.json && python ./isa/manage.py test jersey && mod_wsgi-express start-server --working-directory ./isa --reload-on-changes ./isa/isa/wsgi.py"
+    command: bash -c "python ./isa/manage.py makemigrations  && python ./isa/manage.py migrate && python ./isa/manage.py loaddata ./isa/db.json && python ./isa/manage.py test jersey && mod_wsgi-express start-server --working-directory ./isa --reload-on-changes ./isa/isa/wsgi.py"
 
   exp:
     image: tp33/django

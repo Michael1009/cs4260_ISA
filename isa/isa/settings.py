@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = ')9pi%v_71!ztqpdry*$k3n@5*6#c399hy)_ja7z(%k50-nshuz'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["models", "localhost", "134.209.167.92"]
 
@@ -81,6 +81,9 @@ DATABASES = {
         'USER': 'www',
         'PASSWORD': '$3cureUS',
         'HOST': 'db',
+        'TEST': {
+            'NAME': 'test_cs4501',
+        },
     }
 }
 
