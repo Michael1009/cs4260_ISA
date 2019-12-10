@@ -8,8 +8,8 @@ services:
       - mysql:db
     volumes:
       - .:/app
-    ports:
-      - "8001:8000"
+    expose:
+      - "8000"
     networks:
       - backend
       - service_mesh
@@ -18,16 +18,18 @@ services:
   exp:
     image: tp33/django
     container_name: exp
-    networks:
+    networks: 
       - service_mesh
       - public
-    # expose:
-    #   - "8000"
-    ports:
-      - "8002:8000"
+    expose:
+      - "8000"
+    # ports:
+    #   - "8002:8000"
     volumes:
       - .:/app
     command: "mod_wsgi-express start-server --working-directory ./exp --reload-on-changes exp/exp/wsgi.py"
+    logging:
+      driver: "none"
 
 
   web:
@@ -35,72 +37,72 @@ services:
     container_name: web
     networks:
       - public
-    # expose:
-    #   - "8000"
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
+    # ports:
+    #   - "8000:8000"
     volumes:
       - .:/app
     command: "mod_wsgi-express start-server --working-directory ./web --reload-on-changes web/web/wsgi.py"
-  
-  # web2:
-  #   image: tp33/django
-  #   container_name: web2
-  #   networks:
-  #     - public
-  #   expose:
-  #     - "8000"
-  #   volumes:
-  #     - .:/app
-  #   command: "mod_wsgi-express start-server --working-directory ./web --reload-on-changes web/web/wsgi.py"
 
-  # haproxy:
-  #   image: haproxy:1.8
-  #   container_name: haproxy
-  #   depends_on:
-  #     - web
-  #     - web2
-  #   volumes:
-  #     - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
-  #   ports:
-  #     - "80:80"
-  #     - "1936:1936"
-  #   networks:
-  #     - public
-  #   logging:
-  #     driver: "none"
+  web2:
+    image: tp33/django
+    container_name: web2
+    networks:
+      - public
+    expose:
+      - "8000"
+    volumes:
+      - .:/app
+    command: "mod_wsgi-express start-server --working-directory ./web --reload-on-changes web/web/wsgi.py"
+
+  haproxy:
+    image: haproxy:1.8
+    container_name: haproxy
+    depends_on:
+      - web
+      - web2
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    ports:
+      - "80:80"
+      - "1936:1936"
+    networks:
+      - public
+    logging:
+      driver: "none"
 
   kafka:
-   image: spotify/kafka
-   container_name: kafka
-   networks:
+    image: spotify/kafka
+    container_name: kafka
+    networks:
       - batch_network
       - service_mesh
-   environment:
+    environment:
       ADVERTISED_HOST: kafka
       ADVERTISED_PORT: 9092
-   hostname: kafka
-   
+    hostname: kafka
+
   es:
     image: elasticsearch:7.4.0
     container_name: es
     environment:
-        - discovery.type=single-node
+      - discovery.type=single-node
     networks:
-        - service_mesh
-        - mod_exp_network
-        - batch_network
-    expose:
-        - "9200"
+      - service_mesh
+      - mod_exp_network
+      - batch_network
+    ports:
+      - "9200:9200"
 
   batch:
     image: tp33/django
     container_name: batch
     networks:
-        - batch_network
+      - batch_network
     depends_on:
       - es
-    volumes:
+    volumes:  
       - .:/app
     command: bash -c "python ./batch/search_consumer.py & python ./batch/view_count.py & python ./batch/view_updater.py"
     restart: on-failure
