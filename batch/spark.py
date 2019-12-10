@@ -48,9 +48,13 @@ for out in output:
 
     result = None
     # try:
+    print("test 1")
     req = urllib.request.Request(url, data=data, method='POST')
+    print("test 2")
     resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+    print("test 3")
     resp = json.loads(resp_json)
+    print("test 4")
     json_dump = json.dumps(resp)
     result = json_dump
     # except:

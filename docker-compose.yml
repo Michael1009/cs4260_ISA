@@ -154,6 +154,9 @@ services:
       - ./batch:/tmp/data
     links:
       - models
+    networks: 
+      - service_mesh
+    
 
   spark-worker:
     image: gettyimages/spark
@@ -166,9 +169,8 @@ services:
       SPARK_WORKER_MEMORY: 512m
       SPARK_WORKER_PORT: 8881
       SPARK_WORKER_WEBUI_PORT: 8081
-    links:
+      links:
       - spark-master
-      - models
     expose:
       - 7012
       - 7013
@@ -180,6 +182,10 @@ services:
       - 8081:8081
     volumes:
       - ./batch:/tmp/data
+    networks: 
+      - service_mesh
+    depends_on:
+      - spark-master
 
 
 
