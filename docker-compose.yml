@@ -15,118 +15,118 @@ services:
       - service_mesh
     command: bash -c "python ./isa/manage.py makemigrations  && python ./isa/manage.py migrate && python ./isa/manage.py loaddata ./isa/db.json && python ./isa/manage.py test jersey && mod_wsgi-express start-server --working-directory ./isa --reload-on-changes ./isa/isa/wsgi.py"
 
-  exp:
-    image: tp33/django
-    container_name: exp
-    networks:
-      - service_mesh
-      - public
-    expose:
-      - "8000"
-    volumes:
-      - .:/app
-    command: "mod_wsgi-express start-server --working-directory ./exp --reload-on-changes exp/exp/wsgi.py"
-    logging:
-      driver: "none"
+  # exp:
+  #   image: tp33/django
+  #   container_name: exp
+  #   networks:
+  #     - service_mesh
+  #     - public
+  #   expose:
+  #     - "8000"
+  #   volumes:
+  #     - .:/app
+  #   command: "mod_wsgi-express start-server --working-directory ./exp --reload-on-changes exp/exp/wsgi.py"
+  #   logging:
+  #     driver: "none"
 
 
-  web:
-    image: tp33/django
-    container_name: web
-    networks:
-      - public
-    expose:
-      - "8000"
-    volumes:
-      - .:/app
-    command: "mod_wsgi-express start-server --working-directory ./web --reload-on-changes web/web/wsgi.py"
+  # web:
+  #   image: tp33/django
+  #   container_name: web
+  #   networks:
+  #     - public
+  #   expose:
+  #     - "8000"
+  #   volumes:
+  #     - .:/app
+  #   command: "mod_wsgi-express start-server --working-directory ./web --reload-on-changes web/web/wsgi.py"
   
-  web2:
-    image: tp33/django
-    container_name: web2
-    networks:
-      - public
-    expose:
-      - "8000"
-    volumes:
-      - .:/app
-    command: "mod_wsgi-express start-server --working-directory ./web --reload-on-changes web/web/wsgi.py"
+  # web2:
+  #   image: tp33/django
+  #   container_name: web2
+  #   networks:
+  #     - public
+  #   expose:
+  #     - "8000"
+  #   volumes:
+  #     - .:/app
+  #   command: "mod_wsgi-express start-server --working-directory ./web --reload-on-changes web/web/wsgi.py"
 
-  haproxy:
-    image: haproxy:1.8
-    container_name: haproxy
-    depends_on:
-      - web
-      - web2
-    volumes:
-      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
-    ports:
-      - "80:80"
-      - "1936:1936"
-    networks:
-      - public
-    logging:
-      driver: "none"
+  # haproxy:
+  #   image: haproxy:1.8
+  #   container_name: haproxy
+  #   depends_on:
+  #     - web
+  #     - web2
+  #   volumes:
+  #     - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+  #   ports:
+  #     - "80:80"
+  #     - "1936:1936"
+  #   networks:
+  #     - public
+  #   logging:
+  #     driver: "none"
 
-  kafka:
-   image: spotify/kafka
-   container_name: kafka
-   networks:
-      - batch_network
-      - service_mesh
-   environment:
-      ADVERTISED_HOST: kafka
-      ADVERTISED_PORT: 9092
-   hostname: kafka
-   logging:
-      driver: "none"
-  es:
-    image: elasticsearch:7.4.0
-    container_name: es
-    environment:
-        - discovery.type=single-node
-    networks:
-        - service_mesh
-        - mod_exp_network
-        - batch_network
-    expose:
-        - "9200"
-    logging:
-      driver: "none"
+  # kafka:
+  #  image: spotify/kafka
+  #  container_name: kafka
+  #  networks:
+  #     - batch_network
+  #     - service_mesh
+  #  environment:
+  #     ADVERTISED_HOST: kafka
+  #     ADVERTISED_PORT: 9092
+  #  hostname: kafka
+  #  logging:
+  #     driver: "none"
+  # es:
+  #   image: elasticsearch:7.4.0
+  #   container_name: es
+  #   environment:
+  #       - discovery.type=single-node
+  #   networks:
+  #       - service_mesh
+  #       - mod_exp_network
+  #       - batch_network
+  #   expose:
+  #       - "9200"
+  #   logging:
+  #     driver: "none"
 
-  batch:
-    image: tp33/django
-    container_name: batch
-    networks:
-        - batch_network
-    depends_on:
-      - es
-    volumes:
-      - .:/app
-    command: bash -c "python ./batch/search_consumer.py && python ./batch/view_count.py && python ./batch/view_updater.py"
-    restart: on-failure
+  # batch:
+  #   image: tp33/django
+  #   container_name: batch
+  #   networks:
+  #       - batch_network
+  #   depends_on:
+  #     - es
+  #   volumes:
+  #     - .:/app
+  #   command: bash -c "python ./batch/search_consumer.py && python ./batch/view_count.py && python ./batch/view_updater.py"
+  #   restart: on-failure
 
-  selenium-chrome:
-    image: selenium/standalone-chrome
-    container_name: selenium-chrome
-    networks:
-       - service_mesh
-       - public
-    expose:
-       - "4444"
-    depends_on:
-      - es
+  # selenium-chrome:
+  #   image: selenium/standalone-chrome
+  #   container_name: selenium-chrome
+  #   networks:
+  #      - service_mesh
+  #      - public
+  #   expose:
+  #      - "4444"
+  #   depends_on:
+  #     - es
 
-  selenium-test:
-    image: tp33/django
-    container_name: selenium-test
-    networks:
-       - service_mesh
-    volumes:
-       - ./selenium:/app
-    command: bash -c "pip install selenium==3.141.0  &&   pip install requests && python selenium_tests.py"
-    depends_on:
-      - selenium-chrome
+  # selenium-test:
+  #   image: tp33/django
+  #   container_name: selenium-test
+  #   networks:
+  #      - service_mesh
+  #   volumes:
+  #      - ./selenium:/app
+  #   command: bash -c "pip install selenium==3.141.0  &&   pip install requests && python selenium_tests.py"
+  #   depends_on:
+  #     - selenium-chrome
       
   spark-master:
     image: gettyimages/spark
@@ -152,6 +152,8 @@ services:
       - 8080:8080
     volumes:
       - ./batch:/tmp/data
+    links:
+      - models
 
   spark-worker:
     image: gettyimages/spark
@@ -166,6 +168,7 @@ services:
       SPARK_WORKER_WEBUI_PORT: 8081
     links:
       - spark-master
+      - models
     expose:
       - 7012
       - 7013

@@ -1,9 +1,18 @@
 from pyspark import SparkContext
+import urllib.request
+import json
 
 
 def getPairs(item):
     item_list = list(item)
-    return [(item_list[i], item_list[j]) for i in range(len(item_list)) for j in range(i+1, len(item_list))]
+    result = []
+    for p1 in range(len(item_list)):
+        for p2 in range(p1+1, len(item_list)):
+            tuple_pair = (min(item_list[p1], item_list[p2]), max(
+                item_list[p1], item_list[p2]))
+            if tuple_pair not in result:
+                result.append(tuple_pair)
+    return result
 
 
 sc = SparkContext("spark://spark-master:7077", "PopularItems")
@@ -32,6 +41,20 @@ final = count.filter(lambda x: x[1] >= 3)
 output = final.collect()
 for out in output:
     print(out)
+    # print(out[0][0], out[0][1])
+    json_data = {"item1": int(out[0][0]), "item2": int(out[0][1])}
+    data = urllib.parse.urlencode(json_data).encode("utf-8")
+    url = "http://models:8000/jersey/api/v1/Recommendation/update"
+
+    result = None
+    # try:
+    req = urllib.request.Request(url, data=data, method='POST')
+    resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+    resp = json.loads(resp_json)
+    json_dump = json.dumps(resp)
+    result = json_dump
+    # except:
+    print("result:", result)
 print("Popular items done")
 
 sc.stop()
