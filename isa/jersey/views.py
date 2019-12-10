@@ -298,14 +298,23 @@ def get_jersey_by_size(request, **kwargs):
 # to make cards and be able to link to the other jerseys
 def get_recommendations(request, id):
     if request.method == "GET":
-        try:
-            obj = Recommendation.objects.get(item_being_viewed=id)
-            response = serializers.serialize("json", [obj])
-            return HttpResponse(response, content_type='application/json', status=200)
-        except:
-            response = json.dumps(
-                {'error': 'Recommendation for jersey id {} not found'.format(id), 'ok': False})
-            return HttpResponse(response, content_type='application/json', status=404)
+        # try:
+        rec_obj = Recommendation.objects.get(item_being_viewed=id)
+        ids_to_rec = [x.strip() for x in rec_obj.recommended_items.split(',')]
+        ids_to_rec.remove('')
+        jersey_infos = []
+        for x in ids_to_rec:
+            curr_jer = Jersey.objects.get(id = x)
+            jersey_infos.append({
+                'id':x,
+                'player': curr_jer.player
+            })
+        response = {'recs':jersey_infos, 'array': ids_to_rec, 'str': rec_obj.recommended_items}
+        return HttpResponse(json.dumps(response), content_type='application/json', status=200)
+        # except:
+        #     response = json.dumps(
+        #         {'error': 'Recommendation for jersey id {} not found'.format(id), 'ok': False})
+        #     return HttpResponse(response, content_type='application/json', status=404)
     return incorrect_REST_method("GET")
 
 

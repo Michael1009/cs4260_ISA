@@ -233,6 +233,15 @@ def trending(request):
     })
     return HttpResponse(return_result, content_type='application/json')
 
+def get_recommendation(request,id):
+    result = None
+    try:
+        with urllib.request.urlopen('http://models:8000/jersey/api/v1/Recommendation/'+str(id)) as response:
+            result = response.read()
+    except:
+        result = json.dumps(
+            {'error': '404', 'ok': False})
+    return HttpResponse(result, content_type='application/json', status=200)
 
 
 

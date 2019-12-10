@@ -13,15 +13,14 @@ urlpatterns = [
     path('api/v1/User', views.get_all_user, name='get_user'),
     path('api/v1/Jersey/<int:id>', views.get_jersey, name='get_jersey'),
     path('api/v1/User/<int:id>', views.get_user, name='get_user'),
-    path('api/v1/Jersey/<str:size>',
-         views.get_jersey_by_size, name='get_jersey_by_size'),
-     path('api/v1/Recommendation/update', views.update_recommendation, name ='update_recommendation'),
+    path('api/v1/Jersey/<str:size>',views.get_jersey_by_size, name='get_jersey_by_size'),
+    path('api/v1/Recommendation/<int:id>',views.get_recommendations, name='get_recommendations'),
     # Update
     path('api/v1/Jersey/<int:id>/update',
          views.update_jersey, name='update_jersey'),
     path('api/v1/User/<int:id>/update',
          views.update_user, name='update_user'),
-     path('api/v1/Recommendation/update', views.update_recommendation, name='update_recommendation'),
+    path('api/v1/Recommendation/update', views.update_recommendation, name = 'update_recommendation'),
     # Delete
     path('api/v1/User/<int:id>/delete', views.delete_user, name='delete_user'),
     path('api/v1/User/<str:email>/delete_user_by_email', views.delete_user_by_email, name='delete_user_by_email'),

@@ -81,21 +81,21 @@
 	"pk": 1,
 	"fields": {
 		"item_being_viewed": "1",
-		"recommended_items": " "
+		"recommended_items": ", 2, 3 "
 	}
 }, {
 	"model": "jersey.recommendation",
 	"pk": 2,
 	"fields": {
 		"item_being_viewed": "2",
-		"recommended_items": " "
+		"recommended_items": ", 1 "
 	}
 }, {
 	"model": "jersey.recommendation",
 	"pk": 3,
 	"fields": {
 		"item_being_viewed": "3",
-		"recommended_items": " "
+		"recommended_items": ", 1 "
 	}
 }, {
 	"model": "jersey.recommendation",
