@@ -16,8 +16,8 @@
             <div> <a href = "{% url 'logout' %}">logout</a> </div>
             <div> <a href = "{% url 'create_jersey' %}">create jersey</a> </div>  
         {% else %}
-            <div> <a href = "{% url 'register' %}">register</a> </div> 
-            <div> <a href = "{% url 'login_page' %}">login</a> </div>
+            <div> <a id = "register_button" href = "{% url 'register' %}">register</a> </div> 
+            <div> <a id = "login_button" href = "{% url 'login_page' %}">login</a> </div>
         {% endif %}
         <div class="uk-navbar-center">
             <div class="uk-navbar-item">
@@ -31,7 +31,7 @@
         <div class="content container">
             <div class="row">
                 <div class="col-md-8">
-                {% block content %}
+                {% block content %} 
                 {% endblock %}
                 </div>
             </div>

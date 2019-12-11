@@ -25,7 +25,7 @@ SECRET_KEY = 'tgt)94kvml#xdakp6p--i!-ev*8wam6jix5_3)3+w%)l*1+zx('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['localhost','web', '134.209.167.92']
 
 
 # Application definition
@@ -116,8 +116,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
-DEBUG = True
 
 
 # Static files (CSS, JavaScript, Images)

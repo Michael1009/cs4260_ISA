@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
-from .models import User, Jersey, Authenticator
+from .models import User, Jersey, Authenticator, Recommendation
 import json
 from django.views.decorators.csrf import csrf_exempt
 from django.core.serializers.json import DjangoJSONEncoder
@@ -22,6 +22,29 @@ def incorrect_REST_method(method):
         {'error': 'Incorrect REST method used. This endpoint expects a {} request'.format(method), 'ok': False})
     return HttpResponse(result, status=400)
 
+@csrf_exempt
+def create_user(request):
+    if request.method == "POST":
+        form = request.POST
+        try:
+            new_user = User(
+                email=request.POST['email'],
+                first_name=request.POST['first_name'],
+                last_name=request.POST['last_name'],
+                shirt_size=request.POST['shirt_size']
+            )
+            new_user.save()
+            return HttpResponse(status=201)
+        except:
+            result = json.dumps(
+                {'error': 'Missing field or malformed data in CREATE request. Here is the data we received: {}'.format(form), 'ok': False})
+            return HttpResponse(result)
+    else:
+        result = json.dumps(
+            {'error': 'Incorrect REST method used. This endpoint expects a POST request', 'ok': False}
+        )
+        return HttpResponse(result)
+        
 ##### CRUD #####
 @csrf_exempt
 def create_jersey(request):
@@ -45,7 +68,12 @@ def create_jersey(request):
                     user_id=user,
                 )
                 new_jersey.save()
-
+                post_data = request.POST
+                new_recommendation = Recommendation(
+                    item_being_viewed = new_jersey,
+                    recommended_items = " "
+                )
+                new_recommendation.save()
                 new_jersey_json_string = serializers.serialize(
                     'json', [new_jersey, ])
                 new_jersey_json = json.loads(new_jersey_json_string)
@@ -64,6 +92,7 @@ def create_jersey(request):
             return HttpResponse(result, status=400)
     else:
         return incorrect_REST_method("POST")
+
 
 
 def update(request, model, id):
@@ -119,11 +148,45 @@ def update_jersey(request, id):
 
 @csrf_exempt
 def update_user(request, id):
-    if request.method == "POST":
+    if request.method == "POST":    
         return update(request, User, id)
     else:
         return incorrect_REST_method("POST")
 
+@csrf_exempt
+def update_recommendation(request): 
+    if request.method == "POST":
+        try:
+            post_data = request.POST
+            item1_rec_object = Recommendation.objects.get(item_being_viewed = post_data['item1']) 
+            item2_rec_object = Recommendation.objects.get(item_being_viewed = post_data['item2'])
+            item1_current_recs = [x.strip() for x in item1_rec_object.recommended_items.split(',')]
+            item2_current_recs = [x.strip() for x in item2_rec_object.recommended_items.split(',')]
+
+
+            if not post_data['item2'] in item1_current_recs:
+                item1_current_recs.append(post_data['item2'])
+                item1_rec_object.recommended_items = ', '.join(item1_current_recs)
+                item1_rec_object.save(update_fields=['recommended_items'])
+
+            if not post_data['item1'] in item2_current_recs:
+                item2_current_recs.append(post_data['item1'])
+                item2_rec_object.recommended_items = ', '.join(item2_current_recs)
+                item2_rec_object.save(update_fields=['recommended_items'])
+
+            rec1_json = serializers.serialize("json", [item1_rec_object])
+            rec2_json = serializers.serialize("json", [item2_rec_object])
+            result = json.dumps({'ok': True, 'recommendation 1': json.loads(rec1_json), 'recommendation 2': json.loads(rec2_json)})
+            return HttpResponse(result, status=200)
+        except KeyError as e:
+            result = json.dumps(
+                {'error': 'Create Recommendation: Missing field or malformed data in POST request.',
+                 'ok': False,
+                 'exception': str(e)}
+            )
+            return HttpResponse(result, status=400)
+    else:
+        return incorrect_REST_method("POST")
 
 def delete_data(model, id):
     try:
@@ -142,6 +205,28 @@ def delete_user(request, id):
     if request.method == "DELETE":
         return delete_data(User, id)
     return incorrect_REST_method("DELETE")
+
+@csrf_exempt
+def delete_user_by_email(request,email):
+    if request.method == "DELETE":
+        try:
+            cur_id = User.objects.get(email=email).id
+            Jersey.objects.filter(user_id = cur_id).delete()
+            User.objects.get(email=email).delete()
+            response  = {
+                'ok': True,
+                'message': "{} deleted".format(email)
+            }
+            return HttpResponse(json.dumps(response), content_type='application/json', status=200)
+
+        except:
+            response = {
+                'ok': False,
+                'error': "Unable to delete specified user",
+            }
+            return HttpResponse(json.dumps(response), content_type='application/json', status=200)
+    else:
+        return incorrect_REST_method("DELETE")
 
 
 @csrf_exempt
@@ -175,6 +260,7 @@ def get_all_data(model, args):
         return HttpResponse(response, content_type='application/json', status=404)
 
 
+
 @csrf_exempt
 def get_user(request, **kwargs):
     if request.method == "GET":
@@ -205,6 +291,30 @@ def get_all_jersey(request, **kwargs):
 def get_jersey_by_size(request, **kwargs):
     if request.method == "GET":
         return get_all_data_by_size(Jersey, kwargs)
+    return incorrect_REST_method("GET")
+
+# id is the id of the jersey you want recommendations for
+# this isn't implemented properly, we need to return actual data on the jerseys
+# to make cards and be able to link to the other jerseys
+def get_recommendations(request, id):
+    if request.method == "GET":
+        # try:
+        rec_obj = Recommendation.objects.get(item_being_viewed=id)
+        ids_to_rec = [x.strip() for x in rec_obj.recommended_items.split(',')]
+        ids_to_rec.remove('')
+        jersey_infos = []
+        for x in ids_to_rec:
+            curr_jer = Jersey.objects.get(id = x)
+            jersey_infos.append({
+                'id':x,
+                'player': curr_jer.player
+            })
+        response = {'recs':jersey_infos, 'array': ids_to_rec, 'str': rec_obj.recommended_items}
+        return HttpResponse(json.dumps(response), content_type='application/json', status=200)
+        # except:
+        #     response = json.dumps(
+        #         {'error': 'Recommendation for jersey id {} not found'.format(id), 'ok': False})
+        #     return HttpResponse(response, content_type='application/json', status=404)
     return incorrect_REST_method("GET")
 
 
@@ -371,3 +481,4 @@ def info(request):
             result = json.dumps(
                 {'error': 'REGISTER: Missing field or malformed data in POST request.', 'ok': False, 'data': request.POST, 'exception': str(e)})
             return HttpResponse(result, status=400)
+

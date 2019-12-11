@@ -2,7 +2,6 @@
 # Edit at https://www.gitignore.io/?templates=django
 
 ### Django ###
-*.log
 *.pot
 *.pyc
 __pycache__/

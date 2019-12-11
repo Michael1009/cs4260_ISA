@@ -8,6 +8,7 @@ urlpatterns = [
     path('home/<str:size>', views.jersey_by_size, name='jersey_by_size'),
     path('jersey_detail/<int:id>', views.jersey_detail_noauth, name='jersey_detail_noauth'),
     path('jersey_detail/<int:id>/<str:user_id>', views.jersey_detail, name='jersey_detail'),
+    path('recommendation/<int:id>', views.get_recommendation, name='get_recommendation'),
 
     # Register
     path('users/register/', views.register),

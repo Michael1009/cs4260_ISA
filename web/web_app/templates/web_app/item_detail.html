@@ -14,5 +14,15 @@
             </ul>
         </div>
     </div>
+    <div class = "row">
+        <div class = "col col-md-6">
+            {% if recs %}
+                <h3>People who looked at this also looked at these. Wouldn't you know. Feel free to click on them.</h3>
+                {% for rec in recs %}
+                    <h5><a href = "/item/{{rec.id}}">{{rec.player}}</a></h5>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
 </div>
 {% endblock %}
