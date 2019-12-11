@@ -1,169 +1,172 @@
-2019-12-11 02:35:49,320 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
-2019-12-11 02:35:50,194 INFO spark.SparkContext: Running Spark version 2.4.1
-2019-12-11 02:35:50,234 INFO spark.SparkContext: Submitted application: PopularItems
-2019-12-11 02:35:50,298 INFO spark.SecurityManager: Changing view acls to: root
-2019-12-11 02:35:50,299 INFO spark.SecurityManager: Changing modify acls to: root
-2019-12-11 02:35:50,300 INFO spark.SecurityManager: Changing view acls groups to: 
-2019-12-11 02:35:50,301 INFO spark.SecurityManager: Changing modify acls groups to: 
-2019-12-11 02:35:50,302 INFO spark.SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(root); groups with view permissions: Set(); users  with modify permissions: Set(root); groups with modify permissions: Set()
-2019-12-11 02:35:50,644 INFO util.Utils: Successfully started service 'sparkDriver' on port 44531.
-2019-12-11 02:35:50,686 INFO spark.SparkEnv: Registering MapOutputTracker
-2019-12-11 02:35:50,709 INFO spark.SparkEnv: Registering BlockManagerMaster
-2019-12-11 02:35:50,715 INFO storage.BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
-2019-12-11 02:35:50,716 INFO storage.BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
-2019-12-11 02:35:50,728 INFO storage.DiskBlockManager: Created local directory at /tmp/blockmgr-812dfecc-9544-4b6c-9657-98f78a9517a6
-2019-12-11 02:35:50,744 INFO memory.MemoryStore: MemoryStore started with capacity 366.3 MB
-2019-12-11 02:35:50,761 INFO spark.SparkEnv: Registering OutputCommitCoordinator
-2019-12-11 02:35:50,861 INFO util.log: Logging initialized @2800ms
-2019-12-11 02:35:50,953 INFO server.Server: jetty-9.3.z-SNAPSHOT, build timestamp: unknown, git hash: unknown
-2019-12-11 02:35:50,974 INFO server.Server: Started @2914ms
-2019-12-11 02:35:51,003 INFO server.AbstractConnector: Started ServerConnector@5363c63e{HTTP/1.1,[http/1.1]}{0.0.0.0:4040}
-2019-12-11 02:35:51,004 INFO util.Utils: Successfully started service 'SparkUI' on port 4040.
-2019-12-11 02:35:51,037 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@6e2c7415{/jobs,null,AVAILABLE,@Spark}
-2019-12-11 02:35:51,040 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@68625d77{/jobs/json,null,AVAILABLE,@Spark}
-2019-12-11 02:35:51,043 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@1bf7b4cd{/jobs/job,null,AVAILABLE,@Spark}
-2019-12-11 02:35:51,048 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@51cfc3ec{/jobs/job/json,null,AVAILABLE,@Spark}
-2019-12-11 02:35:51,049 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@773844c4{/stages,null,AVAILABLE,@Spark}
-2019-12-11 02:35:51,051 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@2d04edf2{/stages/json,null,AVAILABLE,@Spark}
-2019-12-11 02:35:51,052 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@632676a9{/stages/stage,null,AVAILABLE,@Spark}
-2019-12-11 02:35:51,056 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@73936308{/stages/stage/json,null,AVAILABLE,@Spark}
-2019-12-11 02:35:51,059 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@2350c0ed{/stages/pool,null,AVAILABLE,@Spark}
-2019-12-11 02:35:51,060 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@2741481c{/stages/pool/json,null,AVAILABLE,@Spark}
-2019-12-11 02:35:51,062 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@4d8cc9ff{/storage,null,AVAILABLE,@Spark}
-2019-12-11 02:35:51,064 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@25ef6865{/storage/json,null,AVAILABLE,@Spark}
-2019-12-11 02:35:51,066 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@1d839d{/storage/rdd,null,AVAILABLE,@Spark}
-2019-12-11 02:35:51,067 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@2db12a2a{/storage/rdd/json,null,AVAILABLE,@Spark}
-2019-12-11 02:35:51,069 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@659cd52{/environment,null,AVAILABLE,@Spark}
-2019-12-11 02:35:51,071 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@582b31bc{/environment/json,null,AVAILABLE,@Spark}
-2019-12-11 02:35:51,072 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@34c6504f{/executors,null,AVAILABLE,@Spark}
-2019-12-11 02:35:51,074 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@1002dc87{/executors/json,null,AVAILABLE,@Spark}
-2019-12-11 02:35:51,076 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@5879a088{/executors/threadDump,null,AVAILABLE,@Spark}
-2019-12-11 02:35:51,078 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@59deccea{/executors/threadDump/json,null,AVAILABLE,@Spark}
-2019-12-11 02:35:51,087 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@5f1cbbb6{/static,null,AVAILABLE,@Spark}
-2019-12-11 02:35:51,089 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@2b796cb0{/,null,AVAILABLE,@Spark}
-2019-12-11 02:35:51,091 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@622c7882{/api,null,AVAILABLE,@Spark}
-2019-12-11 02:35:51,093 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@380531ca{/jobs/job/kill,null,AVAILABLE,@Spark}
-2019-12-11 02:35:51,095 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@2ae1bcdb{/stages/stage/kill,null,AVAILABLE,@Spark}
-2019-12-11 02:35:51,097 INFO ui.SparkUI: Bound SparkUI to 0.0.0.0, and started at http://spark-master:4040
-2019-12-11 02:35:51,219 INFO client.StandaloneAppClient$ClientEndpoint: Connecting to master spark://spark-master:7077...
-2019-12-11 02:35:51,275 INFO client.TransportClientFactory: Successfully created connection to spark-master/172.20.0.2:7077 after 28 ms (0 ms spent in bootstraps)
-2019-12-11 02:35:51,411 INFO cluster.StandaloneSchedulerBackend: Connected to Spark cluster with app ID app-20191211023551-0002
-2019-12-11 02:35:51,419 INFO client.StandaloneAppClient$ClientEndpoint: Executor added: app-20191211023551-0002/0 on worker-20191211023407-172.20.0.3-8881 (172.20.0.3:8881) with 2 core(s)
-2019-12-11 02:35:51,424 INFO cluster.StandaloneSchedulerBackend: Granted executor ID app-20191211023551-0002/0 on hostPort 172.20.0.3:8881 with 2 core(s), 512.0 MB RAM
-2019-12-11 02:35:51,448 INFO util.Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 42803.
-2019-12-11 02:35:51,450 INFO netty.NettyBlockTransferService: Server created on spark-master:42803
-2019-12-11 02:35:51,455 INFO storage.BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
-2019-12-11 02:35:51,483 INFO client.StandaloneAppClient$ClientEndpoint: Executor updated: app-20191211023551-0002/0 is now RUNNING
-2019-12-11 02:35:51,509 INFO storage.BlockManagerMaster: Registering BlockManager BlockManagerId(driver, spark-master, 42803, None)
-2019-12-11 02:35:51,521 INFO storage.BlockManagerMasterEndpoint: Registering block manager spark-master:42803 with 366.3 MB RAM, BlockManagerId(driver, spark-master, 42803, None)
-2019-12-11 02:35:51,550 INFO storage.BlockManagerMaster: Registered BlockManager BlockManagerId(driver, spark-master, 42803, None)
-2019-12-11 02:35:51,557 INFO storage.BlockManager: Initialized BlockManager: BlockManagerId(driver, spark-master, 42803, None)
-2019-12-11 02:35:51,828 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@7d3417b5{/metrics/json,null,AVAILABLE,@Spark}
-2019-12-11 02:35:51,864 INFO cluster.StandaloneSchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
-2019-12-11 02:35:53,355 INFO memory.MemoryStore: Block broadcast_0 stored as values in memory (estimated size 420.1 KB, free 365.9 MB)
-2019-12-11 02:35:53,545 INFO memory.MemoryStore: Block broadcast_0_piece0 stored as bytes in memory (estimated size 37.1 KB, free 365.9 MB)
-2019-12-11 02:35:53,570 INFO storage.BlockManagerInfo: Added broadcast_0_piece0 in memory on spark-master:42803 (size: 37.1 KB, free: 366.3 MB)
-2019-12-11 02:35:53,598 INFO spark.SparkContext: Created broadcast 0 from textFile at NativeMethodAccessorImpl.java:0
-2019-12-11 02:35:53,911 INFO mapred.FileInputFormat: Total input files to process : 1
-2019-12-11 02:35:54,385 INFO spark.SparkContext: Starting job: collect at /tmp/data/spark.py:41
-2019-12-11 02:35:54,425 INFO scheduler.DAGScheduler: Registering RDD 3 (distinct at /tmp/data/spark.py:23)
-2019-12-11 02:35:54,439 INFO scheduler.DAGScheduler: Registering RDD 7 (groupByKey at /tmp/data/spark.py:28)
-2019-12-11 02:35:54,449 INFO scheduler.DAGScheduler: Registering RDD 11 (reduceByKey at /tmp/data/spark.py:36)
-2019-12-11 02:35:54,453 INFO scheduler.DAGScheduler: Got job 0 (collect at /tmp/data/spark.py:41) with 2 output partitions
-2019-12-11 02:35:54,454 INFO scheduler.DAGScheduler: Final stage: ResultStage 3 (collect at /tmp/data/spark.py:41)
-2019-12-11 02:35:54,455 INFO scheduler.DAGScheduler: Parents of final stage: List(ShuffleMapStage 2)
-2019-12-11 02:35:54,465 INFO scheduler.DAGScheduler: Missing parents: List(ShuffleMapStage 2)
-2019-12-11 02:35:54,506 INFO scheduler.DAGScheduler: Submitting ShuffleMapStage 0 (PairwiseRDD[3] at distinct at /tmp/data/spark.py:23), which has no missing parents
-2019-12-11 02:35:54,638 INFO memory.MemoryStore: Block broadcast_1 stored as values in memory (estimated size 10.5 KB, free 365.8 MB)
-2019-12-11 02:35:54,680 INFO memory.MemoryStore: Block broadcast_1_piece0 stored as bytes in memory (estimated size 6.8 KB, free 365.8 MB)
-2019-12-11 02:35:54,682 INFO storage.BlockManagerInfo: Added broadcast_1_piece0 in memory on spark-master:42803 (size: 6.8 KB, free: 366.3 MB)
-2019-12-11 02:35:54,685 INFO spark.SparkContext: Created broadcast 1 from broadcast at DAGScheduler.scala:1161
-2019-12-11 02:35:54,742 INFO scheduler.DAGScheduler: Submitting 2 missing tasks from ShuffleMapStage 0 (PairwiseRDD[3] at distinct at /tmp/data/spark.py:23) (first 15 tasks are for partitions Vector(0, 1))
-2019-12-11 02:35:54,744 INFO scheduler.TaskSchedulerImpl: Adding task set 0.0 with 2 tasks
-2019-12-11 02:35:55,359 INFO cluster.CoarseGrainedSchedulerBackend$DriverEndpoint: Registered executor NettyRpcEndpointRef(spark-client://Executor) (172.20.0.3:45516) with ID 0
-2019-12-11 02:35:55,422 INFO scheduler.TaskSetManager: Starting task 0.0 in stage 0.0 (TID 0, 172.20.0.3, executor 0, partition 0, PROCESS_LOCAL, 7882 bytes)
-2019-12-11 02:35:55,444 INFO scheduler.TaskSetManager: Starting task 1.0 in stage 0.0 (TID 1, 172.20.0.3, executor 0, partition 1, PROCESS_LOCAL, 7882 bytes)
-2019-12-11 02:35:55,552 INFO storage.BlockManagerMasterEndpoint: Registering block manager 172.20.0.3:39633 with 93.3 MB RAM, BlockManagerId(0, 172.20.0.3, 39633, None)
-2019-12-11 02:35:55,932 INFO storage.BlockManagerInfo: Added broadcast_1_piece0 in memory on 172.20.0.3:39633 (size: 6.8 KB, free: 93.3 MB)
-2019-12-11 02:35:56,128 INFO storage.BlockManagerInfo: Added broadcast_0_piece0 in memory on 172.20.0.3:39633 (size: 37.1 KB, free: 93.3 MB)
-2019-12-11 02:35:57,542 INFO scheduler.TaskSetManager: Finished task 0.0 in stage 0.0 (TID 0) in 2160 ms on 172.20.0.3 (executor 0) (1/2)
-2019-12-11 02:35:57,559 INFO scheduler.TaskSetManager: Finished task 1.0 in stage 0.0 (TID 1) in 2116 ms on 172.20.0.3 (executor 0) (2/2)
-2019-12-11 02:35:57,562 INFO scheduler.TaskSchedulerImpl: Removed TaskSet 0.0, whose tasks have all completed, from pool 
-2019-12-11 02:35:57,568 INFO python.PythonAccumulatorV2: Connected to AccumulatorServer at host: 127.0.0.1 port: 58755
-2019-12-11 02:35:57,592 INFO scheduler.DAGScheduler: ShuffleMapStage 0 (distinct at /tmp/data/spark.py:23) finished in 3.016 s
-2019-12-11 02:35:57,596 INFO scheduler.DAGScheduler: looking for newly runnable stages
-2019-12-11 02:35:57,597 INFO scheduler.DAGScheduler: running: Set()
-2019-12-11 02:35:57,598 INFO scheduler.DAGScheduler: waiting: Set(ShuffleMapStage 1, ShuffleMapStage 2, ResultStage 3)
-2019-12-11 02:35:57,600 INFO scheduler.DAGScheduler: failed: Set()
-2019-12-11 02:35:57,604 INFO scheduler.DAGScheduler: Submitting ShuffleMapStage 1 (PairwiseRDD[7] at groupByKey at /tmp/data/spark.py:28), which has no missing parents
-2019-12-11 02:35:57,620 INFO memory.MemoryStore: Block broadcast_2 stored as values in memory (estimated size 11.1 KB, free 365.8 MB)
-2019-12-11 02:35:57,882 INFO memory.MemoryStore: Block broadcast_2_piece0 stored as bytes in memory (estimated size 7.2 KB, free 365.8 MB)
-2019-12-11 02:35:57,892 INFO storage.BlockManagerInfo: Added broadcast_2_piece0 in memory on spark-master:42803 (size: 7.2 KB, free: 366.3 MB)
-2019-12-11 02:35:57,896 INFO spark.SparkContext: Created broadcast 2 from broadcast at DAGScheduler.scala:1161
-2019-12-11 02:35:57,905 INFO scheduler.DAGScheduler: Submitting 2 missing tasks from ShuffleMapStage 1 (PairwiseRDD[7] at groupByKey at /tmp/data/spark.py:28) (first 15 tasks are for partitions Vector(0, 1))
-2019-12-11 02:35:57,909 INFO scheduler.TaskSchedulerImpl: Adding task set 1.0 with 2 tasks
-2019-12-11 02:35:57,921 INFO scheduler.TaskSetManager: Starting task 0.0 in stage 1.0 (TID 2, 172.20.0.3, executor 0, partition 0, NODE_LOCAL, 7655 bytes)
-2019-12-11 02:35:57,925 INFO scheduler.TaskSetManager: Starting task 1.0 in stage 1.0 (TID 3, 172.20.0.3, executor 0, partition 1, NODE_LOCAL, 7655 bytes)
-2019-12-11 02:35:57,996 INFO storage.BlockManagerInfo: Added broadcast_2_piece0 in memory on 172.20.0.3:39633 (size: 7.2 KB, free: 93.3 MB)
-2019-12-11 02:35:58,072 INFO spark.MapOutputTrackerMasterEndpoint: Asked to send map output locations for shuffle 2 to 172.20.0.3:45516
-2019-12-11 02:35:58,222 INFO scheduler.TaskSetManager: Finished task 0.0 in stage 1.0 (TID 2) in 306 ms on 172.20.0.3 (executor 0) (1/2)
-2019-12-11 02:35:58,269 INFO scheduler.TaskSetManager: Finished task 1.0 in stage 1.0 (TID 3) in 348 ms on 172.20.0.3 (executor 0) (2/2)
-2019-12-11 02:35:58,281 INFO scheduler.TaskSchedulerImpl: Removed TaskSet 1.0, whose tasks have all completed, from pool 
-2019-12-11 02:35:58,286 INFO scheduler.DAGScheduler: ShuffleMapStage 1 (groupByKey at /tmp/data/spark.py:28) finished in 0.671 s
-2019-12-11 02:35:58,287 INFO scheduler.DAGScheduler: looking for newly runnable stages
-2019-12-11 02:35:58,288 INFO scheduler.DAGScheduler: running: Set()
-2019-12-11 02:35:58,289 INFO scheduler.DAGScheduler: waiting: Set(ShuffleMapStage 2, ResultStage 3)
-2019-12-11 02:35:58,290 INFO scheduler.DAGScheduler: failed: Set()
-2019-12-11 02:35:58,293 INFO scheduler.DAGScheduler: Submitting ShuffleMapStage 2 (PairwiseRDD[11] at reduceByKey at /tmp/data/spark.py:36), which has no missing parents
-2019-12-11 02:35:58,300 INFO memory.MemoryStore: Block broadcast_3 stored as values in memory (estimated size 12.6 KB, free 365.8 MB)
-2019-12-11 02:35:58,303 INFO memory.MemoryStore: Block broadcast_3_piece0 stored as bytes in memory (estimated size 8.1 KB, free 365.8 MB)
-2019-12-11 02:35:58,305 INFO storage.BlockManagerInfo: Added broadcast_3_piece0 in memory on spark-master:42803 (size: 8.1 KB, free: 366.2 MB)
-2019-12-11 02:35:58,307 INFO spark.SparkContext: Created broadcast 3 from broadcast at DAGScheduler.scala:1161
-2019-12-11 02:35:58,309 INFO scheduler.DAGScheduler: Submitting 2 missing tasks from ShuffleMapStage 2 (PairwiseRDD[11] at reduceByKey at /tmp/data/spark.py:36) (first 15 tasks are for partitions Vector(0, 1))
-2019-12-11 02:35:58,310 INFO scheduler.TaskSchedulerImpl: Adding task set 2.0 with 2 tasks
-2019-12-11 02:35:58,320 INFO scheduler.TaskSetManager: Starting task 0.0 in stage 2.0 (TID 4, 172.20.0.3, executor 0, partition 0, NODE_LOCAL, 7655 bytes)
-2019-12-11 02:35:58,322 INFO scheduler.TaskSetManager: Starting task 1.0 in stage 2.0 (TID 5, 172.20.0.3, executor 0, partition 1, NODE_LOCAL, 7655 bytes)
-2019-12-11 02:35:58,358 INFO storage.BlockManagerInfo: Added broadcast_3_piece0 in memory on 172.20.0.3:39633 (size: 8.1 KB, free: 93.2 MB)
-2019-12-11 02:35:58,379 INFO spark.MapOutputTrackerMasterEndpoint: Asked to send map output locations for shuffle 1 to 172.20.0.3:45516
-2019-12-11 02:35:58,533 INFO scheduler.TaskSetManager: Finished task 0.0 in stage 2.0 (TID 4) in 213 ms on 172.20.0.3 (executor 0) (1/2)
-2019-12-11 02:35:59,015 INFO scheduler.TaskSetManager: Finished task 1.0 in stage 2.0 (TID 5) in 694 ms on 172.20.0.3 (executor 0) (2/2)
-2019-12-11 02:35:59,016 INFO scheduler.TaskSchedulerImpl: Removed TaskSet 2.0, whose tasks have all completed, from pool 
-2019-12-11 02:35:59,023 INFO scheduler.DAGScheduler: ShuffleMapStage 2 (reduceByKey at /tmp/data/spark.py:36) finished in 0.726 s
-2019-12-11 02:35:59,024 INFO scheduler.DAGScheduler: looking for newly runnable stages
-2019-12-11 02:35:59,025 INFO scheduler.DAGScheduler: running: Set()
-2019-12-11 02:35:59,025 INFO scheduler.DAGScheduler: waiting: Set(ResultStage 3)
-2019-12-11 02:35:59,025 INFO scheduler.DAGScheduler: failed: Set()
-2019-12-11 02:35:59,027 INFO scheduler.DAGScheduler: Submitting ResultStage 3 (PythonRDD[14] at collect at /tmp/data/spark.py:41), which has no missing parents
-2019-12-11 02:35:59,069 INFO memory.MemoryStore: Block broadcast_4 stored as values in memory (estimated size 8.0 KB, free 365.8 MB)
-2019-12-11 02:35:59,274 INFO memory.MemoryStore: Block broadcast_4_piece0 stored as bytes in memory (estimated size 5.1 KB, free 365.8 MB)
-2019-12-11 02:35:59,316 INFO storage.BlockManagerInfo: Added broadcast_4_piece0 in memory on spark-master:42803 (size: 5.1 KB, free: 366.2 MB)
-2019-12-11 02:35:59,343 INFO spark.SparkContext: Created broadcast 4 from broadcast at DAGScheduler.scala:1161
-2019-12-11 02:35:59,357 INFO scheduler.DAGScheduler: Submitting 2 missing tasks from ResultStage 3 (PythonRDD[14] at collect at /tmp/data/spark.py:41) (first 15 tasks are for partitions Vector(0, 1))
-2019-12-11 02:35:59,362 INFO scheduler.TaskSchedulerImpl: Adding task set 3.0 with 2 tasks
-2019-12-11 02:35:59,374 INFO scheduler.TaskSetManager: Starting task 0.0 in stage 3.0 (TID 6, 172.20.0.3, executor 0, partition 0, NODE_LOCAL, 7666 bytes)
-2019-12-11 02:35:59,376 INFO scheduler.TaskSetManager: Starting task 1.0 in stage 3.0 (TID 7, 172.20.0.3, executor 0, partition 1, NODE_LOCAL, 7666 bytes)
-2019-12-11 02:35:59,430 INFO storage.BlockManagerInfo: Added broadcast_4_piece0 in memory on 172.20.0.3:39633 (size: 5.1 KB, free: 93.2 MB)
-2019-12-11 02:35:59,472 INFO spark.MapOutputTrackerMasterEndpoint: Asked to send map output locations for shuffle 0 to 172.20.0.3:45516
-2019-12-11 02:35:59,639 INFO scheduler.TaskSetManager: Finished task 0.0 in stage 3.0 (TID 6) in 270 ms on 172.20.0.3 (executor 0) (1/2)
-2019-12-11 02:35:59,690 INFO scheduler.TaskSetManager: Finished task 1.0 in stage 3.0 (TID 7) in 313 ms on 172.20.0.3 (executor 0) (2/2)
-2019-12-11 02:35:59,695 INFO scheduler.TaskSchedulerImpl: Removed TaskSet 3.0, whose tasks have all completed, from pool 
-2019-12-11 02:35:59,704 INFO scheduler.DAGScheduler: ResultStage 3 (collect at /tmp/data/spark.py:41) finished in 0.656 s
-2019-12-11 02:35:59,717 INFO scheduler.DAGScheduler: Job 0 finished: collect at /tmp/data/spark.py:41, took 5.330870 s
-(('2', '3'), 4)
-(('1', '2'), 4)
-(('1', '3'), 4)
+2019-12-11 04:45:40,301 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2019-12-11 04:45:41,561 INFO spark.SparkContext: Running Spark version 2.4.1
+2019-12-11 04:45:41,599 INFO spark.SparkContext: Submitted application: PopularItems
+2019-12-11 04:45:41,663 INFO spark.SecurityManager: Changing view acls to: root
+2019-12-11 04:45:41,664 INFO spark.SecurityManager: Changing modify acls to: root
+2019-12-11 04:45:41,665 INFO spark.SecurityManager: Changing view acls groups to: 
+2019-12-11 04:45:41,666 INFO spark.SecurityManager: Changing modify acls groups to: 
+2019-12-11 04:45:41,668 INFO spark.SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(root); groups with view permissions: Set(); users  with modify permissions: Set(root); groups with modify permissions: Set()
+2019-12-11 04:45:42,040 INFO util.Utils: Successfully started service 'sparkDriver' on port 35365.
+2019-12-11 04:45:42,090 INFO spark.SparkEnv: Registering MapOutputTracker
+2019-12-11 04:45:42,136 INFO spark.SparkEnv: Registering BlockManagerMaster
+2019-12-11 04:45:42,140 INFO storage.BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+2019-12-11 04:45:42,142 INFO storage.BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+2019-12-11 04:45:42,155 INFO storage.DiskBlockManager: Created local directory at /tmp/blockmgr-3b3d3463-a544-47b3-9e09-684d929cac53
+2019-12-11 04:45:42,174 INFO memory.MemoryStore: MemoryStore started with capacity 366.3 MB
+2019-12-11 04:45:42,205 INFO spark.SparkEnv: Registering OutputCommitCoordinator
+2019-12-11 04:45:42,323 INFO util.log: Logging initialized @5730ms
+2019-12-11 04:45:42,427 INFO server.Server: jetty-9.3.z-SNAPSHOT, build timestamp: unknown, git hash: unknown
+2019-12-11 04:45:42,450 INFO server.Server: Started @5860ms
+2019-12-11 04:45:42,491 INFO server.AbstractConnector: Started ServerConnector@5feead04{HTTP/1.1,[http/1.1]}{0.0.0.0:4040}
+2019-12-11 04:45:42,492 INFO util.Utils: Successfully started service 'SparkUI' on port 4040.
+2019-12-11 04:45:42,529 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@7ba18ba9{/jobs,null,AVAILABLE,@Spark}
+2019-12-11 04:45:42,532 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@6b701944{/jobs/json,null,AVAILABLE,@Spark}
+2019-12-11 04:45:42,536 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@3a92e21a{/jobs/job,null,AVAILABLE,@Spark}
+2019-12-11 04:45:42,541 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@930715a{/jobs/job/json,null,AVAILABLE,@Spark}
+2019-12-11 04:45:42,544 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@249fc054{/stages,null,AVAILABLE,@Spark}
+2019-12-11 04:45:42,546 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@685af6de{/stages/json,null,AVAILABLE,@Spark}
+2019-12-11 04:45:42,548 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@525df88{/stages/stage,null,AVAILABLE,@Spark}
+2019-12-11 04:45:42,554 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@6a81d873{/stages/stage/json,null,AVAILABLE,@Spark}
+2019-12-11 04:45:42,558 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@41f38334{/stages/pool,null,AVAILABLE,@Spark}
+2019-12-11 04:45:42,561 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@60e154b1{/stages/pool/json,null,AVAILABLE,@Spark}
+2019-12-11 04:45:42,563 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@24b77a8c{/storage,null,AVAILABLE,@Spark}
+2019-12-11 04:45:42,566 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@40116c29{/storage/json,null,AVAILABLE,@Spark}
+2019-12-11 04:45:42,569 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@1d26ad3c{/storage/rdd,null,AVAILABLE,@Spark}
+2019-12-11 04:45:42,572 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@778826f5{/storage/rdd/json,null,AVAILABLE,@Spark}
+2019-12-11 04:45:42,575 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@68f45192{/environment,null,AVAILABLE,@Spark}
+2019-12-11 04:45:42,579 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@234f0881{/environment/json,null,AVAILABLE,@Spark}
+2019-12-11 04:45:42,583 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@ba81e99{/executors,null,AVAILABLE,@Spark}
+2019-12-11 04:45:42,589 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@3d212e97{/executors/json,null,AVAILABLE,@Spark}
+2019-12-11 04:45:42,593 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@77939060{/executors/threadDump,null,AVAILABLE,@Spark}
+2019-12-11 04:45:42,594 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@2c438513{/executors/threadDump/json,null,AVAILABLE,@Spark}
+2019-12-11 04:45:42,601 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@67540ad4{/static,null,AVAILABLE,@Spark}
+2019-12-11 04:45:42,603 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@10bfd413{/,null,AVAILABLE,@Spark}
+2019-12-11 04:45:42,605 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@4b208d0a{/api,null,AVAILABLE,@Spark}
+2019-12-11 04:45:42,606 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@49ee407d{/jobs/job/kill,null,AVAILABLE,@Spark}
+2019-12-11 04:45:42,609 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@3b35e748{/stages/stage/kill,null,AVAILABLE,@Spark}
+2019-12-11 04:45:42,611 INFO ui.SparkUI: Bound SparkUI to 0.0.0.0, and started at http://spark-master:4040
+2019-12-11 04:45:42,794 INFO client.StandaloneAppClient$ClientEndpoint: Connecting to master spark://spark-master:7077...
+2019-12-11 04:45:42,925 INFO client.TransportClientFactory: Successfully created connection to spark-master/172.20.0.2:7077 after 61 ms (0 ms spent in bootstraps)
+2019-12-11 04:45:43,182 INFO cluster.StandaloneSchedulerBackend: Connected to Spark cluster with app ID app-20191211044543-0002
+2019-12-11 04:45:43,333 INFO client.StandaloneAppClient$ClientEndpoint: Executor added: app-20191211044543-0002/0 on worker-20191211044318-172.20.0.3-8881 (172.20.0.3:8881) with 2 core(s)
+2019-12-11 04:45:43,344 INFO cluster.StandaloneSchedulerBackend: Granted executor ID app-20191211044543-0002/0 on hostPort 172.20.0.3:8881 with 2 core(s), 512.0 MB RAM
+2019-12-11 04:45:43,380 INFO util.Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 37371.
+2019-12-11 04:45:43,382 INFO netty.NettyBlockTransferService: Server created on spark-master:37371
+2019-12-11 04:45:43,397 INFO storage.BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+2019-12-11 04:45:43,526 INFO client.StandaloneAppClient$ClientEndpoint: Executor updated: app-20191211044543-0002/0 is now RUNNING
+2019-12-11 04:45:43,567 INFO storage.BlockManagerMaster: Registering BlockManager BlockManagerId(driver, spark-master, 37371, None)
+2019-12-11 04:45:43,586 INFO storage.BlockManagerMasterEndpoint: Registering block manager spark-master:37371 with 366.3 MB RAM, BlockManagerId(driver, spark-master, 37371, None)
+2019-12-11 04:45:43,628 INFO storage.BlockManagerMaster: Registered BlockManager BlockManagerId(driver, spark-master, 37371, None)
+2019-12-11 04:45:43,632 INFO storage.BlockManager: Initialized BlockManager: BlockManagerId(driver, spark-master, 37371, None)
+2019-12-11 04:45:44,236 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@2a6fab3f{/metrics/json,null,AVAILABLE,@Spark}
+2019-12-11 04:45:44,304 INFO cluster.StandaloneSchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+2019-12-11 04:45:46,744 INFO memory.MemoryStore: Block broadcast_0 stored as values in memory (estimated size 420.1 KB, free 365.9 MB)
+2019-12-11 04:45:47,323 INFO memory.MemoryStore: Block broadcast_0_piece0 stored as bytes in memory (estimated size 37.1 KB, free 365.9 MB)
+2019-12-11 04:45:47,334 INFO storage.BlockManagerInfo: Added broadcast_0_piece0 in memory on spark-master:37371 (size: 37.1 KB, free: 366.3 MB)
+2019-12-11 04:45:47,348 INFO spark.SparkContext: Created broadcast 0 from textFile at NativeMethodAccessorImpl.java:0
+2019-12-11 04:45:47,786 INFO mapred.FileInputFormat: Total input files to process : 1
+2019-12-11 04:45:48,364 INFO spark.SparkContext: Starting job: collect at /tmp/data/spark.py:41
+2019-12-11 04:45:48,425 INFO scheduler.DAGScheduler: Registering RDD 3 (distinct at /tmp/data/spark.py:23)
+2019-12-11 04:45:48,435 INFO scheduler.DAGScheduler: Registering RDD 7 (groupByKey at /tmp/data/spark.py:28)
+2019-12-11 04:45:48,441 INFO scheduler.DAGScheduler: Registering RDD 11 (reduceByKey at /tmp/data/spark.py:36)
+2019-12-11 04:45:48,445 INFO scheduler.DAGScheduler: Got job 0 (collect at /tmp/data/spark.py:41) with 2 output partitions
+2019-12-11 04:45:48,456 INFO scheduler.DAGScheduler: Final stage: ResultStage 3 (collect at /tmp/data/spark.py:41)
+2019-12-11 04:45:48,458 INFO scheduler.DAGScheduler: Parents of final stage: List(ShuffleMapStage 2)
+2019-12-11 04:45:48,465 INFO scheduler.DAGScheduler: Missing parents: List(ShuffleMapStage 2)
+2019-12-11 04:45:48,484 INFO scheduler.DAGScheduler: Submitting ShuffleMapStage 0 (PairwiseRDD[3] at distinct at /tmp/data/spark.py:23), which has no missing parents
+2019-12-11 04:45:48,630 INFO memory.MemoryStore: Block broadcast_1 stored as values in memory (estimated size 10.5 KB, free 365.8 MB)
+2019-12-11 04:45:48,651 INFO memory.MemoryStore: Block broadcast_1_piece0 stored as bytes in memory (estimated size 6.8 KB, free 365.8 MB)
+2019-12-11 04:45:48,669 INFO storage.BlockManagerInfo: Added broadcast_1_piece0 in memory on spark-master:37371 (size: 6.8 KB, free: 366.3 MB)
+2019-12-11 04:45:48,678 INFO spark.SparkContext: Created broadcast 1 from broadcast at DAGScheduler.scala:1161
+2019-12-11 04:45:48,699 INFO scheduler.DAGScheduler: Submitting 2 missing tasks from ShuffleMapStage 0 (PairwiseRDD[3] at distinct at /tmp/data/spark.py:23) (first 15 tasks are for partitions Vector(0, 1))
+2019-12-11 04:45:48,702 INFO scheduler.TaskSchedulerImpl: Adding task set 0.0 with 2 tasks
+2019-12-11 04:45:50,146 INFO cluster.CoarseGrainedSchedulerBackend$DriverEndpoint: Registered executor NettyRpcEndpointRef(spark-client://Executor) (172.20.0.3:38244) with ID 0
+2019-12-11 04:45:50,204 INFO scheduler.TaskSetManager: Starting task 0.0 in stage 0.0 (TID 0, 172.20.0.3, executor 0, partition 0, PROCESS_LOCAL, 7882 bytes)
+2019-12-11 04:45:50,239 INFO scheduler.TaskSetManager: Starting task 1.0 in stage 0.0 (TID 1, 172.20.0.3, executor 0, partition 1, PROCESS_LOCAL, 7882 bytes)
+2019-12-11 04:45:50,423 INFO storage.BlockManagerMasterEndpoint: Registering block manager 172.20.0.3:39085 with 93.3 MB RAM, BlockManagerId(0, 172.20.0.3, 39085, None)
+2019-12-11 04:45:52,146 INFO storage.BlockManagerInfo: Added broadcast_1_piece0 in memory on 172.20.0.3:39085 (size: 6.8 KB, free: 93.3 MB)
+2019-12-11 04:45:52,482 INFO storage.BlockManagerInfo: Added broadcast_0_piece0 in memory on 172.20.0.3:39085 (size: 37.1 KB, free: 93.3 MB)
+2019-12-11 04:45:54,539 INFO scheduler.TaskSetManager: Finished task 0.0 in stage 0.0 (TID 0) in 4369 ms on 172.20.0.3 (executor 0) (1/2)
+2019-12-11 04:45:54,595 INFO python.PythonAccumulatorV2: Connected to AccumulatorServer at host: 127.0.0.1 port: 36775
+2019-12-11 04:45:54,706 INFO scheduler.TaskSetManager: Finished task 1.0 in stage 0.0 (TID 1) in 4496 ms on 172.20.0.3 (executor 0) (2/2)
+2019-12-11 04:45:54,948 INFO scheduler.DAGScheduler: ShuffleMapStage 0 (distinct at /tmp/data/spark.py:23) finished in 6.392 s
+2019-12-11 04:45:54,952 INFO scheduler.DAGScheduler: looking for newly runnable stages
+2019-12-11 04:45:54,952 INFO scheduler.DAGScheduler: running: Set()
+2019-12-11 04:45:54,953 INFO scheduler.DAGScheduler: waiting: Set(ShuffleMapStage 1, ShuffleMapStage 2, ResultStage 3)
+2019-12-11 04:45:54,953 INFO scheduler.DAGScheduler: failed: Set()
+2019-12-11 04:45:54,957 INFO scheduler.DAGScheduler: Submitting ShuffleMapStage 1 (PairwiseRDD[7] at groupByKey at /tmp/data/spark.py:28), which has no missing parents
+2019-12-11 04:45:54,995 INFO scheduler.TaskSchedulerImpl: Removed TaskSet 0.0, whose tasks have all completed, from pool 
+2019-12-11 04:45:55,008 INFO memory.MemoryStore: Block broadcast_2 stored as values in memory (estimated size 11.1 KB, free 365.8 MB)
+2019-12-11 04:45:55,012 INFO memory.MemoryStore: Block broadcast_2_piece0 stored as bytes in memory (estimated size 7.2 KB, free 365.8 MB)
+2019-12-11 04:45:55,019 INFO storage.BlockManagerInfo: Added broadcast_2_piece0 in memory on spark-master:37371 (size: 7.2 KB, free: 366.3 MB)
+2019-12-11 04:45:55,028 INFO spark.SparkContext: Created broadcast 2 from broadcast at DAGScheduler.scala:1161
+2019-12-11 04:45:55,037 INFO scheduler.DAGScheduler: Submitting 2 missing tasks from ShuffleMapStage 1 (PairwiseRDD[7] at groupByKey at /tmp/data/spark.py:28) (first 15 tasks are for partitions Vector(0, 1))
+2019-12-11 04:45:55,037 INFO scheduler.TaskSchedulerImpl: Adding task set 1.0 with 2 tasks
+2019-12-11 04:45:55,046 INFO scheduler.TaskSetManager: Starting task 0.0 in stage 1.0 (TID 2, 172.20.0.3, executor 0, partition 0, NODE_LOCAL, 7655 bytes)
+2019-12-11 04:45:55,050 INFO scheduler.TaskSetManager: Starting task 1.0 in stage 1.0 (TID 3, 172.20.0.3, executor 0, partition 1, NODE_LOCAL, 7655 bytes)
+2019-12-11 04:45:55,508 INFO storage.BlockManagerInfo: Added broadcast_2_piece0 in memory on 172.20.0.3:39085 (size: 7.2 KB, free: 93.3 MB)
+2019-12-11 04:45:55,653 INFO spark.MapOutputTrackerMasterEndpoint: Asked to send map output locations for shuffle 2 to 172.20.0.3:38244
+2019-12-11 04:45:55,895 INFO scheduler.TaskSetManager: Finished task 0.0 in stage 1.0 (TID 2) in 852 ms on 172.20.0.3 (executor 0) (1/2)
+2019-12-11 04:45:55,914 INFO scheduler.TaskSetManager: Finished task 1.0 in stage 1.0 (TID 3) in 868 ms on 172.20.0.3 (executor 0) (2/2)
+2019-12-11 04:45:55,915 INFO scheduler.TaskSchedulerImpl: Removed TaskSet 1.0, whose tasks have all completed, from pool 
+2019-12-11 04:45:55,950 INFO scheduler.DAGScheduler: ShuffleMapStage 1 (groupByKey at /tmp/data/spark.py:28) finished in 0.945 s
+2019-12-11 04:45:55,951 INFO scheduler.DAGScheduler: looking for newly runnable stages
+2019-12-11 04:45:55,952 INFO scheduler.DAGScheduler: running: Set()
+2019-12-11 04:45:55,953 INFO scheduler.DAGScheduler: waiting: Set(ShuffleMapStage 2, ResultStage 3)
+2019-12-11 04:45:55,953 INFO scheduler.DAGScheduler: failed: Set()
+2019-12-11 04:45:55,955 INFO scheduler.DAGScheduler: Submitting ShuffleMapStage 2 (PairwiseRDD[11] at reduceByKey at /tmp/data/spark.py:36), which has no missing parents
+2019-12-11 04:45:55,985 INFO memory.MemoryStore: Block broadcast_3 stored as values in memory (estimated size 12.6 KB, free 365.8 MB)
+2019-12-11 04:45:55,993 INFO memory.MemoryStore: Block broadcast_3_piece0 stored as bytes in memory (estimated size 8.1 KB, free 365.8 MB)
+2019-12-11 04:45:55,996 INFO storage.BlockManagerInfo: Added broadcast_3_piece0 in memory on spark-master:37371 (size: 8.1 KB, free: 366.2 MB)
+2019-12-11 04:45:56,003 INFO spark.SparkContext: Created broadcast 3 from broadcast at DAGScheduler.scala:1161
+2019-12-11 04:45:56,017 INFO scheduler.DAGScheduler: Submitting 2 missing tasks from ShuffleMapStage 2 (PairwiseRDD[11] at reduceByKey at /tmp/data/spark.py:36) (first 15 tasks are for partitions Vector(0, 1))
+2019-12-11 04:45:56,017 INFO scheduler.TaskSchedulerImpl: Adding task set 2.0 with 2 tasks
+2019-12-11 04:45:56,021 INFO scheduler.TaskSetManager: Starting task 0.0 in stage 2.0 (TID 4, 172.20.0.3, executor 0, partition 0, NODE_LOCAL, 7655 bytes)
+2019-12-11 04:45:56,028 INFO scheduler.TaskSetManager: Starting task 1.0 in stage 2.0 (TID 5, 172.20.0.3, executor 0, partition 1, NODE_LOCAL, 7655 bytes)
+2019-12-11 04:45:56,075 INFO storage.BlockManagerInfo: Added broadcast_3_piece0 in memory on 172.20.0.3:39085 (size: 8.1 KB, free: 93.2 MB)
+2019-12-11 04:45:56,105 INFO spark.MapOutputTrackerMasterEndpoint: Asked to send map output locations for shuffle 1 to 172.20.0.3:38244
+2019-12-11 04:45:56,604 INFO scheduler.TaskSetManager: Finished task 0.0 in stage 2.0 (TID 4) in 584 ms on 172.20.0.3 (executor 0) (1/2)
+2019-12-11 04:45:56,615 INFO scheduler.TaskSetManager: Finished task 1.0 in stage 2.0 (TID 5) in 594 ms on 172.20.0.3 (executor 0) (2/2)
+2019-12-11 04:45:56,633 INFO scheduler.DAGScheduler: ShuffleMapStage 2 (reduceByKey at /tmp/data/spark.py:36) finished in 0.672 s
+2019-12-11 04:45:56,667 INFO scheduler.TaskSchedulerImpl: Removed TaskSet 2.0, whose tasks have all completed, from pool 
+2019-12-11 04:45:56,679 INFO scheduler.DAGScheduler: looking for newly runnable stages
+2019-12-11 04:45:56,679 INFO scheduler.DAGScheduler: running: Set()
+2019-12-11 04:45:56,680 INFO scheduler.DAGScheduler: waiting: Set(ResultStage 3)
+2019-12-11 04:45:56,681 INFO scheduler.DAGScheduler: failed: Set()
+2019-12-11 04:45:56,683 INFO scheduler.DAGScheduler: Submitting ResultStage 3 (PythonRDD[14] at collect at /tmp/data/spark.py:41), which has no missing parents
+2019-12-11 04:45:56,712 INFO memory.MemoryStore: Block broadcast_4 stored as values in memory (estimated size 8.0 KB, free 365.8 MB)
+2019-12-11 04:45:56,742 INFO memory.MemoryStore: Block broadcast_4_piece0 stored as bytes in memory (estimated size 5.1 KB, free 365.8 MB)
+2019-12-11 04:45:56,756 INFO storage.BlockManagerInfo: Removed broadcast_2_piece0 on 172.20.0.3:39085 in memory (size: 7.2 KB, free: 93.2 MB)
+2019-12-11 04:45:56,770 INFO storage.BlockManagerInfo: Added broadcast_4_piece0 in memory on spark-master:37371 (size: 5.1 KB, free: 366.2 MB)
+2019-12-11 04:45:56,772 INFO spark.SparkContext: Created broadcast 4 from broadcast at DAGScheduler.scala:1161
+2019-12-11 04:45:56,775 INFO scheduler.DAGScheduler: Submitting 2 missing tasks from ResultStage 3 (PythonRDD[14] at collect at /tmp/data/spark.py:41) (first 15 tasks are for partitions Vector(0, 1))
+2019-12-11 04:45:56,776 INFO scheduler.TaskSchedulerImpl: Adding task set 3.0 with 2 tasks
+2019-12-11 04:45:56,784 INFO scheduler.TaskSetManager: Starting task 0.0 in stage 3.0 (TID 6, 172.20.0.3, executor 0, partition 0, NODE_LOCAL, 7666 bytes)
+2019-12-11 04:45:56,786 INFO scheduler.TaskSetManager: Starting task 1.0 in stage 3.0 (TID 7, 172.20.0.3, executor 0, partition 1, NODE_LOCAL, 7666 bytes)
+2019-12-11 04:45:56,805 INFO storage.BlockManagerInfo: Removed broadcast_2_piece0 on spark-master:37371 in memory (size: 7.2 KB, free: 366.2 MB)
+2019-12-11 04:45:56,866 INFO storage.BlockManagerInfo: Added broadcast_4_piece0 in memory on 172.20.0.3:39085 (size: 5.1 KB, free: 93.2 MB)
+2019-12-11 04:45:56,870 INFO storage.BlockManagerInfo: Removed broadcast_1_piece0 on 172.20.0.3:39085 in memory (size: 6.8 KB, free: 93.3 MB)
+2019-12-11 04:45:56,876 INFO storage.BlockManagerInfo: Removed broadcast_1_piece0 on spark-master:37371 in memory (size: 6.8 KB, free: 366.3 MB)
+2019-12-11 04:45:56,892 INFO spark.MapOutputTrackerMasterEndpoint: Asked to send map output locations for shuffle 0 to 172.20.0.3:38244
+2019-12-11 04:45:56,992 INFO scheduler.TaskSetManager: Finished task 1.0 in stage 3.0 (TID 7) in 206 ms on 172.20.0.3 (executor 0) (1/2)
+2019-12-11 04:45:57,106 INFO scheduler.TaskSetManager: Finished task 0.0 in stage 3.0 (TID 6) in 325 ms on 172.20.0.3 (executor 0) (2/2)
+2019-12-11 04:45:57,124 INFO scheduler.TaskSchedulerImpl: Removed TaskSet 3.0, whose tasks have all completed, from pool 
+2019-12-11 04:45:57,172 INFO scheduler.DAGScheduler: ResultStage 3 (collect at /tmp/data/spark.py:41) finished in 0.453 s
+2019-12-11 04:45:57,245 INFO scheduler.DAGScheduler: Job 0 finished: collect at /tmp/data/spark.py:41, took 8.897496 s
+(('24', '25'), 4)
+(('25', '26'), 4)
 Popular items done
-2019-12-11 02:35:59,756 INFO server.AbstractConnector: Stopped Spark@5363c63e{HTTP/1.1,[http/1.1]}{0.0.0.0:4040}
-2019-12-11 02:35:59,771 INFO ui.SparkUI: Stopped Spark web UI at http://spark-master:4040
-2019-12-11 02:35:59,776 INFO cluster.StandaloneSchedulerBackend: Shutting down all executors
-2019-12-11 02:35:59,777 INFO cluster.CoarseGrainedSchedulerBackend$DriverEndpoint: Asking each executor to shut down
-2019-12-11 02:35:59,854 INFO spark.MapOutputTrackerMasterEndpoint: MapOutputTrackerMasterEndpoint stopped!
-2019-12-11 02:35:59,987 INFO memory.MemoryStore: MemoryStore cleared
-2019-12-11 02:35:59,988 INFO storage.BlockManager: BlockManager stopped
-2019-12-11 02:36:00,016 INFO storage.BlockManagerMaster: BlockManagerMaster stopped
-2019-12-11 02:36:00,072 INFO scheduler.OutputCommitCoordinator$OutputCommitCoordinatorEndpoint: OutputCommitCoordinator stopped!
-2019-12-11 02:36:00,151 INFO spark.SparkContext: Successfully stopped SparkContext
-2019-12-11 02:36:00,805 INFO util.ShutdownHookManager: Shutdown hook called
-2019-12-11 02:36:00,807 INFO util.ShutdownHookManager: Deleting directory /tmp/spark-26792a4c-c610-4c43-8c2d-f91971e854b6
-2019-12-11 02:36:00,824 INFO util.ShutdownHookManager: Deleting directory /tmp/spark-62823443-8eae-44cf-acd6-740755a47567
-2019-12-11 02:36:00,830 INFO util.ShutdownHookManager: Deleting directory /tmp/spark-26792a4c-c610-4c43-8c2d-f91971e854b6/pyspark-a4ec7ed9-c89d-41ba-98c2-2ff8c954c6ac
+2019-12-11 04:45:57,400 INFO server.AbstractConnector: Stopped Spark@5feead04{HTTP/1.1,[http/1.1]}{0.0.0.0:4040}
+2019-12-11 04:45:57,406 INFO ui.SparkUI: Stopped Spark web UI at http://spark-master:4040
+2019-12-11 04:45:57,416 INFO cluster.StandaloneSchedulerBackend: Shutting down all executors
+2019-12-11 04:45:57,418 INFO cluster.CoarseGrainedSchedulerBackend$DriverEndpoint: Asking each executor to shut down
+2019-12-11 04:45:57,502 INFO spark.MapOutputTrackerMasterEndpoint: MapOutputTrackerMasterEndpoint stopped!
+2019-12-11 04:45:57,577 INFO memory.MemoryStore: MemoryStore cleared
+2019-12-11 04:45:57,822 INFO storage.BlockManager: BlockManager stopped
+2019-12-11 04:45:57,838 INFO storage.BlockManagerMaster: BlockManagerMaster stopped
+2019-12-11 04:45:57,851 INFO scheduler.OutputCommitCoordinator$OutputCommitCoordinatorEndpoint: OutputCommitCoordinator stopped!
+2019-12-11 04:45:58,097 INFO spark.SparkContext: Successfully stopped SparkContext
+2019-12-11 04:45:58,376 INFO util.ShutdownHookManager: Shutdown hook called
+2019-12-11 04:45:58,387 INFO util.ShutdownHookManager: Deleting directory /tmp/spark-2023a5b4-73fb-4438-b373-27a5f197c490/pyspark-fb0a401c-f31e-4226-97c6-e7d58382e3d3
+2019-12-11 04:45:58,427 INFO util.ShutdownHookManager: Deleting directory /tmp/spark-2023a5b4-73fb-4438-b373-27a5f197c490
+2019-12-11 04:45:58,440 INFO util.ShutdownHookManager: Deleting directory /tmp/spark-49523ffe-e3ba-4b10-930a-ff005f836133
