@@ -49,20 +49,32 @@ def jersey_by_size(request, size):
 def item_detail(request, id):
     user_id = request.COOKIES.get('user_id')
     data = None
+    data_recs = None
     template = None
     context = None
     url = 'http://exp:8000/exp/jersey_detail/'+str(id)
+    rec_url = 'http://exp:8000/exp/recommendation/'+str(id)
     if user_id:
         url = url + "/" + user_id
     with urllib.request.urlopen(url) as response:
         data = response.read().decode('UTF-8')
+
+    with urllib.request.urlopen(rec_url) as response:
+        data_recs = response.read().decode('UTF-8')
     json_data = json.loads(data)
+    json_data_recs = json.loads(data_recs)
+
     if 'error' in json_data:
         template = '404.html'
-    else:
+    else:    
+        recs = None
+        if 'recs' in json_data_recs:
+            recs = json_data_recs['recs']
+        # return HttpResponse(json.dumps(recs), content_type='application/json', status=200)
         template = 'web_app/item_detail.html'
         context = {
-            'jersey': json_data[0]['fields']
+            'jersey': json_data[0]['fields'],
+            'recs': recs
         }
     return render(request, template, context)
 
