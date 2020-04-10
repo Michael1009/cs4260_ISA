@@ -1,55 +1,18 @@
 # Jersey Marketplace
-Our project's goal is to provide a marketplace for Soccer fans to buy and sell used/new jerseys. 
+Our project's goal is to provide a marketplace for Soccer fans to buy and sell used/new jerseys. This project was created for the course Internet Scale Applications at the University of Virginia in order to help us learn about and experience using technologies that are used to scale web applications. 
 
-## API
+### Architecture
+This project has a 4-tier architecture, with the levels being: HTML Front-End, Experience Service, Model, and the database. An example request from a user would be as follows: The user requests data from the front-end, the request is sent to the experience service, the experience service will query as many models as needed to get the relevant data, and the model layer will query the database for the relevant data. Once all the data is gathered, the various models that were queried would send the gathered data to the experience service. The experience service will package all of this data (into JSON) and send it to the front-end. 
 
-### Create 
-_jersey/api/v1/Jersey/create_
+The reason why we have the 4-tier architecture is to enforce strict isolation between the levels, which allows this app to be scalable across a large team. Additionally, the reason why we have the experience service is because it allows us to create a single service call from the front-end to load a page. Now, instead of a page having to send multiple requests to load its content, it can just send one. The Experience service will handle all of the business logic to load all of the relevant data. 
 
-In the post body as form data this expects:
+### Technologies
 
-A team (CharField), number (PositiveIntegerField), player(CharField), shirt_size(S,M,L,XL,XXL choices), primary_color (CharField), secondary_color (CharField)
+Some of the technologies used to build this project were: Docker, MySQL, Django, Travis CI, Selenium, Kafka, HAProxy, Apache Spark, and ElasticSearch. 
 
-_jersey/api/v1/User/create_
+Docker containers were used to hold the various layers in our application. MySQL was the database and Django was used for the Experience, Model, and HTML front-end layers. Travis CI was for running automated tests and Selenium was the tool for writing the tests themselves. HAProxy was to handle load balancing. 
 
-In the post body as form data this expects:
+Kafka queue was used when new Jersey listings were created and these were indexed into ElasticSearch such that users could search for Jerseys. The reason why we had Kafka queue instead of indexing directly into ElasticSearch is in the case that the ElasticSearch service (container) was down. If the ElasticSearch service was down, the new listings would sit in the Kafka queue until the service went back up. 
 
-first_name (CharField), last_name(CharField), shirt_size(S,M,L,XL,XXL choices), email (CharField)
-
-### Read
-_jersey/api/v1/Jersey_
-
-This returns all Jerseys in the databse.
-
-_jersey/api/v1/User_
-
-This returns all Users in the database.
-
-_jersey/api/v1/Jersey/<int:id>_
-
-This allows you to specify an ID for a Jersey to retur.n
-
-_jersey/api/v1/User/<int:id>_
-
-This allows you to specify an ID for a User to return.
-
-### Update
-_jersey/api/v1/Jersey/<int:id>/update_
-
-This takes the exact same form data as the create endpoint but will not create a jersey and instead will update the jersey to whatever data is sent.
-
-_jersey/api/v1/User/<int:id>/update_
-
-This takes the exact same form data as the create endpoint but will not create a user and instead will update the user to whatever data is sent.
-
-### Delete
-
-_jersey/api/v1/User/<int:id>/delete_
-
-This endpoint deletes a user with the specified id.
-
-_jersey/api/v1/Jersey/<int:id>/delete_
-
-This endpoint deletes a jersey with the specified id.
-
+Apache Spark was used to build a recommendation system. The system would allow users to see Jerseys they would potentially be interested in viewing. The recommendation system used the idea of "co-views" to decide what to recommend users. 
 
