@@ -10,7 +10,7 @@ The reason why we have the 4-tier architecture is to enforce strict isolation be
 
 Some of the technologies used to build this project were: Docker, MySQL, Django, Travis CI, Selenium, Kafka, HAProxy, Apache Spark, and ElasticSearch. 
 
-Docker containers were used to hold the various layers in our application. MySQL was the database and Django was used for the Experience, Model, and HTML front-end layers. Travis CI was for running automated tests and Selenium was the tool for writing the tests themselves. HAProxy was to handle load balancing. 
+Docker containers were used to hold the various layers in our application. MySQL was the database and Django was used for the Experience, Model, and HTML front-end layers. Travis CI was for running automated unit tests and Selenium was the tool for writing the end-to-end tests. HAProxy was to handle load balancing. 
 
 Kafka queue was used when new Jersey listings were created and these were indexed into ElasticSearch such that users could search for Jerseys. The reason why we had Kafka queue instead of indexing directly into ElasticSearch is in the case that the ElasticSearch service (container) was down. If the ElasticSearch service was down, the new listings would sit in the Kafka queue until the service went back up. 
 
