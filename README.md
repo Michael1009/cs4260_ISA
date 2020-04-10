@@ -1,5 +1,5 @@
 # Jersey Marketplace
-Our project's goal is to provide a marketplace for Soccer fans to buy and sell used/new jerseys. This project was created for the course Internet Scale Applications at the University of Virginia in order to help us learn about and experience using technologies that are used to scale web applications. 
+Our project's goal is to provide a marketplace for Soccer fans to buy and sell used/new jerseys. This project was created for the course Internet Scale Applications at the University of Virginia to help us learn about and experience using technologies that are used to scale web applications. 
 
 ### Architecture
 This project has a 4-tier architecture, with the levels being: HTML Front-End, Experience Service, Model, and the database. An example request from a user would be as follows: The user requests data from the front-end, the request is sent to the experience service, the experience service will query as many models as needed to get the relevant data, and the model layer will query the database for the relevant data. Once all the data is gathered, the various models that were queried would send the gathered data to the experience service. The experience service will package all of this data (into JSON) and send it to the front-end. 
